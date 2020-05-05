@@ -1,0 +1,26 @@
+version: 2.1
+filter:
+  branches:
+    only:
+      - master
+      - develop
+jobs:
+  build:
+    working_directory: ~/mascotapp
+    docker:
+      - image: circleci/node:13.12.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache: # special step to save the dependency cache
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: # run tests
+          name: test
+          command: yarn test

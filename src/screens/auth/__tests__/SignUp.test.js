@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import { renderWithAuthContext } from '../../../utils/testing';
+import { renderWithAuthProvider } from '../../../utils/testing';
 import SignUp from '../SignUp';
 import { fireEvent, wait, cleanup } from '@testing-library/react-native';
 import mascotappiMock from '../../../api/mascotappi';
@@ -13,7 +13,7 @@ jest.mock('../../../api/mascotappi', () => ({
 describe('SignUp', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = renderWithAuthContext(<SignUp />);
+    wrapper = renderWithAuthProvider(<SignUp />);
   });
 
   afterEach(cleanup);

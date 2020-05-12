@@ -46,6 +46,7 @@
     "transform": {
       "^.+\\.(js|jsx|mjs|tsx)$": "babel-jest"
     },
+    "testEnvironment": "jsdom",
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-navigation|@react-native-community/async-storage/(?!(lib))|@react-navigation/.*)"
     ],

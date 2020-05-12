@@ -44,12 +44,25 @@ export const AuthProvider = ({ children }) => {
     await AsyncStorage.removeItem('tokenId');
   };
 
-  // TODO: connect this functions
-  // const signUp = ({ email, password, name }) => {};
+  const signUp = async (name, email, password) => {
+    try {
+      const response = await mascotappi.post('signup', {
+        name,
+        email,
+        password,
+      });
+      return response;
+    } catch (error) {
+      console.log('error', error);
+      return error.toString();
+    }
+  };
+
+  // TODO: connect this function
   // const resetPassword = () => {};
 
   const value = useMemo(() => {
-    return { user, loadingUser, signIn, signOut };
+    return { user, loadingUser, signIn, signOut, signUp };
   }, [user, loadingUser]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

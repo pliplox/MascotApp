@@ -23,10 +23,6 @@ const Home = ({ navigation }) => {
             `pets/${response?.data[0]?.id}`,
           );
           setPet(petsResponse?.data?.pets[0]);
-
-          // if (petsResponse?.data?.pets[0]) {
-          //   const fedResponse
-          // }
         }
       } catch (errored) {
         console.log(errored);

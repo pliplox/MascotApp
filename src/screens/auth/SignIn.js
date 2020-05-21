@@ -10,9 +10,9 @@ const SignIn = ({ navigation }) => {
   return (
     <View>
       <Text>Email:</Text>
-      <TextInput onChangeText={setEmail} />
+      <TextInput onChangeText={setEmail} autoCapitalize="none" />
       <Text>Password:</Text>
-      <TextInput onChangeText={setPassword} />
+      <TextInput onChangeText={setPassword} autoCapitalize="none" />
       <Button title="Sign In" onPress={() => signIn(email, password)} />
       <View style={styles.separator} />
       <Button

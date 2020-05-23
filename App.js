@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { ResetPassword, SignIn, SignOut, SignUp } from './src/screens/auth';
 import Home from './src/screens/Home';
 import Splash from './src/screens/Splash';
+import { CreateFamilyGroup, Groups } from './src/screens/groups';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +21,13 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
-          <Stack.Screen name="Home" component={Home} />
+          <>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Groups" component={Groups} />
+            <Stack.Screen
+              name="CreateGroup"
+              component={CreateFamilyGroup}></Stack.Screen>
+          </>
         ) : (
           <>
             <Stack.Screen

@@ -52,7 +52,7 @@
     },
     "testEnvironment": "jsdom",
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-navigation|@react-native-community/async-storage/(?!(lib))|@react-navigation/.*)"
+      "node_modules/(?!(jest-)?react-native|react-navigation|@ui-kitten/components|@react-native-community/async-storage/(?!(lib))|@react-navigation/.*)"
     ],
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"

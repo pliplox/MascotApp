@@ -10,7 +10,7 @@ describe('App', () => {
       wrapper = render(<App />);
     });
 
-    it('renders correctly', async () => {
+    it('renders correctly', () => {
       expect(wrapper).toBeTruthy();
     });
 

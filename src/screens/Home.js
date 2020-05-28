@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import mascotappi from '../api/mascotappi';
+import { Layout, Text } from '@ui-kitten/components';
 
 const Home = ({ navigation }) => {
   const { signOut } = useAuth();
@@ -37,46 +38,48 @@ const Home = ({ navigation }) => {
   const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
   return (
-    <View>
-      <Text>Pet info: </Text>
-      {pet && (
-        <>
-          <Text>{`id: ${pet._id}, name: ${pet.name}, birthdate: ${pet.birthdate}`}</Text>
-          <View style={styles.separator} />
-          <Text>
-            {capitalize(
-              new Date().toLocaleString('es-CL', { weekday: 'long' }),
-            )}
-          </Text>
-          {/* This should be replaced with checkbox or switches when the team settle
+    <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View>
+        <Text>Pet info: </Text>
+        {pet && (
+          <>
+            <Text>{`id: ${pet._id}, name: ${pet.name}, birthdate: ${pet.birthdate}`}</Text>
+            <View style={styles.separator} />
+            <Text>
+              {capitalize(
+                new Date().toLocaleString('es-CL', { weekday: 'long' }),
+              )}
+            </Text>
+            {/* This should be replaced with checkbox or switches when the team settle
           the design library to use */}
-          <Text>
-            AM Checked:
-            {pet.feds[0]?.currentDateTime
-              ? pet.feds[0]?.currentDateTime
-              : ' No'}
-          </Text>
-          <Text>
-            PM Checked:
-            {pet.feds[1]?.currentDateTime
-              ? pet.feds[1]?.currentDateTime
-              : ' No'}
-          </Text>
-        </>
-      )}
-      <View style={styles.separator} />
-      <View style={styles.separator} />
-      <View style={styles.separator} />
-      <Button
-        title="Go to groups"
-        onPress={() => navigation.navigate('Groups')}
-      />
-      <View style={styles.separator} />
-      {/* <Button title="Go to pets" onPress={navigation.navigate()} /> */}
-      <View style={styles.separator} />
-      <Button title="Sign Out" onPress={signOut} />
-      <View style={styles.separator} />
-    </View>
+            <Text>
+              AM Checked:
+              {pet.feds[0]?.currentDateTime
+                ? pet.feds[0]?.currentDateTime
+                : ' No'}
+            </Text>
+            <Text>
+              PM Checked:
+              {pet.feds[1]?.currentDateTime
+                ? pet.feds[1]?.currentDateTime
+                : ' No'}
+            </Text>
+          </>
+        )}
+        <View style={styles.separator} />
+        <View style={styles.separator} />
+        <View style={styles.separator} />
+        <Button
+          title="Go to groups"
+          onPress={() => navigation.navigate('Groups')}
+        />
+        <View style={styles.separator} />
+        {/* <Button title="Go to pets" onPress={navigation.navigate()} /> */}
+        <View style={styles.separator} />
+        <Button title="Sign Out" onPress={signOut} />
+        <View style={styles.separator} />
+      </View>
+    </Layout>
   );
 };
 

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import mascotappi from '../api/mascotappi';
-import { Layout, Text } from '@ui-kitten/components';
+import Layout from '../components/Layout';
+import { Text, Card, Toggle } from '@ui-kitten/components';
+import moment from 'moment';
 
 const Home = ({ navigation }) => {
   const { signOut } = useAuth();
@@ -12,6 +14,9 @@ const Home = ({ navigation }) => {
   const [error, setError] = useState(null);
 
   const [pet, setPet] = useState(null);
+
+  const [amChecked, setAmChecked] = useState(false);
+  const [pmChecked, setPmChecked] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -37,33 +42,46 @@ const Home = ({ navigation }) => {
 
   const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
+  const CardHeader = () => (
+    <>
+      <Text>Pet info:</Text>
+      {pet && (
+        <Text>{`id: ${pet._id}, name: ${pet.name}, birthdate: ${moment
+          .utc(pet.birthdate)
+          .format('DD/MM/YYYY')}`}</Text>
+      )}
+    </>
+  );
   return (
-    <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View>
-        <Text>Pet info: </Text>
+    <Layout>
+      <Card header={CardHeader}>
         {pet && (
           <>
-            <Text>{`id: ${pet._id}, name: ${pet.name}, birthdate: ${pet.birthdate}`}</Text>
-            <View style={styles.separator} />
             <Text>
               {capitalize(
                 new Date().toLocaleString('es-CL', { weekday: 'long' }),
               )}
             </Text>
-            {/* This should be replaced with checkbox or switches when the team settle
-          the design library to use */}
             <Text>
               AM Checked:
               {pet.feds[0]?.currentDateTime
                 ? pet.feds[0]?.currentDateTime
                 : ' No'}
             </Text>
+            <Toggle
+              checked={amChecked}
+              onChange={() => setAmChecked(!amChecked)}
+            />
             <Text>
               PM Checked:
               {pet.feds[1]?.currentDateTime
                 ? pet.feds[1]?.currentDateTime
                 : ' No'}
             </Text>
+            <Toggle
+              checked={pmChecked}
+              onChange={() => setPmChecked(!pmChecked)}
+            />
           </>
         )}
         <View style={styles.separator} />
@@ -78,7 +96,7 @@ const Home = ({ navigation }) => {
         <View style={styles.separator} />
         <Button title="Sign Out" onPress={signOut} />
         <View style={styles.separator} />
-      </View>
+      </Card>
     </Layout>
   );
 };

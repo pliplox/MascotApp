@@ -1,56 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React from 'react';
+import { Text, View, Button } from 'react-native';
 import mascotappi from '../../api/mascotappi';
+import useSWR from 'swr';
+
+const fetchGroups = async () => {
+  const response = await mascotappi.get('family/groups');
+  return response.data;
+};
 
 const Groups = ({ navigation }) => {
-  const [groups, setGroups] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { data: groups, error: groupError } = useSWR('family/groups', () =>
+    fetchGroups(),
+  );
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchGroups = async () => {
-      try {
-        const response = await mascotappi.get('family/groups');
-        setGroups(response.data);
-      } catch (errored) {
-        console.log(errored);
-        setError(errored);
-      }
-    };
+  if (!groups) {
+    return <Text>...loading</Text>;
+  }
 
-    fetchGroups();
-    setLoading(false);
-  }, []);
+  if (groupError) {
+    return (
+      <>
+        <Text>There was an error trying to get the groups.</Text>
+        <Text>{groupError}</Text>
+      </>
+    );
+  }
 
   return (
     <View>
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : (
-        <>
-          {/* TODO: map the array groups to show all the groups as list
+      <>
+        {/* TODO: map the array groups to show all the groups as list
           maybe with some redirecting route if the user is admin */}
-          {groups?.length === 0 ? (
-            <>
-              <Text>
-                There is no groups, you might want to create one pressing the
-                button below
-              </Text>
-              <Button
-                title="Go to create Group"
-                onPress={() => navigation.navigate('CreateGroup')}
-              />
-            </>
-          ) : (
-            <Text>{groups[0]?.name}</Text>
-          )}
-        </>
-      )}
+        {groups?.length === 0 ? (
+          <>
+            <Text>
+              There is no groups, you might want to create one pressing the
+              button below
+            </Text>
+            <Button
+              title="Go to create Group"
+              onPress={() => navigation.navigate('CreateGroup')}
+            />
+          </>
+        ) : (
+          groups.map(group => <Text key={group.id}>{group.name}</Text>)
+        )}
+      </>
     </View>
   );
 };
 
 export default Groups;
-
-const styles = StyleSheet.create({});

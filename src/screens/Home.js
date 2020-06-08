@@ -1,110 +1,200 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import mascotappi from '../api/mascotappi';
-import Layout from '../components/Layout';
-import { Text, Card, Toggle } from '@ui-kitten/components';
+import { Text, Card, Toggle, Button, Spinner } from '@ui-kitten/components';
+import CardHeader from '../components/home/CardHeader';
 import moment from 'moment';
+import useSWR from 'swr';
+
+const fetchFirstGroup = async () => {
+  const response = await mascotappi.get('family/groups');
+  return response.data[0];
+};
+
+const fetchFirstPet = async id => {
+  const response = await mascotappi.get(`pets/${id}`);
+  return response.data.pets[0];
+};
 
 const Home = ({ navigation }) => {
   const { signOut } = useAuth();
+  const [error, setError] = useState();
+  const [amLoading, setAmLoading] = useState(false);
+  const [pmLoading, setPmLoading] = useState(false);
 
-  const [groups, setGroups] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const [pet, setPet] = useState(null);
-
-  const [amChecked, setAmChecked] = useState(false);
-  const [pmChecked, setPmChecked] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    const fetchGroups = async () => {
-      try {
-        const response = await mascotappi.get('family/groups');
-        setGroups(response.data);
-        if (response.data.length > 0) {
-          const petsResponse = await mascotappi.get(
-            `pets/${response?.data[0]?.id}`,
-          );
-          setPet(petsResponse?.data?.pets[0]);
-        }
-      } catch (errored) {
-        console.log(errored);
-        setError(errored);
-      }
-    };
-
-    fetchGroups();
-    setLoading(false);
-  }, []);
-
-  const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
-
-  const CardHeader = () => (
-    <>
-      <Text>Pet info:</Text>
-      {pet && (
-        <Text>{`id: ${pet._id}, name: ${pet.name}, birthdate: ${moment
-          .utc(pet.birthdate)
-          .format('DD/MM/YYYY')}`}</Text>
-      )}
-    </>
+  const { data: group, error: groupError } = useSWR('family/group', () =>
+    fetchFirstGroup(),
   );
+
+  const { data: pet, error: petError, mutate } = useSWR(
+    group ? `pets/${group.id}` : null,
+    () => fetchFirstPet(group.id),
+  );
+
+  const toggleAmChecked = async (event, fedId) => {
+    if (!isAm()) {
+      return;
+    }
+    setAmLoading(true);
+    try {
+      if (fedId) {
+        await mascotappi.delete('fed', { data: { fedId } });
+        mutate(pet);
+      } else if (event) {
+        await mascotappi.post('fed', { petId: pet?._id });
+        mutate(pet);
+      }
+      setAmLoading(false);
+    } catch (e) {
+      setAmLoading(false);
+      setError(e);
+    }
+  };
+
+  const togglePmChecked = async (event, fedId) => {
+    if (!isPm()) {
+      return;
+    }
+    try {
+      setPmLoading(true);
+      if (fedId) {
+        await mascotappi.delete('fed', { data: { fedId } });
+        mutate(pet);
+      } else if (event) {
+        await mascotappi.post('fed', { petId: pet?._id });
+        mutate(pet);
+      }
+      setPmLoading(false);
+    } catch (e) {
+      setPmLoading(false);
+      setError(e);
+    }
+  };
+
+  const capitalize = word => word.charAt(0).toUpperCase() + word.slice(1);
+
+  const isAm = () => {
+    const hours = new Date().getHours();
+    return hours >= 0 && hours < 12;
+  };
+
+  const isPm = () => {
+    const currentHour = new Date().getHours();
+    return currentHour >= 12 && currentHour <= 23;
+  };
+
+  const firstAmFed = pet?.feds?.filter(fed => {
+    const fedHours = new Date(fed.currentDateTime).getHours();
+    return fedHours >= 0 && fedHours < 12;
+  })[0];
+
+  const firstPmFed = pet?.feds?.filter(fed => {
+    const fedHours = new Date(fed.currentDateTime).getHours();
+    return fedHours >= 12 && fedHours <= 23;
+  })[0];
+
   return (
-    <Layout>
-      <Card header={CardHeader}>
-        {pet && (
-          <>
-            <Text>
-              {capitalize(
-                new Date().toLocaleString('es-CL', { weekday: 'long' }),
+    <SafeAreaView style={styles.container}>
+      {!pet && <Spinner size="large" />}
+      {groupError && (
+        <Text>There was an error trying to get the group {groupError}</Text>
+      )}
+      {petError && (
+        <Text>There was an error trying to get the pet {petError}</Text>
+      )}
+      {error && <Text>There was an error trying to update: {error}</Text>}
+      {pet && (
+        <Card
+          header={() => (
+            <CardHeader name={pet.name} birthdate={pet.birthdate} />
+          )}
+          style={styles.card}>
+          <Text>
+            {`${capitalize(
+              new Date().toLocaleString('es-CL', { weekday: 'long' }),
+            )} ${moment().format('DD/MM/YYYY')}`}
+          </Text>
+          <View style={styles.cardContent}>
+            <View style={styles.row}>
+              <Text style={styles.username}>{firstAmFed?.user.name}</Text>
+              <Text style={styles.username}>{firstPmFed?.user.name}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text>
+                {firstAmFed?.currentDateTime
+                  ? moment(firstAmFed?.currentDateTime).format('HH:mm:ss')
+                  : 'HH:mm:ss'}
+              </Text>
+              <Text>
+                {firstPmFed?.currentDateTime
+                  ? moment(firstPmFed?.currentDateTime).format('HH:mm:ss')
+                  : 'HH:mm:ss'}
+              </Text>
+            </View>
+            <View style={styles.row}>
+              <Text>AM</Text>
+              <Text>PM</Text>
+            </View>
+            <View style={[styles.row, styles.toggleWrapper]}>
+              {amLoading ? (
+                <Spinner />
+              ) : (
+                <Toggle
+                  checked={!!firstAmFed?.currentDateTime}
+                  onChange={event => toggleAmChecked(event, firstAmFed?._id)}
+                  disabled={!isAm()}
+                  style={styles.toggle}
+                />
               )}
-            </Text>
-            <Text>
-              AM Checked:
-              {pet.feds[0]?.currentDateTime
-                ? pet.feds[0]?.currentDateTime
-                : ' No'}
-            </Text>
-            <Toggle
-              checked={amChecked}
-              onChange={() => setAmChecked(!amChecked)}
-            />
-            <Text>
-              PM Checked:
-              {pet.feds[1]?.currentDateTime
-                ? pet.feds[1]?.currentDateTime
-                : ' No'}
-            </Text>
-            <Toggle
-              checked={pmChecked}
-              onChange={() => setPmChecked(!pmChecked)}
-            />
-          </>
-        )}
-        <View style={styles.separator} />
-        <View style={styles.separator} />
-        <View style={styles.separator} />
+              {pmLoading ? (
+                <Spinner />
+              ) : (
+                <Toggle
+                  checked={!!firstPmFed?.currentDateTime}
+                  onChange={event => togglePmChecked(event, firstPmFed?._id)}
+                  disabled={!isPm()}
+                  style={styles.toggle}
+                />
+              )}
+            </View>
+          </View>
+        </Card>
+      )}
+
+      {/* this buttons should change when implement button bar navigation, but they
+      are here in order to let the user be able to navigate to something */}
+      <View style={styles.bottom}>
         <Button
-          title="Go to groups"
           onPress={() => navigation.navigate('Groups')}
-        />
-        <View style={styles.separator} />
-        {/* <Button title="Go to pets" onPress={navigation.navigate()} /> */}
-        <View style={styles.separator} />
-        <Button title="Sign Out" onPress={signOut} />
-        <View style={styles.separator} />
-      </Card>
-    </Layout>
+          style={styles.buttons}>
+          Go to groups
+        </Button>
+        <Button onPress={signOut} style={styles.buttons}>
+          Sign Out
+        </Button>
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default Home;
 
 const styles = StyleSheet.create({
-  separator: {
-    padding: 5,
+  container: { flex: 1 },
+  card: { flex: 1, margin: 15 },
+  cardContent: {
+    marginTop: 250,
   },
+  toggle: { flex: 0.17 },
+  row: { flexDirection: 'row', justifyContent: 'space-around' },
+  toggleWrapper: { marginTop: 15 },
+  bottom: {
+    flexDirection: 'row',
+    flex: 0.15,
+    marginBottom: 15,
+    marginHorizontal: 1.7,
+  },
+  buttons: { flex: 0.5, margin: 15 },
+  username: { flex: 0.5, margin: 15, textAlign: 'center' },
 });

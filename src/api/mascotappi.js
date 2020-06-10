@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 // TODO: use environment variables to know where should axios be pointing at
 const mascotappi = axios.create({
-  baseURL: 'https://skollapp-api.herokuapp.com/api/',
+  baseURL: 'https://mascotappi.herokuapp.com/api/',
 });
 
 // TODO: find a better way to do this
@@ -17,14 +17,14 @@ const mascotappi = axios.create({
 // });
 
 mascotappi.interceptors.request.use(
-  async (config) => {
+  async config => {
     const token = await AsyncStorage.getItem('tokenId');
     if (token) {
       config.headers.Authorization = token;
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  error => Promise.reject(error),
 );
 
 export default mascotappi;

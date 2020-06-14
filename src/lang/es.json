@@ -1,0 +1,9 @@
+{
+  "user": {
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "name": "Nombre",
+    "placeholders": { "email": "ejemplo@correo.com", "password": "Ingresa tu contraseña aquí" },
+    "authentication": { "signIn": "Ingresar", "signUp": "Regístrate" }
+  }
+}

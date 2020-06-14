@@ -3,16 +3,18 @@ import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Text, Button, Divider, Input, Icon } from '@ui-kitten/components';
 import Layout from '../../components/Layout';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from '../../context/LanguageContext';
 
 const SignIn = ({ navigation }) => {
   const { signIn } = useAuth();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const { user } = useTranslation();
 
   const toggleShowPassword = () => setSecureTextEntry(!secureTextEntry);
 
-  const renderIcon = (props) => (
+  const renderIcon = props => (
     <TouchableWithoutFeedback onPress={toggleShowPassword}>
       <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
     </TouchableWithoutFeedback>
@@ -20,28 +22,30 @@ const SignIn = ({ navigation }) => {
 
   return (
     <Layout>
-      <Text category="h6">Email:</Text>
+      <Text category="h6">{user.email}</Text>
       <Input
         onChangeText={setEmail}
         autoCapitalize="none"
         value={email}
-        placeholder="example@mail.com"
+        placeholder={user.placeholders.email}
         style={styles.input}
       />
-      <Text category="h6">Password:</Text>
+      <Text category="h6">{user.password}</Text>
       <Input
         onChangeText={setPassword}
         autoCapitalize="none"
         value={password}
-        placeholder="Enter your password here"
+        placeholder={user.placeholders.password}
         style={styles.input}
         accessoryRight={renderIcon}
         secureTextEntry={secureTextEntry}
       />
-      <Button onPress={() => signIn(email, password)}>Sign In</Button>
+      <Button onPress={() => signIn(email, password)}>
+        {user.authentication.signIn}
+      </Button>
       <Divider />
       <Button onPress={() => navigation.navigate('SignUp')}>
-        Go to Sign Up
+        {user.authentication.signUp}
       </Button>
     </Layout>
   );

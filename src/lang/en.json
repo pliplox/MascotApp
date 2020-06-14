@@ -1,0 +1,9 @@
+{
+  "user": {
+    "email": "Email",
+    "name": "Name",
+    "password": "Password",
+    "placeholders": { "email": "example@mail.com", "password": "Enter your password here" },
+    "authentication": { "signIn": "Sign In", "signUp": "Sign Up" }
+  }
+}

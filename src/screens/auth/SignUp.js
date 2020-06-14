@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, Button, StyleSheet } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from '../../context/LanguageContext';
 
 const SignUp = () => {
   const { signUp, signIn } = useAuth();
@@ -8,6 +9,7 @@ const SignUp = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [error, setError] = useState(null);
+  const { user } = useTranslation();
 
   const handleSignUp = async () => {
     const response = await signUp(name, email, password);
@@ -20,25 +22,25 @@ const SignUp = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.labels}>Name:</Text>
+      <Text style={styles.labels}>{user.name}</Text>
       <TextInput
         style={styles.inputs}
         placeholder="Min 6 char"
         onChangeText={setName}
       />
-      <Text style={styles.labels}>Email:</Text>
+      <Text style={styles.labels}>{user.email}</Text>
       <TextInput
         style={styles.inputs}
         onChangeText={setEmail}
-        placeholder="email@sample.com"
+        placeholder={user.placeholders.email}
       />
-      <Text style={styles.labels}>Password:</Text>
+      <Text style={styles.labels}>{user.password}</Text>
       <TextInput
         style={styles.inputs}
         onChangeText={setPassword}
-        placeholder="Password"
+        placeholder={user.placeholders.password}
       />
-      <Button title="Sign Up" onPress={handleSignUp} />
+      <Button title={user.authentication.signUp} onPress={handleSignUp} />
       {error && <Text style={styles.labels}>{error}</Text>}
     </View>
   );

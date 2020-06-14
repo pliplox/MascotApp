@@ -4,6 +4,7 @@ import { renderWithProviders } from '../../../utils/testing';
 import SignUp from '../SignUp';
 import { fireEvent, wait, cleanup } from '@testing-library/react-native';
 import mascotappiMock from '../../../api/mascotappi';
+import en from '../../../lang/en.json';
 
 jest.mock('../../../api/mascotappi', () => ({
   post: jest.fn(),
@@ -12,31 +13,44 @@ jest.mock('../../../api/mascotappi', () => ({
 
 describe('SignUp', () => {
   let wrapper;
+
   beforeEach(() => {
     wrapper = renderWithProviders(<SignUp />);
   });
 
   afterEach(cleanup);
 
-  it('renders correctly', () => {
+  it('renders correctly', async () => {
     expect(wrapper).toBeTruthy();
 
     // renders the elements
     const { getByText } = wrapper;
-    expect(getByText('Name:')).toBeTruthy();
-    expect(getByText('Email:')).toBeTruthy();
-    expect(getByText('Password:')).toBeTruthy();
-    expect(getByText('Sign Up')).toBeTruthy();
+
+    const {
+      user: { name, email, password, authentication },
+    } = en;
+
+    expect(getByText(name)).toBeTruthy();
+    expect(getByText(email)).toBeTruthy();
+    expect(getByText(password)).toBeTruthy();
+    expect(getByText(authentication.signUp)).toBeTruthy();
   });
 
   describe('When user sign up', () => {
     describe('using correct data', () => {
       it('calls mascotappi with post request', async () => {
         const { getByPlaceholderText, getByText } = wrapper;
+
+        const {
+          user: {
+            authentication: { signUp },
+            placeholders: { email, password },
+          },
+        } = en;
         const nameInput = getByPlaceholderText('Min 6 char');
-        const emailInput = getByPlaceholderText('email@sample.com');
-        const passwordInput = getByPlaceholderText('Password');
-        const button = getByText('Sign Up');
+        const emailInput = getByPlaceholderText(email);
+        const passwordInput = getByPlaceholderText(password);
+        const button = getByText(signUp);
 
         fireEvent.changeText(nameInput, 'pliplox');
         fireEvent.changeText(emailInput, 'pliplox@pliplox.cl');
@@ -61,10 +75,18 @@ describe('SignUp', () => {
     describe('using incorrect data', () => {
       it('renders an error message', async () => {
         const { getByPlaceholderText, getByText } = wrapper;
+
+        const {
+          user: {
+            authentication: { signUp },
+            placeholders: { email, password },
+          },
+        } = en;
+
         const nameInput = getByPlaceholderText('Min 6 char');
-        const emailInput = getByPlaceholderText('email@sample.com');
-        const passwordInput = getByPlaceholderText('Password');
-        const button = getByText('Sign Up');
+        const emailInput = getByPlaceholderText(email);
+        const passwordInput = getByPlaceholderText(password);
+        const button = getByText(signUp);
 
         fireEvent.changeText(nameInput, 'pli');
         fireEvent.changeText(emailInput, 'invalid mail');

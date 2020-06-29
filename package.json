@@ -5,7 +5,9 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
+    "start": "sh env_setter.sh production && react-native start",
+    "start:dev": "sh env_setter.sh staging && react-native start",
+    "start:local": "sh env_setter.sh local && react-native start",
     "test": "jest",
     "lint": "eslint ."
   },
@@ -39,6 +41,7 @@
     "@testing-library/react-hooks": "^3.3.0",
     "@testing-library/react-native": "^5.0.3",
     "babel-jest": "^24.9.0",
+    "babel-plugin-inline-dotenv": "^1.5.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",

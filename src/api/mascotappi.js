@@ -1,20 +1,19 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
-// TODO: use environment variables to know where should axios be pointing at
+let API_HOST;
+const baseHost = apiHost => `https://mascot${apiHost}.herokuapp.com`;
+if (process.env.MOBILE_NODE_ENV === 'production') {
+  API_HOST = baseHost('api');
+} else if (process.env.MOBILE_NODE_ENV === 'staging') {
+  API_HOST = baseHost('-api-dev');
+} else {
+  API_HOST = `http://${process.env.MOBILE_IP}:3000`;
+}
+
 const mascotappi = axios.create({
-  baseURL: 'https://mascotappi.herokuapp.com/api/',
+  baseURL: `${API_HOST}/api/`,
 });
-
-// TODO: find a better way to do this
-
-// When working on local environment with android/ios emulator and localhost backend
-// make sure to know your local ip and connect to it with the following code and
-// commenting the above code, leaving the below code only.
-
-// const mascotappi = axios.create({
-//   baseURL: 'http://0.0.0.0:3000/api/',
-// });
 
 mascotappi.interceptors.request.use(
   async config => {

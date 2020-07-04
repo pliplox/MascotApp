@@ -1,33 +1,47 @@
 {
   "name": "MascotApp",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
+    "start": "sh env_setter.sh production && react-native start",
+    "start:dev": "sh env_setter.sh staging && react-native start",
+    "start:local": "sh env_setter.sh local && react-native start",
     "test": "jest",
     "lint": "eslint ."
   },
   "dependencies": {
+    "@eva-design/eva": "^2.0.0",
     "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.2.3",
     "@react-navigation/stack": "^5.2.18",
+    "@ui-kitten/components": "^5.0.0",
+    "@ui-kitten/eva-icons": "^5.0.0",
+    "appcenter": "3.0.2",
+    "appcenter-analytics": "3.0.2",
+    "appcenter-crashes": "3.0.2",
     "axios": "^0.19.2",
+    "moment": "^2.26.0",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-localize": "^1.4.0",
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^0.7.3",
-    "react-native-screens": "^2.7.0"
+    "react-native-screens": "^2.7.0",
+    "react-native-svg": "^12.1.0",
+    "swr": "^0.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/runtime": "^7.6.2",
     "@react-native-community/eslint-config": "^0.0.5",
+    "@testing-library/react-hooks": "^3.3.0",
     "@testing-library/react-native": "^5.0.3",
     "babel-jest": "^24.9.0",
+    "babel-plugin-inline-dotenv": "^1.5.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
@@ -43,8 +57,9 @@
     "transform": {
       "^.+\\.(js|jsx|mjs|tsx)$": "babel-jest"
     },
+    "testEnvironment": "jsdom",
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-navigation|@react-native-community/async-storage/(?!(lib))|@react-navigation/.*)"
+      "node_modules/(?!(jest-)?react-native|react-navigation|@ui-kitten/components|@react-native-community/async-storage/(?!(lib))|@react-navigation/.*)"
     ],
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"

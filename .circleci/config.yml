@@ -1,19 +1,18 @@
 version: 2.1
+filter:
+  branches:
+    only:
+      - master
+      - develop
 jobs:
   build:
-    branches:
-      only:
-        - master
-        - develop
     working_directory: ~/mascotapp
     docker:
       - image: circleci/node:13.12.0
     steps:
       - checkout
-      - restore_cache: # special step to restore the dependency cache
-        name: Restore Yarn Package Cache
-        keys:
-          - yarn-packages-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile

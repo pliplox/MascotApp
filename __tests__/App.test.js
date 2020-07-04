@@ -1,7 +1,7 @@
 import 'react-native';
 import React from 'react';
 import App from '../App';
-import { render, wait, act } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 
 describe('App', () => {
   describe('when token is not setted', () => {
@@ -10,7 +10,7 @@ describe('App', () => {
       wrapper = render(<App />);
     });
 
-    it('renders correctly', async () => {
+    it('renders correctly', () => {
       expect(wrapper).toBeTruthy();
     });
 

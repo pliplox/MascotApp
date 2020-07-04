@@ -6,6 +6,12 @@ import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { ResetPassword, SignIn, SignOut, SignUp } from './src/screens/auth';
 import Home from './src/screens/Home';
 import Splash from './src/screens/Splash';
+import { CreateFamilyGroup, Groups } from './src/screens/groups';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { default as theme } from './custom-theme.json';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { LanguageProvider } from './src/context/LanguageContext';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +26,13 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
-          <Stack.Screen name="Home" component={Home} />
+          <>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Groups" component={Groups} />
+            <Stack.Screen
+              name="CreateGroup"
+              component={CreateFamilyGroup}></Stack.Screen>
+          </>
         ) : (
           <>
             <Stack.Screen
@@ -39,7 +51,12 @@ const App = () => {
 };
 
 export default () => (
-  <AuthProvider>
-    <App />
-  </AuthProvider>
+  <LanguageProvider>
+    <AuthProvider>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+        <App />
+      </ApplicationProvider>
+    </AuthProvider>
+  </LanguageProvider>
 );

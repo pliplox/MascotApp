@@ -47,6 +47,8 @@ const SignIn = ({ navigation }) => {
       <Button onPress={() => navigation.navigate('SignUp')}>
         {user.authentication.signUp}
       </Button>
+      <Divider />
+      <Text category="h6">{process.env.MOBILE_NODE_ENV}</Text>
     </Layout>
   );
 };

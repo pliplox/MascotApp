@@ -5,7 +5,7 @@ filter:
       - master
       - develop
 jobs:
-  build:
+  test:
     working_directory: ~/mascotapp
     docker:
       - image: circleci/node:13.12.0

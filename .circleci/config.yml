@@ -24,3 +24,9 @@ jobs:
       - run: # run tests
           name: test
           command: yarn test
+
+# Orchestrate our job run sequence
+workflows:
+  test:
+    jobs:
+      - test

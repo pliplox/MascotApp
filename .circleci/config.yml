@@ -5,7 +5,7 @@ filter:
       - master
       - develop
 jobs:
-  build:
+  test:
     working_directory: ~/mascotapp
     docker:
       - image: circleci/node:13.12.0
@@ -24,3 +24,9 @@ jobs:
       - run: # run tests
           name: test
           command: yarn test
+
+# Orchestrate our job run sequence
+workflows:
+  test:
+    jobs:
+      - test

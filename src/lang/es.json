@@ -1,4 +1,10 @@
 {
+  "group": {
+    "title": "Groups"
+  },
+  "placeholders": {
+    "loadingDots": "Loading..."
+  },
   "user": {
     "email": "Correo Electrónico",
     "password": "Contraseña",

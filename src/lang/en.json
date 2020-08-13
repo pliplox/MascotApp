@@ -1,4 +1,10 @@
 {
+  "group": {
+    "title": "Grupos"
+  },
+  "placeholders": {
+    "loadingDots": "Cargando..."
+  },
   "user": {
     "email": "Email",
     "name": "Name",

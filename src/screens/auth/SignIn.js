@@ -29,6 +29,10 @@ const SignIn = ({ navigation }) => {
         value={email}
         placeholder={user.placeholders.email}
         style={styles.input}
+        accessibilityRole="text"
+        textContentType="emailAddress"
+        autoCompleteType="email"
+        keyboardType="email-address"
       />
       <Text category="h6">{user.password}</Text>
       <Input
@@ -39,6 +43,10 @@ const SignIn = ({ navigation }) => {
         style={styles.input}
         accessoryRight={renderIcon}
         secureTextEntry={secureTextEntry}
+        accessibilityRole="text"
+        textContentType="password"
+        keyboardAppearance="dark"
+        onSubmitEditing={() => signIn(email, password)}
       />
       <Button onPress={() => signIn(email, password)}>
         {user.authentication.signIn}

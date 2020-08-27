@@ -1,9 +1,12 @@
 {
-  "group": {
-    "title": "Grupos"
+  "actions": { "create": "Create" },
+  "createGroup": { "groupName": "Group name", "placeholders": { "typeGroupName": "Type the group's name" } },
+  "groupList": {
+    "create": "Create Group",
+    "subTitles": { "members": "Members", "pets": "Pets" }
   },
   "placeholders": {
-    "loadingDots": "Cargando..."
+    "loadingDots": "Loading..."
   },
   "user": {
     "email": "Email",

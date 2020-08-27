@@ -12,22 +12,20 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const loadUser = async () => {
       const getToken = await AsyncStorage.getItem('tokenId');
-      if (!getToken) {
-        setLoadingUser(false);
-        return;
-      }
       try {
-        // TODO: autologin when app is reopened
-        // get user data from api
-        // setUser(user from api);
+        if (!getToken) {
+          setLoadingUser(false);
+          return;
+        }
         setLoadingUser(false);
       } catch (error) {
-        console.log(error);
+        setLoadingUser(false);
+        console.error('error:', error);
       }
     };
 
     loadUser();
-  }, []);
+  }, [user, loadingUser]);
 
   const signIn = async (email, password) => {
     try {
@@ -40,8 +38,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
-    setUser(null);
-    await AsyncStorage.removeItem('tokenId');
+    try {
+      await AsyncStorage.removeItem('tokenId');
+      setUser(null);
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
   };
 
   const signUp = async (name, email, password) => {

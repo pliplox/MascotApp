@@ -23,6 +23,7 @@
     "appcenter-analytics": "3.0.2",
     "appcenter-crashes": "3.0.2",
     "axios": "^0.19.2",
+    "faker": "^5.0.0",
     "moment": "^2.26.0",
     "react": "16.11.0",
     "react-native": "0.62.2",
@@ -32,6 +33,7 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.7.0",
     "react-native-svg": "^12.1.0",
+    "react-native-vector-icons": "^7.0.0",
     "swr": "^0.2.2"
   },
   "devDependencies": {

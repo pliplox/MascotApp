@@ -1,5 +1,5 @@
 #!/bin/bash
-rm .env
+rm -rf .env
 if [ "$1" = "production" ]
 then
     touch .env

@@ -97,8 +97,9 @@ const Home = ({ navigation }) => {
   const handleSignOut = async () => {
     try {
       await signOut();
+      // navigation.navigate('SignIn');
     } catch (e) {
-      console.error('Error trying to sign out: ', e);
+      console.error('Error trying to sign out: ', e.message);
       setError(e);
     }
   };

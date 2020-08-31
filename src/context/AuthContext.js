@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         setLoadingUser(false);
       } catch (error) {
         setLoadingUser(false);
-        console.error('error:', error);
+        console.error('error: ', error.message);
       }
     };
 

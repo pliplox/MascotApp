@@ -18,7 +18,7 @@ import useIsSignedIn from './src/utils/useIsSignedIn';
 const Stack = createStackNavigator();
 
 const App = () => {
-  const { loadingUser, user } = useAuth();
+  const { loadingUser } = useAuth();
   const [isSignedIn] = useIsSignedIn();
 
   if (loadingUser) {

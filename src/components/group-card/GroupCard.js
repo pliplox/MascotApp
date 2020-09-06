@@ -6,17 +6,15 @@ import MemberList from './MemberList';
 import PetList from './PetList';
 import { string } from 'prop-types';
 
-const GroupCard = ({ name }) => {
-  return (
-    <Card header={() => <GroupHeader name={name} />} style={styles.container}>
-      <Text category="h3">Members</Text>
-      <MemberList />
-      <Divider style={styles.divider} />
-      <Text category="h3">Pets</Text>
-      <PetList />
-    </Card>
-  );
-};
+const GroupCard = ({ name }) => (
+  <Card header={() => <GroupHeader name={name} />} style={styles.container}>
+    <Text category="h3">Members</Text>
+    <MemberList />
+    <Divider style={styles.divider} />
+    <Text category="h3">Pets</Text>
+    <PetList />
+  </Card>
+);
 
 export default GroupCard;
 

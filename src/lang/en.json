@@ -1,6 +1,12 @@
 {
   "actions": { "create": "Create" },
-  "createGroup": { "groupName": "Group name", "placeholders": { "typeGroupName": "Type the group's name" } },
+  "messages": {
+    "errors": { "standard": "Something went wrong, please try again later or contact with us"}
+  },
+  "createGroup": {
+    "groupName": "Group name",
+    "placeholders": { "typeGroupName": "Type the group's name" }
+  },
   "groupList": {
     "create": "Create Group",
     "subTitles": { "members": "Members", "pets": "Pets" }

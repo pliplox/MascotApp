@@ -18,7 +18,7 @@ const fetchFirstPet = async id => {
 };
 
 const Home = ({ navigation }) => {
-  const { signOut } = useAuth();
+  const { signOut, loadingUser } = useAuth();
   const [error, setError] = useState();
   const [amLoading, setAmLoading] = useState(false);
   const [pmLoading, setPmLoading] = useState(false);
@@ -97,7 +97,6 @@ const Home = ({ navigation }) => {
   const handleSignOut = async () => {
     try {
       await signOut();
-      // navigation.navigate('SignIn');
     } catch (e) {
       console.error('Error trying to sign out: ', e.message);
       setError(e);
@@ -186,7 +185,12 @@ const Home = ({ navigation }) => {
           style={styles.buttons}>
           Go to groups
         </Button>
-        <Button onPress={handleSignOut} style={styles.buttons}>
+        <Button
+          onPress={handleSignOut}
+          style={styles.buttons}
+          accessoryRight={
+            loadingUser && (() => <Spinner size="small" status="basic" />)
+          }>
           Sign Out
         </Button>
       </View>

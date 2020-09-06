@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthProvider, useAuth } from './src/context/AuthContext';
@@ -13,13 +13,11 @@ import { default as theme } from './custom-theme.json';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { LanguageProvider } from './src/context/LanguageContext';
 import { MaterialIconsPack, FeatherIconsPack } from './icons';
-import useIsSignedIn from './src/utils/useIsSignedIn';
 
 const Stack = createStackNavigator();
 
 const App = () => {
-  const { loadingUser } = useAuth();
-  const [isSignedIn] = useIsSignedIn();
+  const { loadingUser, userToken } = useAuth();
 
   if (loadingUser) {
     return <Splash />;
@@ -28,7 +26,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {isSignedIn ? (
+        {userToken ? (
           <>
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Groups" component={GroupList} />
@@ -42,7 +40,7 @@ const App = () => {
               component={SignIn}
               name="SignIn"
               options={{
-                animationTypeForReplace: isSignedIn ? 'push' : 'pop',
+                animationTypeForReplace: userToken ? 'push' : 'pop',
               }}
             />
             <Stack.Screen name="SignUp" component={SignUp} />

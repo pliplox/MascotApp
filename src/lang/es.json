@@ -1,6 +1,12 @@
 {
   "actions": { "create": "Crear" },
-  "createGroup": { "groupName": "Nombre del grupo", "placeholders": { "typeGroupName": "Escribe el nombre del grupo" } },
+  "messages": {
+    "errors": { "standard": "Algo salió mal, intenta mas tarde o contáctate con nosotros"}
+  },
+  "createGroup": {
+    "groupName": "Nombre del grupo",
+    "placeholders": { "typeGroupName": "Escribe el nombre del grupo" }
+  },
   "groupList": {
     "create": "Crear Grupo",
     "subTitles": { "members": "Miembros", "pets": "Mascotas" }

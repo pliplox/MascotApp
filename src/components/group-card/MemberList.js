@@ -9,7 +9,7 @@ const MemberList = () => {
   // fake data in each render, because backend request does not bring the members
   // data from the groups requests YET
   let members = [];
-  const randomNumber = randomInt(10);
+  const randomNumber = randomInt(1, 5);
   for (let i = 0; i < randomNumber; i++) {
     members.push({ name: faker.name.findName() });
   }

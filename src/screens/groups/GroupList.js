@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, SafeAreaView } from 'react-native';
-import mascotappi from '../../api/mascotappi';
+import { fetchGroups } from './request';
 import useSWR from 'swr';
 import {
   Spinner,
@@ -14,15 +14,6 @@ import {
 import { useTranslation } from '../../context/LanguageContext';
 import { GroupCard } from '../../components/group-card';
 import ViewPagerDots from '../../components/ViewPagerDots';
-
-const fetchGroups = async () => {
-  try {
-    const response = await mascotappi.get('family/groups');
-    return response.data;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
 const GroupList = ({ navigation }) => {
   const styles = useStyleSheet(themedStyles);

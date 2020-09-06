@@ -8,7 +8,7 @@ const CreateFamilyGroup = ({ navigation }) => {
   const [groupName, setGroupName] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { actions, createGroup } = useTranslation();
+  const { actions, createGroup, messages } = useTranslation();
 
   const handleCreateGroup = async () => {
     setLoading(true);
@@ -16,14 +16,11 @@ const CreateFamilyGroup = ({ navigation }) => {
       const response = await mascotapi.post('family/group', {
         name: groupName,
       });
+
       if (response.status === 201) {
-        console.log('response.data', response.data);
-        console.log('response.status', response.status);
         navigation.navigate('Groups');
       } else {
-        setError(
-          'Something went wrong, please try again later or contact with us',
-        );
+        setError(messages.errors.standard);
       }
       setLoading(false);
     } catch (e) {

@@ -20,10 +20,10 @@ const SignIn = ({ navigation }) => {
     </TouchableWithoutFeedback>
   );
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     try {
-      console.log('wat');
-      signIn(email, password);
+      await signIn('admin@pliplox.com', '123123');
+      // signIn(email, password);
     } catch (e) {
       console.error('There was an error trying to sign in: ', e.message);
     }

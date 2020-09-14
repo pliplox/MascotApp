@@ -18,7 +18,7 @@ const fetchFirstPet = async id => {
 };
 
 const Home = ({ navigation }) => {
-  const { signOut } = useAuth();
+  const { signOut, loadingUser } = useAuth();
   const [error, setError] = useState();
   const [amLoading, setAmLoading] = useState(false);
   const [pmLoading, setPmLoading] = useState(false);
@@ -94,16 +94,31 @@ const Home = ({ navigation }) => {
     return fedHours >= 12 && fedHours <= 23;
   })[0];
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (e) {
+      console.error('Error trying to sign out: ', e.message);
+      setError(e);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      {!pet && <Spinner size="large" />}
+      {!pet || groupError || petError || (error && <Spinner size="large" />)}
       {groupError && (
-        <Text>There was an error trying to get the group {groupError}</Text>
+        <Text>
+          There was an error trying to get the group: {groupError?.message}
+        </Text>
       )}
       {petError && (
-        <Text>There was an error trying to get the pet {petError}</Text>
+        <Text>
+          There was an error trying to get the pet: {petError?.message}
+        </Text>
       )}
-      {error && <Text>There was an error trying to update: {error}</Text>}
+      {error && (
+        <Text>There was an error trying to update: {error?.message}</Text>
+      )}
       {pet && (
         <Card
           header={() => (
@@ -170,7 +185,12 @@ const Home = ({ navigation }) => {
           style={styles.buttons}>
           Go to groups
         </Button>
-        <Button onPress={signOut} style={styles.buttons}>
+        <Button
+          onPress={handleSignOut}
+          style={styles.buttons}
+          accessoryRight={
+            loadingUser && (() => <Spinner size="small" status="basic" />)
+          }>
           Sign Out
         </Button>
       </View>

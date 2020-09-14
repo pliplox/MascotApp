@@ -2,7 +2,7 @@ import 'react-native';
 import React from 'react';
 import { renderWithProviders } from '../utils/testing';
 import Home from './Home';
-import { fireEvent, wait, cleanup } from '@testing-library/react-native';
+import { waitFor, cleanup } from '@testing-library/react-native';
 import mascotappiMock from '../api/mascotappi';
 import moment from 'moment';
 
@@ -59,10 +59,11 @@ describe('Home', () => {
 
   it('fetchs and renders the data correctly', async () => {
     const { getByText } = await wrapper;
-    await wait();
-    expect(getByText('PetName, birthdate: 04/05/2020')).toBeTruthy();
-    expect(getByText('Elon')).toBeTruthy();
-    const fedTime = moment('2020-06-08T00:54:34.468Z').format('HH:mm:ss');
-    expect(getByText(fedTime)).toBeTruthy();
+    await waitFor(() => {
+      expect(getByText('PetName, birthdate: 04/05/2020')).toBeTruthy();
+      expect(getByText('Elon')).toBeTruthy();
+      const fedTime = moment('2020-06-08T00:54:34.468Z').format('HH:mm:ss');
+      expect(getByText(fedTime)).toBeTruthy();
+    });
   });
 });

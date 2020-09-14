@@ -20,6 +20,15 @@ const SignIn = ({ navigation }) => {
     </TouchableWithoutFeedback>
   );
 
+  const handleSignIn = async () => {
+    try {
+      await signIn('admin@pliplox.com', '123123');
+      // signIn(email, password);
+    } catch (e) {
+      console.error('There was an error trying to sign in: ', e.message);
+    }
+  };
+
   return (
     <Layout>
       <Text category="h6">{user.email}</Text>
@@ -29,6 +38,12 @@ const SignIn = ({ navigation }) => {
         value={email}
         placeholder={user.placeholders.email}
         style={styles.input}
+        size="large"
+        accessibilityRole="text"
+        textContentType="emailAddress"
+        autoCompleteType="email"
+        keyboardType="email-address"
+        keyboardAppearance="dark"
       />
       <Text category="h6">{user.password}</Text>
       <Input
@@ -37,18 +52,19 @@ const SignIn = ({ navigation }) => {
         value={password}
         placeholder={user.placeholders.password}
         style={styles.input}
+        size="large"
         accessoryRight={renderIcon}
         secureTextEntry={secureTextEntry}
+        accessibilityRole="text"
+        textContentType="password"
+        keyboardAppearance="dark"
+        onSubmitEditing={handleSignIn}
       />
-      <Button onPress={() => signIn(email, password)}>
-        {user.authentication.signIn}
-      </Button>
+      <Button onPress={handleSignIn}>{user.authentication.signIn}</Button>
       <Divider />
       <Button onPress={() => navigation.navigate('SignUp')}>
         {user.authentication.signUp}
       </Button>
-      <Divider />
-      <Text category="h6">{process.env.MOBILE_NODE_ENV}</Text>
     </Layout>
   );
 };

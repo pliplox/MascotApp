@@ -6,17 +6,18 @@ import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { ResetPassword, SignIn, SignOut, SignUp } from './src/screens/auth';
 import Home from './src/screens/Home';
 import Splash from './src/screens/Splash';
-import { CreateFamilyGroup, Groups } from './src/screens/groups';
+import { CreateFamilyGroup, GroupList } from './src/screens/groups';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { default as theme } from './custom-theme.json';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { LanguageProvider } from './src/context/LanguageContext';
+import { MaterialIconsPack, FeatherIconsPack } from './icons';
 
 const Stack = createStackNavigator();
 
 const App = () => {
-  const { loadingUser, user } = useAuth();
+  const { loadingUser, userToken } = useAuth();
 
   if (loadingUser) {
     return <Splash />;
@@ -25,10 +26,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {user ? (
+        {userToken ? (
           <>
             <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Groups" component={Groups} />
+            <Stack.Screen name="Groups" component={GroupList} />
             <Stack.Screen
               name="CreateGroup"
               component={CreateFamilyGroup}></Stack.Screen>
@@ -38,7 +39,9 @@ const App = () => {
             <Stack.Screen
               component={SignIn}
               name="SignIn"
-              options={{ animationTypeForReplace: user ? 'push' : 'pop' }}
+              options={{
+                animationTypeForReplace: userToken ? 'push' : 'pop',
+              }}
             />
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="SignOut" component={SignOut} />
@@ -53,7 +56,9 @@ const App = () => {
 export default () => (
   <LanguageProvider>
     <AuthProvider>
-      <IconRegistry icons={EvaIconsPack} />
+      <IconRegistry
+        icons={[EvaIconsPack, FeatherIconsPack, MaterialIconsPack]}
+      />
       <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
         <App />
       </ApplicationProvider>

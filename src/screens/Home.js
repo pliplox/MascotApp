@@ -105,7 +105,7 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {!pet || groupError || petError || (error && <Spinner size="large" />)}
+      {(!pet || groupError || petError || error) && <Spinner size="large" />}
       {groupError && (
         <Text>
           There was an error trying to get the group: {groupError?.message}

@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Button, Input, Spinner, Text } from '@ui-kitten/components';
 import mascotapi from '../../api/mascotappi';
 import { useTranslation } from '../../context/LanguageContext';
+import { mutate } from 'swr';
 
 const CreateFamilyGroup = ({ navigation }) => {
   const [groupName, setGroupName] = useState(null);
@@ -18,6 +19,7 @@ const CreateFamilyGroup = ({ navigation }) => {
       });
 
       if (response.status === 201) {
+        mutate('family/groups'); // update group list
         navigation.navigate('Groups');
       } else {
         setError(messages.errors.standard);

@@ -2,14 +2,22 @@ import 'react-native';
 import React from 'react';
 import { renderWithProviders } from '../../../utils/testing';
 import CreateGroup from '../CreateFamilyGroup';
-import { cleanup } from '@testing-library/react-native';
+import mascotapiMock from '../../../api/mascotappi';
+import { fireEvent, waitFor } from '@testing-library/react-native';
 import en from '../../../lang/en.json';
+
+jest.mock('../../../api/mascotappi', () => ({
+  post: jest.fn(),
+  create: jest.fn(),
+}));
 
 describe('CreateGroup', () => {
   const {
     actions,
-    // eslint-disable-next-line no-unused-vars
-    createGroup: { groupName, placeholders: typeGroupName },
+    createGroup: {
+      groupName,
+      placeholders: { typeGroupName },
+    },
   } = en;
 
   let wrapper;
@@ -18,22 +26,39 @@ describe('CreateGroup', () => {
     wrapper = renderWithProviders(<CreateGroup />);
   });
 
-  afterEach(cleanup);
-
   it('renders elements correctly', () => {
     // renders the label text
     expect(wrapper.getByText(groupName)).toBeTruthy();
 
     // renders the placeholder text
-    // skipped because weird error
-    // TODO: make it pass sometime in the future (:
-    // expect(wrapper.getByPlaceholderText(typeGroupName)).toBeTruthy();
+    expect(wrapper.getByPlaceholderText(typeGroupName)).toBeTruthy();
 
     // renders the create group button
     expect(wrapper.getByText(actions.create)).toBeTruthy();
   });
 
-  // TODO: test this when backend implementation is ready
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip('when create button is pressed');
+  describe('when creating a group', () => {
+    it('sends a post request to create a group', async () => {
+      const createButton = wrapper.getByText(actions.create);
+      const inputText = wrapper.getByPlaceholderText(typeGroupName);
+
+      const newGroupName = 'Los Simpson';
+
+      fireEvent.changeText(inputText, newGroupName);
+      fireEvent.press(createButton);
+
+      const { post } = mascotapiMock;
+      post.mockImplementation(() =>
+        Promise.resolve({
+          data: {
+            message: 'Grupo familiar creado con éxito',
+            familyGroup: { id: '1', name: newGroupName, users: [] },
+          },
+          status: 201,
+        }),
+      );
+
+      await waitFor(() => expect(mascotapiMock.post).toHaveBeenCalled());
+    });
+  });
 });

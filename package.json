@@ -7,6 +7,7 @@
     "ios": "react-native run-ios",
     "start": "sh env_setter.sh production && react-native start",
     "start:dev": "sh env_setter.sh staging && react-native start",
+    "start:dev:win": "SET MOBILE_NODE_ENV=staging& react-native start",
     "start:local": "sh env_setter.sh local && react-native start",
     "test": "jest",
     "lint": "eslint ."
@@ -25,8 +26,8 @@
     "axios": "^0.19.2",
     "faker": "^5.0.0",
     "moment": "^2.26.0",
-    "react": "16.11.0",
-    "react-native": "0.62.2",
+    "react": "16.13.1",
+    "react-native": "0.63.3",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-localize": "^1.4.0",
     "react-native-reanimated": "^1.8.0",
@@ -68,7 +69,7 @@
       "node_modules/(?!(jest-)?react-native|react-navigation|@ui-kitten/components|@react-native-community/async-storage/(?!(lib))|@react-navigation/.*)"
     ],
     "setupFiles": [
-      "./node_modules/react-native-gesture-handler/jestSetup.js"
+      "./node_modules/react-native-gesture-handler/jestSetup.js"      
     ]
   }
 }

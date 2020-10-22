@@ -7,6 +7,7 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('')
   const [loadingUser, setLoadingUser] = useState(true);
   const [userToken, setUserToken] = useState();
 
@@ -54,9 +55,14 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (email, password) => {
     try {
       const response = await mascotappi.post('signin', { email, password });
-      setUser(response.data); // For now: all data is set to the user
-      setUserToken(response?.data?.tokenId);
-      await AsyncStorage.setItem('tokenId', response.data.tokenId);
+      setUser(response.data); // For now: all data is set to the user      
+      if (response.status >= 400) {
+        setErrorMessage(response.data.message)
+      }else {      
+        setErrorMessage('');
+        setUserToken(response?.data?.tokenId);
+        await AsyncStorage.setItem('tokenId', response.data.tokenId);
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -82,10 +88,15 @@ export const AuthProvider = ({ children }) => {
         name,
         email,
         password,
-      });
-      return response;
-    } catch (error) {
-      console.log('error', error.message);
+      });      
+      if (response.status >= 400) {
+        console.log(response);
+        setErrorMessage(response.data.message)
+      }else {      
+        setErrorMessage('');
+        await signIn(email, password)       
+      }
+    } catch (error) {      
       return error.message;
     }
   };
@@ -94,8 +105,8 @@ export const AuthProvider = ({ children }) => {
   // const resetPassword = () => {};
 
   const value = useMemo(() => {
-    return { user, loadingUser, signIn, signOut, signUp, userToken };
-  }, [user, loadingUser, userToken]);
+    return { user, loadingUser, signIn, signOut, signUp, userToken, errorMessage, setErrorMessage };
+  }, [user, loadingUser, userToken, errorMessage, setErrorMessage]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

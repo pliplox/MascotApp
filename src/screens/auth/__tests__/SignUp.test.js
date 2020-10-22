@@ -91,11 +91,15 @@ describe('SignUp', () => {
         fireEvent.changeText(passwordInput, '');
         fireEvent.press(button);
 
-        const { post } = mascotappiMock;
+        const { post } = mascotappiMock;        
         post.mockImplementation(() =>
-          Promise.reject('[Error: Request failed with status code 401]'),
+          Promise.resolve({
+            data: {
+             message: '\"name\" length must be at least 6 characters long',            
+            },
+            status: 400,
+          }),
         );
-
         // wait for the promise to be rejected
         await waitFor(() => expect(mascotappiMock.post).toHaveBeenCalled());
 

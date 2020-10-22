@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data); // For now: all data is set to the user      
       if (response.status >= 400) {
         setErrorMessage(response.data.message)
-      }else {      
+      } else {      
         setErrorMessage('');
         setUserToken(response?.data?.tokenId);
         await AsyncStorage.setItem('tokenId', response.data.tokenId);
@@ -91,7 +91,7 @@ export const AuthProvider = ({ children }) => {
       });      
       if (response.status >= 400) {
         setErrorMessage(response.data.message)
-      }else {      
+      } else {      
         setErrorMessage('');
         await signIn(email, password)       
       }

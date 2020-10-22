@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
 
 const SignIn = ({ navigation }) => {
-  const { signIn, errorMessage,setErrorMessage} = useAuth();
+  const { signIn, errorMessage, setErrorMessage} = useAuth();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -22,19 +22,17 @@ const SignIn = ({ navigation }) => {
 
   const handleSignIn = async () => {
     try {
-     await signIn(email, password);
-    
-
-      // signIn(email, password);
+     await signIn(email, password);        
     } catch (e) {
       console.error('There was an error trying to sign in: ', e.message);
     }
   };
 
-  const handleNavigationToSignup = () => {
+  const handleNavigationToSignUp = () => {
     setErrorMessage('')
     navigation.navigate('SignUp')
   }
+  
   return (
     <Layout>
       <Text category="h6">{user.email}</Text>
@@ -69,7 +67,7 @@ const SignIn = ({ navigation }) => {
       <Text style={styles.text} status='danger'>{errorMessage}</Text>
       <Button onPress={handleSignIn}>{user.authentication.signIn}</Button>
       <Divider />
-      <Button onPress={handleNavigationToSignup}>
+      <Button onPress={handleNavigationToSignUp}>
         {user.authentication.signUp}
       </Button>
     </Layout>

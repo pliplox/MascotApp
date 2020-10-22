@@ -90,7 +90,6 @@ export const AuthProvider = ({ children }) => {
         password,
       });      
       if (response.status >= 400) {
-        console.log(response);
         setErrorMessage(response.data.message)
       }else {      
         setErrorMessage('');

@@ -91,7 +91,7 @@ describe('SignUp', () => {
         fireEvent.changeText(passwordInput, '');
         fireEvent.press(button);
 
-        const { post } = mascotappiMock;        
+        const { post } = mascotappiMock;
         post.mockImplementation(() =>
           Promise.resolve({
             data: {

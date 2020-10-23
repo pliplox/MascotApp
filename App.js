@@ -38,9 +38,10 @@ const App = () => {
           <>
             <Stack.Screen
               component={SignIn}
-              name="SignIn"
+              name="SignIn"                            
               options={{
                 animationTypeForReplace: userToken ? 'push' : 'pop',
+                headerShown: false
               }}
             />
             <Stack.Screen name="SignUp" component={SignUp} />

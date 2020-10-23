@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Text, Button, Divider, Input, Icon } from '@ui-kitten/components';
+import LinearGradient from 'react-native-linear-gradient';
 import Layout from '../../components/Layout';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
 
 const SignIn = ({ navigation }) => {
-  const { signIn, errorMessage, setErrorMessage} = useAuth();
+  const { signIn, errorMessage, setErrorMessage } = useAuth();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const { user } = useTranslation();
-
   const toggleShowPassword = () => setSecureTextEntry(!secureTextEntry);
 
   const renderIcon = props => (
@@ -22,54 +22,62 @@ const SignIn = ({ navigation }) => {
 
   const handleSignIn = async () => {
     try {
-     await signIn(email, password);        
+      await signIn(email, password);
     } catch (e) {
       console.error('There was an error trying to sign in: ', e.message);
     }
   };
 
   const handleNavigationToSignUp = () => {
-    setErrorMessage('')
-    navigation.navigate('SignUp')
-  }
-  
+    setErrorMessage('');
+    navigation.navigate('SignUp');
+  };
+
   return (
     <Layout>
-      <Text category="h6">{user.email}</Text>
-      <Input
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        value={email}
-        placeholder={user.placeholders.email}
-        style={styles.input}
-        size="large"
-        accessibilityRole="text"
-        textContentType="emailAddress"
-        autoCompleteType="email"
-        keyboardType="email-address"
-        keyboardAppearance="dark"
-      />
-      <Text category="h6">{user.password}</Text>
-      <Input
-        onChangeText={setPassword}
-        autoCapitalize="none"
-        value={password}
-        placeholder={user.placeholders.password}
-        style={styles.input}
-        size="large"
-        accessoryRight={renderIcon}
-        secureTextEntry={secureTextEntry}
-        accessibilityRole="text"
-        textContentType="password"
-        keyboardAppearance="dark"
-        onSubmitEditing={handleSignIn}
-      />
-      <Text style={styles.text} status='danger'>{errorMessage}</Text>
-      <Button onPress={handleSignIn}>{user.authentication.signIn}</Button>
-      <Divider />
-      <Button onPress={handleNavigationToSignUp}>
-        {user.authentication.signUp}
-      </Button>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={['#390350', '#3a0252', '#52007c', '#3a0252', '#390350']}
+        style={styles.container}>
+        <Text category="h6">{user.email}</Text>
+        <Input
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          value={email}
+          placeholder={user.placeholders.email}
+          style={styles.input}
+          size="large"
+          accessibilityRole="text"
+          textContentType="emailAddress"
+          autoCompleteType="email"
+          keyboardType="email-address"
+          keyboardAppearance="dark"
+        />
+        <Text category="h6">{user.password}</Text>
+        <Input
+          onChangeText={setPassword}
+          autoCapitalize="none"
+          value={password}
+          placeholder={user.placeholders.password}
+          style={styles.input}
+          size="large"
+          accessoryRight={renderIcon}
+          secureTextEntry={secureTextEntry}
+          accessibilityRole="text"
+          textContentType="password"
+          keyboardAppearance="dark"
+          onSubmitEditing={handleSignIn}
+        />
+        <Text style={styles.text} status="danger">
+          {errorMessage}
+        </Text>
+        <Button onPress={handleSignIn}>{user.authentication.signIn}</Button>
+        <Divider />
+        <Button onPress={handleNavigationToSignUp}>
+          {user.authentication.signUp}
+        </Button>
+      </LinearGradient>
     </Layout>
   );
 };
@@ -82,6 +90,11 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   text: {
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

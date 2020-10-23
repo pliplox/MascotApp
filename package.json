@@ -7,6 +7,7 @@
     "ios": "react-native run-ios",
     "start": "sh env_setter.sh production && react-native start",
     "start:dev": "sh env_setter.sh staging && react-native start",
+    "start:dev:win": "SET MOBILE_NODE_ENV=staging& react-native run-android",
     "start:local": "sh env_setter.sh local && react-native start",
     "test": "jest",
     "lint": "eslint ."

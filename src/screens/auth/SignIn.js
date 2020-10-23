@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
 
 const SignIn = ({ navigation }) => {
-  const { signIn } = useAuth();
+  const { signIn, errorMessage, setErrorMessage} = useAuth();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -22,13 +22,17 @@ const SignIn = ({ navigation }) => {
 
   const handleSignIn = async () => {
     try {
-      await signIn('admin@pliplox.com', '123123');
-      // signIn(email, password);
+     await signIn(email, password);        
     } catch (e) {
       console.error('There was an error trying to sign in: ', e.message);
     }
   };
 
+  const handleNavigationToSignUp = () => {
+    setErrorMessage('')
+    navigation.navigate('SignUp')
+  }
+  
   return (
     <Layout>
       <Text category="h6">{user.email}</Text>
@@ -60,9 +64,10 @@ const SignIn = ({ navigation }) => {
         keyboardAppearance="dark"
         onSubmitEditing={handleSignIn}
       />
+      <Text style={styles.text} status='danger'>{errorMessage}</Text>
       <Button onPress={handleSignIn}>{user.authentication.signIn}</Button>
       <Divider />
-      <Button onPress={() => navigation.navigate('SignUp')}>
+      <Button onPress={handleNavigationToSignUp}>
         {user.authentication.signUp}
       </Button>
     </Layout>
@@ -76,4 +81,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 50,
     marginVertical: 15,
   },
+  text: {
+    marginBottom: 10
+  }
 });

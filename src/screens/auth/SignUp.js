@@ -4,20 +4,14 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
 
 const SignUp = () => {
-  const { signUp, signIn } = useAuth();
+  const { signUp,  errorMessage} = useAuth();
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [error, setError] = useState(null);
+  const [password, setPassword] = useState(null);  
   const { user } = useTranslation();
 
   const handleSignUp = async () => {
-    const response = await signUp(name, email, password);
-    if (response?.status === 201) {
-      signIn(email, password);
-    } else {
-      setError(response);
-    }
+    await signUp(name, email, password);
   };
 
   return (
@@ -41,7 +35,7 @@ const SignUp = () => {
         placeholder={user.placeholders.password}
       />
       <Button title={user.authentication.signUp} onPress={handleSignUp} />
-      {error && <Text style={styles.labels}>{error}</Text>}
+      <Text style={styles.errorText}>{errorMessage}</Text>
     </View>
   );
 };
@@ -60,4 +54,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 5,
   },
+  errorText: {
+    marginBottom: 10,
+    color: 'red'
+  }
 });

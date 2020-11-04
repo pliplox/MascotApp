@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
 
 const SignIn = ({ navigation }) => {
-  const { signIn } = useAuth();
+  const { signIn, errorMessage, setErrorMessage} = useAuth();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -20,6 +20,19 @@ const SignIn = ({ navigation }) => {
     </TouchableWithoutFeedback>
   );
 
+  const handleSignIn = async () => {
+    try {
+     await signIn(email, password);        
+    } catch (e) {
+      console.error('There was an error trying to sign in: ', e.message);
+    }
+  };
+
+  const handleNavigationToSignUp = () => {
+    setErrorMessage('')
+    navigation.navigate('SignUp')
+  }
+  
   return (
     <Layout>
       <Text category="h6">{user.email}</Text>
@@ -29,6 +42,12 @@ const SignIn = ({ navigation }) => {
         value={email}
         placeholder={user.placeholders.email}
         style={styles.input}
+        size="large"
+        accessibilityRole="text"
+        textContentType="emailAddress"
+        autoCompleteType="email"
+        keyboardType="email-address"
+        keyboardAppearance="dark"
       />
       <Text category="h6">{user.password}</Text>
       <Input
@@ -37,18 +56,20 @@ const SignIn = ({ navigation }) => {
         value={password}
         placeholder={user.placeholders.password}
         style={styles.input}
+        size="large"
         accessoryRight={renderIcon}
         secureTextEntry={secureTextEntry}
+        accessibilityRole="text"
+        textContentType="password"
+        keyboardAppearance="dark"
+        onSubmitEditing={handleSignIn}
       />
-      <Button onPress={() => signIn(email, password)}>
-        {user.authentication.signIn}
-      </Button>
+      <Text style={styles.text} status='danger'>{errorMessage}</Text>
+      <Button onPress={handleSignIn}>{user.authentication.signIn}</Button>
       <Divider />
-      <Button onPress={() => navigation.navigate('SignUp')}>
+      <Button onPress={handleNavigationToSignUp}>
         {user.authentication.signUp}
       </Button>
-      <Divider />
-      <Text category="h6">{process.env.MOBILE_NODE_ENV}</Text>
     </Layout>
   );
 };
@@ -60,4 +81,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 50,
     marginVertical: 15,
   },
+  text: {
+    marginBottom: 10
+  }
 });

@@ -1,4 +1,19 @@
 {
+  "actions": { "create": "Crear" },
+  "messages": {
+    "errors": { "standard": "Algo salió mal, intenta mas tarde o contáctate con nosotros"}
+  },
+  "createGroup": {
+    "groupName": "Nombre del grupo",
+    "placeholders": { "typeGroupName": "Escribe el nombre del grupo" }
+  },
+  "groupList": {
+    "create": "Crear Grupo",
+    "subTitles": { "members": "Miembros", "pets": "Mascotas" }
+  },
+  "placeholders": {
+    "loadingDots": "Cargando..."
+  },
   "user": {
     "email": "Correo Electrónico",
     "password": "Contraseña",

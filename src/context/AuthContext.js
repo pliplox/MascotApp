@@ -7,41 +7,79 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('')
   const [loadingUser, setLoadingUser] = useState(true);
+  const [userToken, setUserToken] = useState();
 
   useEffect(() => {
     const loadUser = async () => {
       const getToken = await AsyncStorage.getItem('tokenId');
-      if (!getToken) {
-        setLoadingUser(false);
-        return;
-      }
       try {
-        // TODO: autologin when app is reopened
-        // get user data from api
-        // setUser(user from api);
+        if (!getToken) {
+          setLoadingUser(false);
+          return;
+        }
         setLoadingUser(false);
       } catch (error) {
-        console.log(error);
+        setLoadingUser(false);
+        console.error('error: ', error.message);
       }
     };
 
     loadUser();
-  }, []);
+  }, [user, loadingUser]);
+
+  useEffect(() => {
+    // Fetch the token from storage then navigate to our appropriate place
+    const bootstrapAsync = async () => {
+      let tokenFromAsyncStorage;
+
+      try {
+        tokenFromAsyncStorage = await AsyncStorage.getItem('tokenId');
+      } catch (e) {
+        console.error(e.message);
+        // Restoring token failed
+      }
+
+      // After restoring token, we may need to validate it in production apps
+
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      setUserToken(tokenFromAsyncStorage);
+      setLoadingUser(false);
+    };
+
+    bootstrapAsync();
+  }, [userToken]);
 
   const signIn = async (email, password) => {
     try {
       const response = await mascotappi.post('signin', { email, password });
-      setUser(response.data); // For now: all data is set to the user
-      await AsyncStorage.setItem('tokenId', response.data.tokenId);
+      setUser(response.data); // For now: all data is set to the user      
+      if (response.status >= 400) {
+        setErrorMessage(response.data.message)
+      } else {      
+        setErrorMessage('');
+        setUserToken(response?.data?.tokenId);
+        await AsyncStorage.setItem('tokenId', response.data.tokenId);
+      }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
   const signOut = async () => {
-    setUser(null);
-    await AsyncStorage.removeItem('tokenId');
+    setLoadingUser(true);
+    try {
+      await AsyncStorage.removeItem('tokenId');
+      setUserToken(null);
+      setUser(null);
+      setLoadingUser(false);
+    } catch (error) {
+      setLoadingUser(false);
+      console.error(error);
+      return error;
+    }
   };
 
   const signUp = async (name, email, password) => {
@@ -50,11 +88,15 @@ export const AuthProvider = ({ children }) => {
         name,
         email,
         password,
-      });
-      return response;
-    } catch (error) {
-      console.log('error', error);
-      return error.toString();
+      });      
+      if (response.status >= 400) {
+        setErrorMessage(response.data.message)
+      } else {      
+        setErrorMessage('');
+        await signIn(email, password)       
+      }
+    } catch (error) {      
+      return error.message;
     }
   };
 
@@ -62,8 +104,8 @@ export const AuthProvider = ({ children }) => {
   // const resetPassword = () => {};
 
   const value = useMemo(() => {
-    return { user, loadingUser, signIn, signOut, signUp };
-  }, [user, loadingUser]);
+    return { user, loadingUser, signIn, signOut, signUp, userToken, errorMessage, setErrorMessage };
+  }, [user, loadingUser, userToken, errorMessage, setErrorMessage]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

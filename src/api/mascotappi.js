@@ -26,4 +26,17 @@ mascotappi.interceptors.request.use(
   error => Promise.reject(error),
 );
 
+mascotappi.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    try {
+      return error.response;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+)
+
 export default mascotappi;

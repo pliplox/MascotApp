@@ -2,7 +2,7 @@ import 'react-native';
 import React from 'react';
 import { renderWithProviders } from '../../../utils/testing';
 import SignUp from '../SignUp';
-import { fireEvent, wait, cleanup } from '@testing-library/react-native';
+import { fireEvent, waitFor, cleanup } from '@testing-library/react-native';
 import mascotappiMock from '../../../api/mascotappi';
 import en from '../../../lang/en.json';
 
@@ -66,9 +66,7 @@ describe('SignUp', () => {
         );
 
         // wait for the promise to be resolved
-        await wait();
-
-        expect(mascotappiMock.post).toHaveBeenCalled();
+        await waitFor(() => expect(mascotappiMock.post).toHaveBeenCalled());
       });
     });
 
@@ -95,13 +93,16 @@ describe('SignUp', () => {
 
         const { post } = mascotappiMock;
         post.mockImplementation(() =>
-          Promise.reject('[Error: Request failed with status code 401]'),
+          Promise.resolve({
+            data: {
+             message: '\"name\" length must be at least 6 characters long',            
+            },
+            status: 400,
+          }),
         );
-
         // wait for the promise to be rejected
-        await wait();
+        await waitFor(() => expect(mascotappiMock.post).toHaveBeenCalled());
 
-        expect(mascotappiMock.post).toHaveBeenCalled();
         // TODO: fix Warning: Cant perform a React state update on an unmounted component.
         // This is a no-op, but it indicates a memory leak in your application. To fix, cancel
         // all subscriptions and asynchronous tasks...

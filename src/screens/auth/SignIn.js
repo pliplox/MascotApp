@@ -11,9 +11,10 @@ import { logoMascotaCeleste, casita, patitas } from '../../images';
 import LinearGradient from 'react-native-linear-gradient';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
+import Snackbar from 'react-native-snackbar';
 
 const SignIn = ({ navigation }) => {
-  const { signIn, errorMessage, setErrorMessage } = useAuth();
+  const { signIn } = useAuth();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -29,13 +30,17 @@ const SignIn = ({ navigation }) => {
 
   const googleIcon = props => <Icon {...props} name="google" />;
   const facebookIcon = props => <Icon {...props} name="facebook" />;
-  const loadingSpinner = props => (
+  const loadingSpinner = () => (
     <Spinner size="small" style={{ borderColor: 'white' }} />
   );
+
   const handleSignIn = async () => {
     try {
       setLoading(true);
-      await signIn(email, password);
+      const message = await signIn(email, password);
+      if (message) {
+        ShowSnackBar(`\u{1F625} ${message}`);
+      }
       setLoading(false);
     } catch (e) {
       console.error('There was an error trying to sign in: ', e.message);
@@ -43,23 +48,34 @@ const SignIn = ({ navigation }) => {
   };
 
   const handleNavigationToSignUp = () => {
-    setErrorMessage('');
+    Snackbar.dismiss();
     navigation.navigate('SignUp');
   };
 
+  const ShowSnackBar = message => {
+    Snackbar.show({
+      text: `${message}`,
+      duration: Snackbar.LENGTH_SHORT,
+      backgroundColor: 'rgba(94,102,174, 0.90)',
+    });
+  };
+
   return (
-    <LinearGradient
-      start={{ x: 1, y: 1 }}
-      end={{ x: 0, y: 0 }}
-      colors={['#390350', '#3a0252', '#52007c', '#3a0252', '#390350']}
-      style={styles.container}>
-      <ScrollView>
+    <ScrollView style={styles.container}>
+      <LinearGradient
+        start={{ x: 1, y: 1 }}
+        end={{ x: 0, y: 0 }}
+        colors={['#390350', '#3a0252', '#52007c', '#3a0252', '#390350']}>
         <View>
-          <Image source={logoMascotaCeleste} style={styles.avatar} />
+          <Image
+            testID="logo-png"
+            source={logoMascotaCeleste}
+            style={styles.avatar}
+          />
         </View>
         <View>
           <Text status="info" style={styles.crendencials}>
-            Cuenta
+            {user.authentication.label.account}
           </Text>
           <Input
             onChangeText={setEmail}
@@ -67,7 +83,7 @@ const SignIn = ({ navigation }) => {
             value={email}
             placeholder={user.placeholders.email}
             style={[styles.input, { marginBottom: 10 }]}
-            size="medium"
+            size="large"
             accessibilityRole="text"
             textContentType="emailAddress"
             autoCompleteType="email"
@@ -80,7 +96,7 @@ const SignIn = ({ navigation }) => {
             value={password}
             placeholder={user.placeholders.password}
             style={styles.input}
-            size="medium"
+            size="large"
             accessoryRight={renderIcon}
             secureTextEntry={secureTextEntry}
             accessibilityRole="text"
@@ -89,22 +105,17 @@ const SignIn = ({ navigation }) => {
             onSubmitEditing={handleSignIn}
           />
           <Text status="info" style={styles.forgetPassword}>
-            Olvidaste tu contraseña?
+            {user.authentication.link.forgetPassword}
           </Text>
           <Button
             onPress={handleSignIn}
             style={[styles.button, { marginTop: 10 }]}>
             {loading ? loadingSpinner : user.authentication.signIn}
           </Button>
-          <Text
-            status="danger"
-            style={{ marginBottom: 40, marginHorizontal: 50, fontSize: 16 }}>
-            {errorMessage}
-          </Text>
         </View>
-        <View>
+        <View style={{ marginTop: 20 }}>
           <Text status="info" style={styles.others}>
-            Ingresar con
+            {user.authentication.label.loginWith}
           </Text>
           <View
             style={{
@@ -116,28 +127,29 @@ const SignIn = ({ navigation }) => {
             <View style={{ flex: 1 }}>
               <Button
                 accessoryLeft={googleIcon}
-                onPress={handleNavigationToSignUp}
-                style={[styles.button2, { marginEnd: 5 }]}>
+                style={[styles.otherAcces, { marginEnd: 5 }]}>
                 Google
               </Button>
             </View>
             <View style={{ flex: 1 }}>
               <Button
                 accessoryLeft={facebookIcon}
-                onPress={handleNavigationToSignUp}
-                style={[styles.button2, { marginStart: 5 }]}>
+                style={[styles.otherAcces, { marginStart: 5 }]}>
                 Facebook
               </Button>
             </View>
           </View>
-          <Text status="info" style={styles.noUser}>
-            No tienes una cuenta?
+          <Text
+            onPress={handleNavigationToSignUp}
+            status="info"
+            style={styles.noUser}>
+            {user.authentication.link.withoutAccount}
           </Text>
-          <Image source={casita} style={styles.casita} />
-          <Image source={patitas} style={styles.patitas} />
+          <Image testID="casita-png" source={casita} style={styles.casita} />
+          <Image testID="patitas-png" source={patitas} style={styles.patitas} />
         </View>
-      </ScrollView>
-    </LinearGradient>
+      </LinearGradient>
+    </ScrollView>
   );
 };
 
@@ -146,7 +158,7 @@ export default SignIn;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    backgroundColor: '#390350',
   },
   input: {
     marginHorizontal: 50,
@@ -158,13 +170,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#6066af',
     borderRadius: 10,
   },
-  button2: {
+  otherAcces: {
     backgroundColor: '#6066af',
     borderRadius: 10,
-  },
-  text: {
-    marginBottom: 5,
-    marginHorizontal: 50,
   },
   crendencials: {
     marginBottom: 5,
@@ -184,14 +192,15 @@ const styles = StyleSheet.create({
   },
   noUser: {
     marginHorizontal: 50,
-    textAlign: 'right',
+    textAlign: 'left',
     marginTop: 10,
+    marginBottom: 5,
   },
   casita: {
     width: 85,
     height: 80,
     resizeMode: 'stretch',
-    marginTop: 30,
+    marginTop: 10,
     alignSelf: 'center',
   },
   patitas: {

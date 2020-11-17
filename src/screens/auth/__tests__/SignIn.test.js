@@ -88,8 +88,7 @@ describe('SignIn', () => {
     });
 
     describe('using incorrect data', () => {
-      it('renders an error message', async () => {
-        //console.log(wrapper);
+      it('renders an error message', async () => {        
         const { getByText, getByPlaceholderText } = wrapper;
         const {
           user: {

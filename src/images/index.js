@@ -1,4 +1,4 @@
 export const people = require('./people.png');
-export const logoMascotaCeleste = require('./logo_mascotapp_celeste.png');
-export const casita = require('./casita.png');
-export const patitas = require('./patitas.png');
+export const lightBlueMascotLogo = require('./lightBlueMascotLogo.png');
+export const house = require('./house.png');
+export const paws = require('./paws.png');

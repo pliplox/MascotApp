@@ -44,8 +44,8 @@ describe('SignIn', () => {
     expect(getByText('Facebook')).toBeTruthy();
     expect(getByText('Google')).toBeTruthy();
     expect(getByTestId('logo-png')).toBeTruthy();
-    expect(getByTestId('casita-png')).toBeTruthy();
-    expect(getByTestId('patitas-png')).toBeTruthy();
+    expect(getByTestId('house-png')).toBeTruthy();
+    expect(getByTestId('paws-png')).toBeTruthy();
   });
 
   describe('When user sign in', () => {
@@ -83,12 +83,11 @@ describe('SignIn', () => {
 
         // wait for the promise to be resolved
         await waitFor(() => expect(mascotappiMock.post).toHaveBeenCalled());
-        wrapper.debug();
       });
     });
 
     describe('using incorrect data', () => {
-      it('renders an error message', async () => {        
+      it('renders an error message', async () => {
         const { getByText, getByPlaceholderText } = wrapper;
         const {
           user: {
@@ -105,7 +104,7 @@ describe('SignIn', () => {
         act(() => fireEvent.changeText(passwordInput, '12345'));
         act(() => fireEvent.press(signInButton));
 
-        /**TODO: No funca... pendiente */
+        /**TODO: Not working... pending */
         const promise = Promise.resolve({
           response: {
             data: {
@@ -115,7 +114,7 @@ describe('SignIn', () => {
             status: 400,
           },
         });
-        /**Fin todo */
+        /**end TODO */
 
         mascotappiMock.post.mockImplementation(() => promise);
         // wait for the promise to be resolved

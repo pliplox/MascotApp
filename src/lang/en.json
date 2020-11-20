@@ -40,7 +40,7 @@
       },
       "link": {
         "forgetPassword": "Did you forget your password?",
-        "withoutAccount": "You do not have an account?"
+        "withoutAccount": "Don't have an account?"
       }
     }
   }

@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
+import { TouchableWithoutFeedback, Image, View } from 'react-native';
 import {
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Image,
-  View,
-  ScrollView,
-} from 'react-native';
-import { Text, Button, Input, Icon, Spinner } from '@ui-kitten/components';
-import { logoMascotaCeleste, casita, patitas } from '../../images';
-import LinearGradient from 'react-native-linear-gradient';
+  Text,
+  Button,
+  Input,
+  Icon,
+  Spinner,
+  useStyleSheet,
+  StyleService,
+} from '@ui-kitten/components';
+import { lightBlueMascotLogo, house, paws } from '../../images';
+import AuthLayout from '../../components/AuthLayout';
+import emojis from '../../../emojis';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
 import Snackbar from 'react-native-snackbar';
 
 const SignIn = ({ navigation }) => {
   const { signIn } = useAuth();
+  const styles = useStyleSheet(themedStyles);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -39,7 +43,7 @@ const SignIn = ({ navigation }) => {
       setLoading(true);
       const message = await signIn(email, password);
       if (message) {
-        ShowSnackBar(`\u{1F625} ${message}`);
+        ShowSnackBar(`${emojis.sadFace} ${message}`);
       }
       setLoading(false);
     } catch (e) {
@@ -56,110 +60,95 @@ const SignIn = ({ navigation }) => {
     Snackbar.show({
       text: `${message}`,
       duration: Snackbar.LENGTH_SHORT,
-      backgroundColor: 'rgba(94,102,174, 0.90)',
+      backgroundColor: 'rgba(96, 102, 175, 0.90)',
     });
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <LinearGradient
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        colors={['#390350', '#3a0252', '#52007c', '#3a0252', '#390350']}>
-        <View>
-          <Image
-            testID="logo-png"
-            source={logoMascotaCeleste}
-            style={styles.avatar}
-          />
-        </View>
-        <View>
-          <Text status="info" style={styles.crendencials}>
-            {user.authentication.label.account}
-          </Text>
-          <Input
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            value={email}
-            placeholder={user.placeholders.email}
-            style={[styles.input, { marginBottom: 10 }]}
-            size="large"
-            accessibilityRole="text"
-            textContentType="emailAddress"
-            autoCompleteType="email"
-            keyboardType="email-address"
-            keyboardAppearance="dark"
-          />
-          <Input
-            onChangeText={setPassword}
-            autoCapitalize="none"
-            value={password}
-            placeholder={user.placeholders.password}
-            style={styles.input}
-            size="large"
-            accessoryRight={renderIcon}
-            secureTextEntry={secureTextEntry}
-            accessibilityRole="text"
-            textContentType="password"
-            keyboardAppearance="dark"
-            onSubmitEditing={handleSignIn}
-          />
-          <Text status="info" style={styles.forgetPassword}>
-            {user.authentication.link.forgetPassword}
-          </Text>
-          <Button
-            onPress={handleSignIn}
-            style={[styles.button, { marginTop: 10 }]}>
-            {loading ? loadingSpinner : user.authentication.signIn}
-          </Button>
-        </View>
-        <View style={{ marginTop: 20 }}>
-          <Text status="info" style={styles.others}>
-            {user.authentication.label.loginWith}
-          </Text>
-          <View
-            style={{
-              marginHorizontal: 50,
-              flexDirection: 'row',
-              flex: 1,
-              justifyContent: 'space-between',
-            }}>
-            <View style={{ flex: 1 }}>
-              <Button
-                accessoryLeft={googleIcon}
-                style={[styles.otherAcces, { marginEnd: 5 }]}>
-                Google
-              </Button>
-            </View>
-            <View style={{ flex: 1 }}>
-              <Button
-                accessoryLeft={facebookIcon}
-                style={[styles.otherAcces, { marginStart: 5 }]}>
-                Facebook
-              </Button>
-            </View>
+    <AuthLayout>
+      <View>
+        <Image
+          testID="logo-png"
+          source={lightBlueMascotLogo}
+          style={styles.avatar}
+        />
+      </View>
+      <View>
+        <Text status="info" style={styles.crendencials}>
+          {user.authentication.label.account}
+        </Text>
+        <Input
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          value={email}
+          placeholder={user.placeholders.email}
+          style={[styles.input, { marginBottom: 10 }]}
+          size="large"
+          accessibilityRole="text"
+          textContentType="emailAddress"
+          autoCompleteType="email"
+          keyboardType="email-address"
+          keyboardAppearance="dark"
+        />
+        <Input
+          onChangeText={setPassword}
+          autoCapitalize="none"
+          value={password}
+          placeholder={user.placeholders.password}
+          style={styles.input}
+          size="large"
+          accessoryRight={renderIcon}
+          secureTextEntry={secureTextEntry}
+          accessibilityRole="text"
+          textContentType="password"
+          keyboardAppearance="dark"
+          onSubmitEditing={handleSignIn}
+        />
+        <Text status="info" style={styles.forgetPassword}>
+          {user.authentication.link.forgetPassword}
+        </Text>
+        <Button
+          onPress={handleSignIn}
+          style={[styles.button, { marginTop: 10 }]}>
+          {loading ? loadingSpinner : user.authentication.signIn}
+        </Button>
+      </View>
+      <View style={{ marginTop: 20 }}>
+        <Text status="info" style={styles.others}>
+          {user.authentication.label.loginWith}
+        </Text>
+        <View style={styles.otherAccess}>
+          <View style={{ flex: 1 }}>
+            <Button
+              accessoryLeft={googleIcon}
+              style={[styles.btnOtherAcces, { marginEnd: 5 }]}>
+              Google
+            </Button>
           </View>
-          <Text
-            onPress={handleNavigationToSignUp}
-            status="info"
-            style={styles.noUser}>
-            {user.authentication.link.withoutAccount}
-          </Text>
-          <Image testID="casita-png" source={casita} style={styles.casita} />
-          <Image testID="patitas-png" source={patitas} style={styles.patitas} />
+          <View style={{ flex: 1 }}>
+            <Button
+              accessoryLeft={facebookIcon}
+              style={[styles.btnOtherAcces, { marginStart: 5 }]}>
+              Facebook
+            </Button>
+          </View>
         </View>
-      </LinearGradient>
-    </ScrollView>
+        <Text
+          onPress={handleNavigationToSignUp}
+          status="info"
+          style={styles.noUser}>
+          {user.authentication.link.withoutAccount}
+        </Text>
+        <Image testID="house-png" source={house} style={styles.house} />
+        <Image testID="paws-png" source={paws} style={styles.paws} />
+      </View>
+    </AuthLayout>
   );
 };
 
 export default SignIn;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#390350',
-  },
+const themedStyles = StyleService.create({
   input: {
     marginHorizontal: 50,
     borderRadius: 10,
@@ -167,12 +156,18 @@ const styles = StyleSheet.create({
   button: {
     marginHorizontal: 50,
     marginBottom: 5,
-    backgroundColor: '#6066af',
+    backgroundColor: 'color-button-100',
     borderRadius: 10,
   },
-  otherAcces: {
-    backgroundColor: '#6066af',
+  btnOtherAcces: {
+    backgroundColor: 'color-button-100',
     borderRadius: 10,
+  },
+  otherAccess: {
+    marginHorizontal: 50,
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-between',
   },
   crendencials: {
     marginBottom: 5,
@@ -196,14 +191,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
   },
-  casita: {
+  house: {
     width: 85,
     height: 80,
     resizeMode: 'stretch',
     marginTop: 10,
     alignSelf: 'center',
   },
-  patitas: {
+  paws: {
     width: 130,
     height: 50,
     resizeMode: 'stretch',

@@ -4,9 +4,9 @@ import { useStyleSheet, StyleService } from '@ui-kitten/components';
 import { ScrollView } from 'react-native';
 
 const COLOR = {
-  VeryDarkViolet: '#390350',
-  DarkViolet: '#3a0252',
-  Violet: '#52007c',
+  veryDarkViolet: '#390350',
+  darkViolet: '#3a0252',
+  violet: '#52007c',
 };
 
 const AuthLayout = ({ children }) => {

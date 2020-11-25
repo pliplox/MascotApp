@@ -1,15 +1,24 @@
 {
-  "actions": { "create": "Create" },
+  "actions": {
+    "create": "Create"
+  },
   "messages": {
-    "errors": { "standard": "Something went wrong, please try again later or contact with us"}
+    "errors": {
+      "standard": "Something went wrong, please try again later or contact with us"
+    }
   },
   "createGroup": {
     "groupName": "Group name",
-    "placeholders": { "typeGroupName": "Type the group's name" }
+    "placeholders": {
+      "typeGroupName": "Type the group's name"
+    }
   },
   "groupList": {
     "create": "Create Group",
-    "subTitles": { "members": "Members", "pets": "Pets" }
+    "subTitles": {
+      "members": "Members",
+      "pets": "Pets"
+    }
   },
   "placeholders": {
     "loadingDots": "Loading..."
@@ -18,7 +27,21 @@
     "email": "Email",
     "name": "Name",
     "password": "Password",
-    "placeholders": { "email": "example@mail.com", "password": "Enter your password here" },
-    "authentication": { "signIn": "Sign In", "signUp": "Sign Up" }
+    "placeholders": {
+      "email": "example@mail.com",
+      "password": "Enter your password here"
+    },
+    "authentication": {
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "label": {
+        "account": "Account",
+        "loginWith": "Login with"
+      },
+      "link": {
+        "forgetPassword": "Did you forget your password?",
+        "withoutAccount": "Don't have an account?"
+      }
+    }
   }
 }

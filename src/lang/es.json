@@ -1,15 +1,24 @@
 {
-  "actions": { "create": "Crear" },
+  "actions": {
+    "create": "Crear"
+  },
   "messages": {
-    "errors": { "standard": "Algo salió mal, intenta mas tarde o contáctate con nosotros"}
+    "errors": {
+      "standard": "Algo salió mal, intenta mas tarde o contáctate con nosotros"
+    }
   },
   "createGroup": {
     "groupName": "Nombre del grupo",
-    "placeholders": { "typeGroupName": "Escribe el nombre del grupo" }
+    "placeholders": {
+      "typeGroupName": "Escribe el nombre del grupo"
+    }
   },
   "groupList": {
     "create": "Crear Grupo",
-    "subTitles": { "members": "Miembros", "pets": "Mascotas" }
+    "subTitles": {
+      "members": "Miembros",
+      "pets": "Mascotas"
+    }
   },
   "placeholders": {
     "loadingDots": "Cargando..."
@@ -18,7 +27,21 @@
     "email": "Correo Electrónico",
     "password": "Contraseña",
     "name": "Nombre",
-    "placeholders": { "email": "ejemplo@correo.com", "password": "Ingresa tu contraseña aquí" },
-    "authentication": { "signIn": "Ingresar", "signUp": "Regístrate" }
+    "placeholders": {
+      "email": "ejemplo@correo.com",
+      "password": "Ingresa tu contraseña aquí"
+    },
+    "authentication": {
+      "signIn": "Ingresar",
+      "signUp": "Regístrate",
+      "label": {
+        "account": "Cuenta",
+        "loginWith": "Iniciar con"
+      },
+      "link": {
+        "forgetPassword": "¿Olvidaste tu contraseña?",
+        "withoutAccount": "¿No tienes una cuenta?"
+      }
+    }
   }
 }

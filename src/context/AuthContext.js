@@ -7,7 +7,7 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
   const [loadingUser, setLoadingUser] = useState(true);
   const [userToken, setUserToken] = useState();
 
@@ -55,10 +55,10 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (email, password) => {
     try {
       const response = await mascotappi.post('signin', { email, password });
-      setUser(response.data); // For now: all data is set to the user      
+      setUser(response.data); // For now: all data is set to the user
       if (response.status >= 400) {
-        setErrorMessage(response.data.message)
-      } else {      
+        return response.data.message;
+      } else {
         setErrorMessage('');
         setUserToken(response?.data?.tokenId);
         await AsyncStorage.setItem('tokenId', response.data.tokenId);
@@ -88,14 +88,14 @@ export const AuthProvider = ({ children }) => {
         name,
         email,
         password,
-      });      
+      });
       if (response.status >= 400) {
-        setErrorMessage(response.data.message)
-      } else {      
+        setErrorMessage(response.data.message);
+      } else {
         setErrorMessage('');
-        await signIn(email, password)       
+        await signIn(email, password);
       }
-    } catch (error) {      
+    } catch (error) {
       return error.message;
     }
   };
@@ -104,7 +104,16 @@ export const AuthProvider = ({ children }) => {
   // const resetPassword = () => {};
 
   const value = useMemo(() => {
-    return { user, loadingUser, signIn, signOut, signUp, userToken, errorMessage, setErrorMessage };
+    return {
+      user,
+      loadingUser,
+      signIn,
+      signOut,
+      signUp,
+      userToken,
+      errorMessage,
+      setErrorMessage,
+    };
   }, [user, loadingUser, userToken, errorMessage, setErrorMessage]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

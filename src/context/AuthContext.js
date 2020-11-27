@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
         password,
       });
       if (response.status >= 400) {
-        setErrorMessage(response.data.message);
+        return response.data.message;
       } else {
         setErrorMessage('');
         await signIn(email, password);

@@ -11,18 +11,18 @@ const COLOR = {
 
 const AuthLayout = ({ children }) => {
   const styles = useStyleSheet(themedStyles);
-  const { VeryDarkViolet, DarkViolet, Violet } = COLOR;
+  const { veryDarkViolet, darkViolet, violet } = COLOR;  
   return (
     <ScrollView style={styles.container}>
       <LinearGradient
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
         colors={[
-          VeryDarkViolet,
-          DarkViolet,
-          Violet,
-          DarkViolet,
-          VeryDarkViolet,
+          veryDarkViolet,
+          darkViolet,
+          violet,
+          darkViolet,
+          veryDarkViolet,
         ]}>
         {children}
       </LinearGradient>

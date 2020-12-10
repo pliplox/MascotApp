@@ -2,19 +2,12 @@ import 'react-native';
 import React from 'react';
 import { renderWithProviders } from '../../../utils/testing';
 import SignUp from '../SignUp';
-import {
-  fireEvent,
-  waitFor,
-  cleanup,
-  act,
-} from '@testing-library/react-native';
+import { fireEvent, cleanup } from '@testing-library/react-native';
 import mascotappiMock from '../../../api/mascotappi';
 import en from '../../../lang/en.json';
-import emojis from '../../../../emojis';
 
 jest.mock('../../../api/mascotappi', () => ({
-  post: jest.fn(), //() => Promise.resolve({ data: {} })
-  create: jest.fn(),
+  post: jest.fn(),
 }));
 
 describe('SignUp', () => {
@@ -24,12 +17,14 @@ describe('SignUp', () => {
     wrapper = renderWithProviders(<SignUp />);
   });
 
-  afterEach(cleanup);
+  afterEach(() => {
+    cleanup();
+    mascotappiMock.post.mockClear();
+  });
 
   it('renders correctly', async () => {
     expect(wrapper).toBeTruthy();
 
-    // renders the elements
     const { getByText, getByPlaceholderText, getByTestId } = wrapper;
 
     const {
@@ -57,6 +52,53 @@ describe('SignUp', () => {
   describe('When user sign up', () => {
     describe('using correct data', () => {
       it('calls mascotappi with post request', async () => {
+        //setup
+        mascotappiMock.post.mockImplementation(() =>
+          Promise.resolve({
+            data: {
+              message: `Usuario creado con éxito`,
+              userId: 'userid',
+            },
+            status: 201,
+          }),
+        );
+
+        //work
+        const { getByPlaceholderText, getByText } = wrapper;
+        const {
+          user: {
+            name,
+            placeholders,
+            authentication: { signUp },
+          },
+        } = en;
+        const nameInput = getByPlaceholderText(name);
+        const emailInput = getByPlaceholderText(placeholders.email);
+        const passwordInput = getByPlaceholderText(placeholders.password);
+        const button = getByText(signUp);
+        fireEvent.changeText(nameInput, 'pliplox');
+        fireEvent.changeText(emailInput, 'pliplox@pliplox.cl');
+        fireEvent.changeText(passwordInput, '123123');
+        fireEvent.press(button);
+
+        //assertions / expects
+        expect(mascotappiMock.post).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('using incorrect data', () => {
+      it('shows a snackbar error message', async () => {
+        //TODO: It doesn't really test if the snackbak shows ... pending
+        //setup
+        mascotappiMock.post.mockImplementation(() =>
+          Promise.resolve({
+            data: {
+              message: '"name" length must be at least 6 characters long',
+            },
+            status: 400,
+          }),
+        );
+        //work
         const { getByPlaceholderText, getByText } = wrapper;
 
         const {
@@ -71,102 +113,14 @@ describe('SignUp', () => {
         const emailInput = getByPlaceholderText(placeholders.email);
         const passwordInput = getByPlaceholderText(placeholders.password);
         const button = getByText(signUp);
-
-        fireEvent.changeText(nameInput, 'pliplox');
+        fireEvent.changeText(nameInput, 'pli');
         fireEvent.changeText(emailInput, 'pliplox@pliplox.cl');
         fireEvent.changeText(passwordInput, '123123');
         fireEvent.press(button);
 
-        const { post } = mascotappiMock;
-        post.mockImplementation(() =>
-          Promise.resolve({
-            data: { userId: 'userId', message: 'message' },
-            status: 201,
-          }),
-        );
-
-        // wait for the promise to be resolved
-        await waitFor(() => expect(mascotappiMock.post).toHaveBeenCalled());
+        //assertions / expects
+        expect(mascotappiMock.post).toHaveBeenCalledTimes(1);
       });
-    });
-
-    it.only('', async () => {
-      //setup
-      mascotappiMock.post.mockImplementationOnce(() =>
-        Promise.resolve({
-          data: {
-            message: '"name" length must be at least 6 characters long kk',
-          },
-          status: 400,
-        }),
-      );
-      //work
-      const { getByPlaceholderText, getByText, debug, findByText } = wrapper;
-
-      const {
-        user: {
-          name,
-          placeholders,
-          authentication: { signUp },
-        },
-      } = en;
-
-      const nameInput = getByPlaceholderText(name);
-      const emailInput = getByPlaceholderText(placeholders.email);
-      const passwordInput = getByPlaceholderText(placeholders.password);
-      const button = getByText(signUp);
-
-      act(() => fireEvent.changeText(nameInput, 'pli'));
-      act(() => fireEvent.changeText(emailInput, 'pliplox@pliplox.cl'));
-      act(() => fireEvent.changeText(passwordInput, '123123'));
-      act(() => fireEvent.press(button));
-
-      //assertions / expects
-      expect(mascotappiMock.post).toHaveBeenCalledTimes(1);
-    });
-
-    describe('using incorrect data', () => {
-      it('renders an error message', async () => {
-        const { getByPlaceholderText, getByText, debug } = wrapper;
-
-        const {
-          user: {
-            name,
-            placeholders,
-            authentication: { signUp },
-          },
-        } = en;
-
-        const nameInput = getByPlaceholderText(name);
-        const emailInput = getByPlaceholderText(placeholders.email);
-        const passwordInput = getByPlaceholderText(placeholders.password);
-        const button = getByText(signUp);
-
-        act(() => fireEvent.changeText(nameInput, 'pli'));
-        act(() => fireEvent.changeText(emailInput, 'invalid mail'));
-        act(() => fireEvent.changeText(passwordInput, ''));
-        act(() => fireEvent.press(button));
-        const { post } = mascotappiMock;
-        post.mockImplementation(() =>
-          Promise.resolve({
-            data: {
-              message: '"name" length must be at least 6 characters long',
-            },
-            status: 400,
-          }),
-        );
-
-        // wait for the promise to be rejected
-        await waitFor(() => expect(mascotappiMock.post).toHaveBeenCalled());
-
-        // TODO: fix Warning: Cant perform a React state update on an unmounted component.
-        // This is a no-op, but it indicates a memory leak in your application. To fix, cancel
-        // all subscriptions and asynchronous tasks...
-        // Probably that is the reason why the expectation below is not passing
-        // expect(getByText('[Error: Request failed with status code 401]')).toBeTruthy();
-      });
-
-      it.todo('shows a snackbar error message');
     });
   });
 });

@@ -17,8 +17,7 @@ describe('SignIn', () => {
     wrapper = renderWithProviders(<SignIn />);
   });
 
-  afterEach(() => {
-    cleanup();
+  afterEach(() => {    
     mascotappiMock.post.mockClear();
   });
 

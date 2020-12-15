@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { house, paws } from '../../images';
+import PropTypes from 'prop-types';
 
-const FooterImages = props => {
-  const { houseStyle, pawsStyle } = props; 
+const FooterImages = ({ houseStyle, pawsStyle }) => {
   return (
     <>
       <Image
@@ -32,5 +32,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
 });
+
+FooterImages.prototype = {
+  houseStyle: PropTypes.object,
+  pawsStyle: PropTypes.object,
+};
 
 export default FooterImages;

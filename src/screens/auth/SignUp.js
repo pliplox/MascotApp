@@ -16,7 +16,7 @@ import {
   FooterImages,
   OtherAccess,
 } from '../../components/auth';
-import { ShowSnackBar, SnackBarDismiss } from '../../components/SnackBar';
+import { ShowSnackBar, dismissSnackBar } from '../../components/SnackBar';
 import emojis from '../../../emojis';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
@@ -30,10 +30,10 @@ const SignUp = ({ navigation }) => {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [loading, setLoading] = useState(false);
   const { user } = useTranslation();
-  const toggleShowPassword = () => setSecureTextEntry(!secureTextEntry);
+  const showPasswordIcon = () => setSecureTextEntry(!secureTextEntry);
 
   const renderIcon = props => (
-    <TouchableWithoutFeedback onPress={toggleShowPassword}>
+    <TouchableWithoutFeedback onPress={showPasswordIcon}>
       <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
     </TouchableWithoutFeedback>
   );
@@ -59,13 +59,13 @@ const SignUp = ({ navigation }) => {
   };
 
   const handleNavigationToSignIn = () => {
-    SnackBarDismiss();
+    dismissSnackBar();
     navigation.navigate('SignIn');
   };
 
   return (
     <AuthLayout>
-      <Avatar avatar={lightBlueMascotLogo} />
+      <Avatar img={lightBlueMascotLogo} />
       <View>
         <Text status="info" style={styles.crendencials}>
           {user.authentication.label.createAccount}
@@ -75,7 +75,7 @@ const SignUp = ({ navigation }) => {
           autoCapitalize="none"
           value={name}
           placeholder={user.name}
-          style={[styles.input, { marginBottom: 10 }]}
+          style={styles.input}
           size="large"
           accessibilityRole="text"
           keyboardAppearance="dark"
@@ -85,7 +85,7 @@ const SignUp = ({ navigation }) => {
           autoCapitalize="none"
           value={email}
           placeholder={user.placeholders.email}
-          style={[styles.input, { marginBottom: 10 }]}
+          style={styles.input}
           size="large"
           accessibilityRole="text"
           textContentType="emailAddress"
@@ -98,7 +98,7 @@ const SignUp = ({ navigation }) => {
           autoCapitalize="none"
           value={password}
           placeholder={user.placeholders.password}
-          style={[styles.input, { marginBottom: 10 }]}
+          style={styles.input}
           size="large"
           accessoryRight={renderIcon}
           secureTextEntry={secureTextEntry}
@@ -108,22 +108,20 @@ const SignUp = ({ navigation }) => {
           onSubmitEditing={handleSignUp}
         />
         <Button
-          style={[styles.button, { marginTop: 10 }]}
+          style={styles.button}
           title={user.authentication.signUp}
           onPress={handleSignUp}>
           {loading ? loadingSpinner : user.authentication.signUp}
         </Button>
       </View>
-      <View style={{ marginTop: 20 }}>
-        <OtherAccess label={user.authentication.label.loginWith} />
-        <Text
-          onPress={handleNavigationToSignIn}
-          status="info"
-          style={styles.withUser}>
-          {user.authentication.link.withAccount}
-        </Text>
-        <FooterImages />
-      </View>
+      <OtherAccess label={user.authentication.label.loginWith}/>
+      <Text
+        onPress={handleNavigationToSignIn}
+        status="info"
+        style={styles.withUser}>
+        {user.authentication.link.withAccount}
+      </Text>
+      <FooterImages />
     </AuthLayout>
   );
 };
@@ -134,12 +132,14 @@ const themedStyles = StyleService.create({
   input: {
     marginHorizontal: 50,
     borderRadius: 10,
+    marginBottom: 10,
   },
   button: {
     marginHorizontal: 50,
     marginBottom: 5,
     backgroundColor: 'color-button-100',
     borderRadius: 10,
+    marginTop: 10,
   },
   crendencials: {
     marginBottom: 5,

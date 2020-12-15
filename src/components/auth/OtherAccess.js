@@ -7,6 +7,7 @@ import {
   Icon,
   Button,
 } from '@ui-kitten/components';
+import PropTypes from 'prop-types';
 
 const OtherAccess = props => {
   const styles = useStyleSheet(themedStyles);
@@ -15,6 +16,7 @@ const OtherAccess = props => {
   const facebookIcon = props => <Icon {...props} name="facebook" />;
 
   const {
+    container,
     contentButtun,
     googleStyle,
     facebookStyle,
@@ -23,19 +25,19 @@ const OtherAccess = props => {
   } = props;
 
   return (
-    <>
+    <View style={container || styles.container}>
       <Text status="info" style={labelStyle || styles.others}>
-        {label || 'Label'}
+        {label}
       </Text>
       <View style={contentButtun || styles.otherAccess}>
-        <View style={{ flex: 1 }}>
+        <View style={styles.btnContainer}>
           <Button
             accessoryLeft={googleIcon}
             style={googleStyle || [styles.btnOtherAcces, { marginEnd: 5 }]}>
             Google
           </Button>
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={styles.btnContainer}>
           <Button
             accessoryLeft={facebookIcon}
             style={facebookStyle || [styles.btnOtherAcces, { marginStart: 5 }]}>
@@ -43,11 +45,14 @@ const OtherAccess = props => {
           </Button>
         </View>
       </View>
-    </>
+    </View>
   );
 };
 
 const themedStyles = StyleService.create({
+  container: {
+    marginTop: 20,
+  },
   others: {
     marginBottom: 5,
     color: 'white',
@@ -63,6 +68,18 @@ const themedStyles = StyleService.create({
     backgroundColor: 'color-button-100',
     borderRadius: 10,
   },
+  btnContainer: {
+    flex: 1,
+  },
 });
+
+OtherAccess.propTypes = {
+  container: PropTypes.object,
+  contentButtun: PropTypes.object,
+  googleStyle: PropTypes.object,
+  facebookStyle: PropTypes.object,
+  label: PropTypes.string,
+  labelStyle: PropTypes.object,
+};
 
 export default OtherAccess;

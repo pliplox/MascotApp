@@ -16,7 +16,7 @@ import {
   FooterImages,
   OtherAccess,
 } from '../../components/auth';
-import { ShowSnackBar, SnackBarDismiss } from '../../components/SnackBar';
+import { ShowSnackBar, dismissSnackBar } from '../../components/SnackBar';
 import emojis from '../../../emojis';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
@@ -29,10 +29,10 @@ const SignIn = ({ navigation }) => {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [loading, setLoading] = useState(false);
   const { user } = useTranslation();
-  const toggleShowPassword = () => setSecureTextEntry(!secureTextEntry);
+  const showPasswordIcon = () => setSecureTextEntry(!secureTextEntry);
 
   const renderIcon = props => (
-    <TouchableWithoutFeedback onPress={toggleShowPassword}>
+    <TouchableWithoutFeedback onPress={showPasswordIcon}>
       <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
     </TouchableWithoutFeedback>
   );
@@ -58,13 +58,13 @@ const SignIn = ({ navigation }) => {
   };
 
   const handleNavigationToSignUp = () => {
-    SnackBarDismiss();
+    dismissSnackBar();
     navigation.navigate('SignUp');
   };
 
   return (
     <AuthLayout>
-      <Avatar avatar={lightBlueMascotLogo} />
+      <Avatar img={lightBlueMascotLogo} />
       <View>
         <Text status="info" style={styles.crendencials}>
           {user.authentication.label.account}
@@ -74,7 +74,7 @@ const SignIn = ({ navigation }) => {
           autoCapitalize="none"
           value={email}
           placeholder={user.placeholders.email}
-          style={[styles.input, { marginBottom: 10 }]}
+          style={styles.input}
           size="large"
           accessibilityRole="text"
           textContentType="emailAddress"
@@ -99,22 +99,18 @@ const SignIn = ({ navigation }) => {
         <Text status="info" style={styles.forgetPassword}>
           {user.authentication.link.forgetPassword}
         </Text>
-        <Button
-          onPress={handleSignIn}
-          style={[styles.button, { marginTop: 10 }]}>
+        <Button onPress={handleSignIn} style={styles.button}>
           {loading ? loadingSpinner : user.authentication.signIn}
         </Button>
       </View>
-      <View style={{ marginTop: 20 }}>
-        <OtherAccess label={user.authentication.label.loginWith} />
-        <Text
-          onPress={handleNavigationToSignUp}
-          status="info"
-          style={styles.noUser}>
-          {user.authentication.link.withoutAccount}
-        </Text>
-        <FooterImages />
-      </View>
+      <OtherAccess label={user.authentication.label.loginWith} />
+      <Text
+        onPress={handleNavigationToSignUp}
+        status="info"
+        style={styles.noUser}>
+        {user.authentication.link.withoutAccount}
+      </Text>
+      <FooterImages />
     </AuthLayout>
   );
 };
@@ -125,12 +121,14 @@ const themedStyles = StyleService.create({
   input: {
     marginHorizontal: 50,
     borderRadius: 10,
+    marginBottom: 10,
   },
   button: {
     marginHorizontal: 50,
     marginBottom: 5,
     backgroundColor: 'color-button-100',
     borderRadius: 10,
+    marginTop: 10,
   },
   crendencials: {
     marginBottom: 5,
@@ -148,5 +146,5 @@ const themedStyles = StyleService.create({
     textAlign: 'left',
     marginTop: 10,
     marginBottom: 5,
-  }
+  },
 });

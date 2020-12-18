@@ -15,8 +15,8 @@ describe('App', () => {
     });
 
     it('renders the splash screen text', () => {
-      const { getByText } = wrapper;
-      expect(getByText('Splash Screen XD')).toBeTruthy();
+      const { getByTestId } = wrapper;
+      expect(getByTestId('splash-logo-png')).toBeTruthy();
     });
   });
 });

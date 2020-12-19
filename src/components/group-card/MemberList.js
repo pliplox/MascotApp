@@ -18,7 +18,7 @@ const MemberList = ({ members }) => {
     <ListItem
       title={item.name}
       accessoryLeft={renderItemIcon}
-      // TODO: uncomment this when edit and or remove features (edit and/or remove) are ready
+      // TODO: uncomment this when edit and or remove features are ready
       // accessoryRight={ButtonAccesory}
     />
   )

@@ -1,5 +1,6 @@
 {
   "actions": {
+    "add": "Agregar",
     "create": "Crear"
   },
   "messages": {
@@ -15,9 +16,18 @@
   },
   "groupList": {
     "create": "Crear Grupo",
+    "empty": "Todavía no hay grupos, puedes crear uno apretando el botón de abajo",
+    "error": "Algo salió mal, intenta mas tarde o contáctate con nosotros",
     "subTitles": {
       "members": "Miembros",
       "pets": "Mascotas"
+    }
+  },
+  "pet": {
+    "placeholders": { "enterName": "Ingresa nombre de la mascota" },
+    "questions": {
+      "name": "¿Como se llama tu mascota?",
+      "birthdate": "¿Cual es la fecha de nacimiento de tu mascota?"
     }
   },
   "placeholders": {

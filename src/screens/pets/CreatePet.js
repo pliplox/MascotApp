@@ -5,6 +5,7 @@ import { shape } from 'prop-types'
 import mascotappi from '../../api/mascotappi'
 import { mutate } from 'swr'
 import { queryKeys } from '../../utils/constants'
+import { useStranslation } from '../../context/LanguageContext'
 
 const PlusIcon = createPetIconProps => (
   <Icon {...createPetIconProps} name="plus-circle-outline" />
@@ -12,7 +13,12 @@ const PlusIcon = createPetIconProps => (
 
 const CreatePet = ({ route, navigation }) => {
   const [birthdate, setBirthdate] = useState(new Date())
-  const [name, setName] = useState('')
+  const [name, setName] = useState()
+
+  const {
+    pet: { questions, placeholders },
+    actions,
+  } = useStranslation()
 
   const handleAddPet = async () => {
     const {
@@ -31,7 +37,7 @@ const CreatePet = ({ route, navigation }) => {
         // I think when the pet profile is ready, this should go there
         navigation.navigate('Groups')
       } else {
-        console.log('ke pazo ke pazo', response)
+        console.log('error response: ', response)
       }
     } catch (e) {
       console.error(e.message)
@@ -47,16 +53,16 @@ const CreatePet = ({ route, navigation }) => {
 
   return (
     <View>
-      <Text>¿Como se llama tu mascota?</Text>
+      <Text>{questions.name}</Text>
       <Input
         onChangeText={setName}
         autoCapitalize="none"
         value={name}
-        placeholder={'Ingresa nombre de la mascota'}
+        placeholder={placeholders.enterName}
         size="large"
         accessibilityRole="text"
       />
-      <Text>¿Cual es la fecha de nacimiento de tu mascota?</Text>
+      <Text>{questions.birthdate}</Text>
       <Datepicker
         min={minDate}
         max={maxDate}
@@ -64,7 +70,7 @@ const CreatePet = ({ route, navigation }) => {
         onSelect={nextDate => setBirthdate(nextDate)}
       />
       <Button onPress={handleAddPet} accessoryRight={PlusIcon}>
-        Add Pet
+        {actions.add}
       </Button>
     </View>
   )

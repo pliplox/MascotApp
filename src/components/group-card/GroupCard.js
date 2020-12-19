@@ -5,21 +5,24 @@ import GroupHeader from './GroupHeader'
 import MemberList from './MemberList'
 import PetList from './PetList'
 import { string, arrayOf, shape, func, oneOfType, number } from 'prop-types'
+import { useTranslation } from '../../context/LanguageContext'
 
 const PlusIcon = props => <Icon {...props} name="plus-circle-outline" />
 
 const GroupCard = ({ group, redirectToAddPet }) => {
+  const { actions, groupList } = useTranslation()
+
   const { name, users: members, pets, id } = group
 
   const handleRedirectToAddPet = () => redirectToAddPet({ groupId: id })
 
   return (
     <Card header={() => <GroupHeader name={name} />} style={styles.container}>
-      <Text category="h3">Members</Text>
+      <Text category="h3">{groupList.subTitles.members}</Text>
       <MemberList members={members} />
       <Divider style={styles.divider} />
       <View style={styles.petListHeader}>
-        <Text category="h3">Pets</Text>
+        <Text category="h3">{groupList.subTitles.pets}</Text>
 
         <Button
           size="small"
@@ -27,7 +30,7 @@ const GroupCard = ({ group, redirectToAddPet }) => {
           appearance="outline"
           accessoryRight={PlusIcon}
           onPress={handleRedirectToAddPet}>
-          Add
+          {actions.add}
         </Button>
       </View>
       <PetList pets={pets} />

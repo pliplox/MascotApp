@@ -44,11 +44,12 @@ const GroupList = ({ navigation }) => {
   if (groupError) {
     return (
       <>
-        <Text>There was an error trying to get the groups.</Text>
+        <Text>{groupList.error}</Text>
         <Text>{groupError}</Text>
       </>
     )
   }
+
   const handleSignOut = async () => {
     try {
       await signOut()
@@ -66,8 +67,7 @@ const GroupList = ({ navigation }) => {
       {groupDataLength === 0 ? (
         <View style={themedStyles.createGroupWrapper}>
           <Text style={themedStyles.noGroupsText}>
-            There is no groups yet, you might want to create one pressing the
-            button below
+            {groupList.empty}
           </Text>
           <Button
             onPress={() => navigation.navigate('CreateGroup')}

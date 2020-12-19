@@ -32,7 +32,7 @@ const App = () => {
             <Stack.Screen name="Groups" component={GroupList} />
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="CreateGroup" component={CreateFamilyGroup} />
-            <Stack.Screen name="CreatePet" component={CreatePet} />
+            <Stack.Screen name="Add Pet" component={CreatePet} />
           </>
         ) : (
           <>

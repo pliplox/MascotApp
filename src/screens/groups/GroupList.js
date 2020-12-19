@@ -59,16 +59,14 @@ const GroupList = ({ navigation }) => {
   }
 
   const handleRedirectToAddPet = ({ groupId }) =>
-    navigation.navigate('CreatePet', { groupId })
+    navigation.navigate('Add Pet', { groupId })
 
   const groupDataLength = data?.groups?.length
   return (
     <SafeAreaView>
       {groupDataLength === 0 ? (
         <View style={themedStyles.createGroupWrapper}>
-          <Text style={themedStyles.noGroupsText}>
-            {groupList.empty}
-          </Text>
+          <Text style={themedStyles.noGroupsText}>{groupList.empty}</Text>
           <Button
             onPress={() => navigation.navigate('CreateGroup')}
             accessoryRight={createGroupIconProps => (

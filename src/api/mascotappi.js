@@ -1,42 +1,46 @@
-import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage'
 
-let API_HOST;
-const baseHost = apiHost => `https://mascot${apiHost}.herokuapp.com`;
+let API_HOST
+const baseHost = apiHost => `https://mascot${apiHost}.herokuapp.com`
 if (process.env.MOBILE_NODE_ENV === 'production') {
-  API_HOST = baseHost('api');
+  API_HOST = baseHost('api')
 } else if (process.env.MOBILE_NODE_ENV === 'staging') {
-  API_HOST = baseHost('-api-dev');
+  API_HOST = baseHost('-api-dev')
 } else {
-  API_HOST = `http://${process.env.MOBILE_IP}:3000`;
+  API_HOST = `http://${process.env.MOBILE_IP}:3000`
 }
 
 const mascotappi = axios.create({
   baseURL: `${API_HOST}/api/`,
-});
+})
 
 mascotappi.interceptors.request.use(
   async config => {
-    const token = await AsyncStorage.getItem('tokenId');
+    const token = await AsyncStorage.getItem('tokenId')
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.Authorization = token
     }
-    return config;
+    return config
   },
   error => Promise.reject(error),
-);
+)
 
 mascotappi.interceptors.response.use(
   response => {
-    return response;
+    return response
   },
-  error => {
+  async error => {
     try {
-      return error.response;
+      if (error.response?.data?.message === 'jwt expired') {
+        await AsyncStorage.removeItem('tokenId')
+        return
+      }
+      return error.response
     } catch (err) {
-      return Promise.reject(err);
+      return Promise.reject(err)
     }
-  }
+  },
 )
 
-export default mascotappi;
+export default mascotappi

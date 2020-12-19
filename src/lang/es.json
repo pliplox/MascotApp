@@ -36,11 +36,13 @@
       "signUp": "Regístrate",
       "label": {
         "account": "Cuenta",
-        "loginWith": "Iniciar con"
+        "loginWith": "Iniciar con",
+        "createAccount": "Crear cuenta"
       },
       "link": {
         "forgetPassword": "¿Olvidaste tu contraseña?",
-        "withoutAccount": "¿No tienes una cuenta?"
+        "withoutAccount": "¿No tienes una cuenta?",
+        "withAccount": "¿Tienes cuenta?, ingresa acà"
       }
     }
   }

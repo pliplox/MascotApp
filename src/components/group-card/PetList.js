@@ -1,29 +1,38 @@
-import React from 'react';
-import { List, ListItem } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
-import faker from 'faker';
-import { randomInt } from '../../utils/random';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React from 'react'
+import { List, ListItem, Text } from '@ui-kitten/components'
+import { StyleSheet } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import { shape, oneOfType, string, number, arrayOf } from 'prop-types'
 
-const PetList = () => {
-  // fake data in each render, because backend request does not bring the members
-  // data from the groups requests YET
-  let pets = [];
-  const randomNumber = randomInt(1, 5);
-  for (let i = 0; i < randomNumber; i++) {
-    pets.push({ name: faker.name.firstName() });
+const petObjectShape = shape({
+  _id: oneOfType([string, number]),
+  name: string,
+})
+
+const PetList = ({ pets }) => {
+  if (pets?.length === 0) {
+    return (
+      <Text>No hay mascotas prro</Text>
+    )
   }
-  const renderItemIcon = () => <Icon name="pets" size={25} />;
 
-  const renderItem = ({ item }) => (
-    <ListItem title={item.name} accessoryLeft={renderItemIcon} />
-  );
+  const RenderItemIcon = () => <Icon name="pets" size={25} />
 
-  return <List style={styles.container} data={pets} renderItem={renderItem} />;
-};
+  const RenderItem = ({ item }) => (
+    <ListItem title={item.name} accessoryLeft={RenderItemIcon} />
+  )
 
-export default PetList;
+  RenderItem.propTypes = { item: petObjectShape }
+  RenderItem.defaultProps = { item: { _id: '', name: '' } }
+
+  return <List style={styles.container} data={pets} renderItem={RenderItem} />
+}
+
+export default PetList
 
 const styles = StyleSheet.create({
   container: { maxHeight: 192 },
-});
+})
+
+PetList.propTypes = { pets: arrayOf(petObjectShape) }
+PetList.defaultProps = { pets: [] }

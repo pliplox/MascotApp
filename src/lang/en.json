@@ -36,11 +36,13 @@
       "signUp": "Sign Up",
       "label": {
         "account": "Account",
-        "loginWith": "Login with"
+        "loginWith": "Login with",
+        "createAccount": "Create account"
       },
       "link": {
         "forgetPassword": "Did you forget your password?",
-        "withoutAccount": "Don't have an account?"
+        "withoutAccount": "Don't have an account?",
+        "withAccount": "Do you have an account? enter here"
       }
     }
   }

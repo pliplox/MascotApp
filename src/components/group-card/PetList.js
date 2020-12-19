@@ -3,6 +3,7 @@ import { List, ListItem, Text } from '@ui-kitten/components'
 import { StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { shape, oneOfType, string, number, arrayOf } from 'prop-types'
+import { useTranslation } from '../../context/LanguageContext'
 
 const petObjectShape = shape({
   _id: oneOfType([string, number]),
@@ -10,10 +11,12 @@ const petObjectShape = shape({
 })
 
 const PetList = ({ pets }) => {
+  const {
+    pet: { petList },
+  } = useTranslation()
+
   if (pets?.length === 0) {
-    return (
-      <Text>No hay mascotas prro</Text>
-    )
+    return <Text style={styles.emptyMessage}>{petList.empty}</Text>
   }
 
   const RenderItemIcon = () => <Icon name="pets" size={25} />
@@ -32,6 +35,7 @@ export default PetList
 
 const styles = StyleSheet.create({
   container: { maxHeight: 192 },
+  emptyMessage: { margin: 15 }
 })
 
 PetList.propTypes = { pets: arrayOf(petObjectShape) }

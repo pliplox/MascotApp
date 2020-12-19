@@ -16,7 +16,7 @@
   },
   "groupList": {
     "create": "Crear Grupo",
-    "empty": "Todavía no hay grupos, puedes crear uno apretando el botón de abajo",
+    "empty": "Todavía no hay grupos, puedes crear uno persionando el botón de abajo",
     "error": "Algo salió mal, intenta mas tarde o contáctate con nosotros",
     "subTitles": {
       "members": "Miembros",
@@ -24,6 +24,11 @@
     }
   },
   "pet": {
+    "createPet": {
+      "error": "Hubo un error al agregar la mascota, intenta mas tarde o contáctanos",
+      "success": "Mascota agregada con éxito"
+    },
+    "petList": { "empty": "Todavía no hay grupos, puedes crear una presionando el botón de 'Agregar +' de arriba" },
     "placeholders": { "enterName": "Ingresa nombre de la mascota" },
     "questions": {
       "name": "¿Como se llama tu mascota?",

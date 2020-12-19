@@ -5,7 +5,7 @@
   },
   "messages": {
     "errors": {
-      "standard": "Something went wrong, please try again later or contact with us"
+      "standard": "Something went wrong, please try again later or contact us"
     }
   },
   "createGroup": {
@@ -17,14 +17,19 @@
   "groupList": {
     "create": "Create Group",
     "empty": "There is no groups yet, you can create one pressing the button below",
-    "error": "There was an error trying to get the groups, try again later or contact with us",
+    "error": "There was an error trying to get the groups, try again later or contact us",
     "subTitles": {
       "members": "Members",
       "pets": "Pets"
     }
   },
   "pet": {
+    "createPet": {
+      "error": "There was an error adding the pet, try again later or contact us",
+      "success": "Pet added successfully"
+    },
     "placeholders": { "enterName": "Enter the pet's name" },
+    "petList": { "empty": "There is no pets yet, you can create one pressing the 'Add +' button above" },
     "questions": {
       "name": "What is the name of your pet?",
       "birthdate": "What is your pet's birthdate"

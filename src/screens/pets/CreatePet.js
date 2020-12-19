@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Keyboard } from 'react-native'
 import {
   Text,
   Button,
@@ -14,6 +14,8 @@ import mascotappi from '../../api/mascotappi'
 import { mutate } from 'swr'
 import { queryKeys } from '../../utils/constants'
 import { useTranslation } from '../../context/LanguageContext'
+import { ShowSnackBar } from '../../components/SnackBar'
+import emojis from '../../../emojis'
 
 const PlusIcon = createPetIconProps => (
   <Icon {...createPetIconProps} name="plus-circle-outline" />
@@ -25,7 +27,7 @@ const CreatePet = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false)
 
   const {
-    pet: { questions, placeholders },
+    pet: { questions, placeholders, createPet, messages },
     actions,
   } = useTranslation()
 
@@ -47,10 +49,19 @@ const CreatePet = ({ route, navigation }) => {
         // TODO: discuss if this should go to a pet profile or it is fine just to go back to groupList
         // I think when the pet profile is ready, this should go there
         setLoading(false)
+        ShowSnackBar({
+          message: `${createPet.success} ${emojis.smileFace}`,
+          backgroundColor: '#94B22D',
+        })
         navigation.navigate('Groups')
       } else {
         setLoading(false)
-        console.log('error response: ', response)
+
+        ShowSnackBar({
+          message: `${createPet.error} ${emojis.sadFace}`,
+          backgroundColor: '#AD2020',
+        })
+        console.error('error response: ', response)
       }
     } catch (e) {
       setLoading(false)
@@ -82,6 +93,7 @@ const CreatePet = ({ route, navigation }) => {
       <View>
         <Text>{questions.birthdate}</Text>
         <Datepicker
+          onFocus={Keyboard.dismiss}
           min={minDate}
           max={maxDate}
           date={birthdate}
@@ -114,4 +126,7 @@ const styles = StyleSheet.create({
   divider: { flex: 0.3 },
 })
 
-CreatePet.propTypes = { route: shape({}), navigation: shape({}) }
+CreatePet.propTypes = {
+  route: shape({}).isRequired,
+  navigation: shape({}).isRequired,
+}

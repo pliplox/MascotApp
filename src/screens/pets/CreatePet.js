@@ -27,7 +27,7 @@ const CreatePet = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false)
 
   const {
-    pet: { questions, placeholders, createPet, messages },
+    pet: { questions, placeholders, createPet },
     actions,
   } = useTranslation()
 
@@ -37,6 +37,7 @@ const CreatePet = ({ route, navigation }) => {
     const {
       params: { groupId },
     } = route
+
     try {
       const response = await mascotappi.post('pet', {
         name,
@@ -46,7 +47,7 @@ const CreatePet = ({ route, navigation }) => {
 
       if (response.status === 201) {
         await mutate(queryKeys.groupList) // update group list
-        // TODO: discuss if this should go to a pet profile or it is fine just to go back to groupList
+        // TODO: discuss if this should go to a pet profile or it's fine just to go back to groupList
         // I think when the pet profile is ready, this should go there
         setLoading(false)
         ShowSnackBar({
@@ -82,7 +83,6 @@ const CreatePet = ({ route, navigation }) => {
         <Text>{questions.name}</Text>
         <Input
           onChangeText={setName}
-          autoCapitalize="none"
           value={name}
           placeholder={placeholders.enterName}
           size="large"

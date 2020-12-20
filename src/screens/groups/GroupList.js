@@ -133,3 +133,4 @@ const themedStyles = StyleService.create({
 })
 
 GroupList.propTypes = { navigation: shape({}) }
+GroupList.defaultProps = { navigation: {} }

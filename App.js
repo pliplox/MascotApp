@@ -44,7 +44,11 @@ const App = () => {
                 headerShown: false,
               }}
             />
-            <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
+            <Stack.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen name="SignOut" component={SignOut} />
             <Stack.Screen name="ResetPassword" component={ResetPassword} />
           </>

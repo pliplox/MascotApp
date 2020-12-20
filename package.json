@@ -61,6 +61,7 @@
   "jest": {
     "preset": "react-native",
     "setupFilesAfterEnv": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js",
       "@testing-library/jest-native/extend-expect"
     ],
     "transform": {

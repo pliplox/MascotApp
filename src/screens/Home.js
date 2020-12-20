@@ -31,7 +31,7 @@ const Home = ({ navigation }) => {
   )
 
   const { data: pet, error: petError, mutate } = useSWR(
-    groups.length > 0 ? `pets/${groups[0].id}` : null,
+    groups?.length > 0 ? `pets/${groups[0].id}` : null,
     () => fetchFirstPet(groups[0].id),
   )
 

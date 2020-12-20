@@ -5,10 +5,6 @@ import GroupList from '../GroupList'
 import { cleanup, waitFor } from '@testing-library/react-native'
 import en from '../../../lang/en.json'
 
-// if there is more warnings in other tests about animation, this should be moved to a single file
-// and called it from jest setUpFiles configuration
-jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper')
-
 const mockGroupsData = {
   groups: [
     {
@@ -70,7 +66,6 @@ describe('GroupList', () => {
       })
     })
 
-    // TODO: implement following tests when backend feature is ready
     it('shows members', async () => {
       const { groups } = mockGroupsData
       const [firstGroup, secondGroup] = groups

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react'
 import { View } from 'react-native';
 import {
   StyleService,
@@ -8,12 +8,26 @@ import {
   Button,
 } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-community/google-signin'
 
 const OtherAccess = props => {
   const styles = useStyleSheet(themedStyles);
 
-  const googleIcon = props => <Icon {...props} name="google" />;
-  const facebookIcon = props => <Icon {...props} name="facebook" />;
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '',
+      offlineAccess: true,
+      forceCodeForRefreshToken: true,
+      accountName
+    })
+  }, [])
+
+  const GoogleIcon = props => <Icon {...props} name="google" />;
+  const FacebookIcon = props => <Icon {...props} name="facebook" />;
 
   const {
     container,
@@ -32,14 +46,14 @@ const OtherAccess = props => {
       <View style={contentButtun || styles.otherAccess}>
         <View style={styles.btnContainer}>
           <Button
-            accessoryLeft={googleIcon}
+            accessoryLeft={GoogleIcon}
             style={googleStyle || [styles.btnOtherAcces, { marginEnd: 5 }]}>
             Google
           </Button>
         </View>
         <View style={styles.btnContainer}>
           <Button
-            accessoryLeft={facebookIcon}
+            accessoryLeft={FacebookIcon}
             style={facebookStyle || [styles.btnOtherAcces, { marginStart: 5 }]}>
             Facebook
           </Button>

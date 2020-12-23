@@ -1,111 +1,120 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
-import { useAuth } from '../context/AuthContext';
-import mascotappi from '../api/mascotappi';
-import { Text, Card, Toggle, Button, Spinner } from '@ui-kitten/components';
-import CardHeader from '../components/home/CardHeader';
-import moment from 'moment';
-import useSWR from 'swr';
+import React, { useState } from 'react'
+import { StyleSheet, View, SafeAreaView } from 'react-native'
+import { useAuth } from '../context/AuthContext'
+import mascotappi from '../api/mascotappi'
+import { Text, Card, Toggle, Button, Spinner } from '@ui-kitten/components'
+import CardHeader from '../components/home/CardHeader'
+import moment from 'moment'
+import useSWR from 'swr'
+import { useTranslation } from '../context/LanguageContext'
 
-const fetchFirstGroup = async () => {
-  const response = await mascotappi.get('family/groups');
-  return response.data[0];
-};
+const fetchGroups = async () => {
+  const response = await mascotappi.get('family/groups')
+  return response.data
+}
 
 const fetchFirstPet = async id => {
-  const response = await mascotappi.get(`pets/${id}`);
-  return response.data.pets[0];
-};
+  const response = await mascotappi.get(`pets/${id}`)
+  return response.data.pets[0]
+}
 
 const Home = ({ navigation }) => {
-  const { signOut, loadingUser } = useAuth();
-  const [error, setError] = useState();
-  const [amLoading, setAmLoading] = useState(false);
-  const [pmLoading, setPmLoading] = useState(false);
+  const { signOut, loadingUser } = useAuth()
+  const [error, setError] = useState()
+  const [amLoading, setAmLoading] = useState(false)
+  const [pmLoading, setPmLoading] = useState(false)
 
-  const { data: group, error: groupError } = useSWR('family/group', () =>
-    fetchFirstGroup(),
-  );
+  const { placeholders } = useTranslation()
+
+  const { data: groups, error: groupError } = useSWR('family/group', () =>
+    fetchGroups(),
+  )
 
   const { data: pet, error: petError, mutate } = useSWR(
-    group ? `pets/${group.id}` : null,
-    () => fetchFirstPet(group.id),
-  );
+    groups?.length > 0 ? `pets/${groups[0].id}` : null,
+    () => fetchFirstPet(groups[0].id),
+  )
 
   const toggleAmChecked = async (event, fedId) => {
     if (!isAm()) {
-      return;
+      return
     }
-    setAmLoading(true);
+    setAmLoading(true)
     try {
       if (fedId) {
-        await mascotappi.delete('fed', { data: { fedId } });
-        mutate(pet);
+        await mascotappi.delete('fed', { data: { fedId } })
+        mutate(pet)
       } else if (event) {
-        await mascotappi.post('fed', { petId: pet?._id });
-        mutate(pet);
+        await mascotappi.post('fed', { petId: pet?._id })
+        mutate(pet)
       }
-      setAmLoading(false);
+      setAmLoading(false)
     } catch (e) {
-      setAmLoading(false);
-      setError(e);
+      setAmLoading(false)
+      setError(e)
     }
-  };
+  }
 
   const togglePmChecked = async (event, fedId) => {
     if (!isPm()) {
-      return;
+      return
     }
     try {
-      setPmLoading(true);
+      setPmLoading(true)
       if (fedId) {
-        await mascotappi.delete('fed', { data: { fedId } });
-        mutate(pet);
+        await mascotappi.delete('fed', { data: { fedId } })
+        mutate(pet)
       } else if (event) {
-        await mascotappi.post('fed', { petId: pet?._id });
-        mutate(pet);
+        await mascotappi.post('fed', { petId: pet?._id })
+        mutate(pet)
       }
-      setPmLoading(false);
+      setPmLoading(false)
     } catch (e) {
-      setPmLoading(false);
-      setError(e);
+      setPmLoading(false)
+      setError(e)
     }
-  };
+  }
 
-  const capitalize = word => word.charAt(0).toUpperCase() + word.slice(1);
+  const capitalize = word => word.charAt(0).toUpperCase() + word.slice(1)
 
   const isAm = () => {
-    const hours = new Date().getHours();
-    return hours >= 0 && hours < 12;
-  };
+    const hours = new Date().getHours()
+    return hours >= 0 && hours < 12
+  }
 
   const isPm = () => {
-    const currentHour = new Date().getHours();
-    return currentHour >= 12 && currentHour <= 23;
-  };
+    const currentHour = new Date().getHours()
+    return currentHour >= 12 && currentHour <= 23
+  }
 
   const firstAmFed = pet?.feds?.filter(fed => {
-    const fedHours = new Date(fed.currentDateTime).getHours();
-    return fedHours >= 0 && fedHours < 12;
-  })[0];
+    const fedHours = new Date(fed.currentDateTime).getHours()
+    return fedHours >= 0 && fedHours < 12
+  })[0]
 
   const firstPmFed = pet?.feds?.filter(fed => {
-    const fedHours = new Date(fed.currentDateTime).getHours();
-    return fedHours >= 12 && fedHours <= 23;
-  })[0];
+    const fedHours = new Date(fed.currentDateTime).getHours()
+    return fedHours >= 12 && fedHours <= 23
+  })[0]
 
   const handleSignOut = async () => {
     try {
-      await signOut();
+      await signOut()
     } catch (e) {
-      console.error('Error trying to sign out: ', e.message);
-      setError(e);
+      console.error('Error trying to sign out: ', e.message)
+      setError(e)
     }
-  };
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      {(!pet || groupError || petError || error) && <Spinner size="large" />}
+      {(!pet || groupError || petError || error) && (
+        <View style={styles.loadingContainer}>
+          <Spinner size="large" />
+          <Text>{placeholders.loadingDots}</Text>
+        </View>
+      )}
+
       {groupError && (
         <Text>
           There was an error trying to get the group: {groupError?.message}
@@ -195,10 +204,10 @@ const Home = ({ navigation }) => {
         </Button>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
@@ -217,4 +226,5 @@ const styles = StyleSheet.create({
   },
   buttons: { flex: 0.5, margin: 15 },
   username: { flex: 0.5, margin: 15, textAlign: 'center' },
-});
+  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+})

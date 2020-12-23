@@ -18,10 +18,11 @@ const fetchFirstPet = async id => {
 };
 
 const Home = ({ navigation }) => {
-  const { signOut, loadingUser } = useAuth();
+  const { signOut } = useAuth();
   const [error, setError] = useState();
   const [amLoading, setAmLoading] = useState(false);
   const [pmLoading, setPmLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { data: group, error: groupError } = useSWR('family/group', () =>
     fetchFirstGroup(),
@@ -96,7 +97,9 @@ const Home = ({ navigation }) => {
 
   const handleSignOut = async () => {
     try {
+      setLoading(!loading);
       await signOut();
+      setLoading(!loading);
     } catch (e) {
       console.error('Error trying to sign out: ', e.message);
       setError(e);
@@ -189,7 +192,7 @@ const Home = ({ navigation }) => {
           onPress={handleSignOut}
           style={styles.buttons}
           accessoryRight={
-            loadingUser && (() => <Spinner size="small" status="basic" />)
+            loading && (() => <Spinner size="small" status="basic" />)
           }>
           Sign Out
         </Button>

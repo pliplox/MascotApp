@@ -12,37 +12,16 @@ export const AuthProvider = ({ children }) => {
   const [userToken, setUserToken] = useState();
 
   useEffect(() => {
-    const loadUser = async () => {
-      const getToken = await AsyncStorage.getItem('tokenId');
-      try {
-        if (!getToken) {
-          setLoadingUser(false);
-          return;
-        }
-        setLoadingUser(false);
-      } catch (error) {
-        setLoadingUser(false);
-        console.error('error: ', error.message);
-      }
-    };
-
-    loadUser();
-  }, [user, loadingUser]);
-
-  useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
       let tokenFromAsyncStorage;
-
       try {
         tokenFromAsyncStorage = await AsyncStorage.getItem('tokenId');
       } catch (e) {
         console.error(e.message);
         // Restoring token failed
       }
-
       // After restoring token, we may need to validate it in production apps
-
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
       setUserToken(tokenFromAsyncStorage);
@@ -69,14 +48,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
-    setLoadingUser(true);
     try {
       await AsyncStorage.removeItem('tokenId');
       setUserToken(null);
       setUser(null);
-      setLoadingUser(false);
     } catch (error) {
-      setLoadingUser(false);
       console.error(error);
       return error;
     }

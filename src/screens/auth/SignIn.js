@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TouchableWithoutFeedback, View } from 'react-native';
+import React, { useState } from "react";
+import { TouchableWithoutFeedback, View } from "react-native";
 import {
   Text,
   Button,
@@ -8,18 +8,18 @@ import {
   Spinner,
   useStyleSheet,
   StyleService,
-} from '@ui-kitten/components';
-import { lightBlueMascotLogo } from '../../images';
+} from "@ui-kitten/components";
+import { lightBlueMascotLogo } from "../../images";
 import {
   AuthLayout,
   Avatar,
   FooterImages,
   OtherAccess,
-} from '../../components/auth';
-import { ShowSnackBar, dismissSnackBar } from '../../components/SnackBar';
-import emojis from '../../../emojis';
-import { useAuth } from '../../context/AuthContext';
-import { useTranslation } from '../../context/LanguageContext';
+} from "../../components/auth";
+import { ShowSnackBar, dismissSnackBar } from "../../components/SnackBar";
+import emojis from "../../../emojis";
+import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "../../context/LanguageContext";
 
 const SignIn = ({ navigation }) => {
   const { signIn } = useAuth();
@@ -31,14 +31,14 @@ const SignIn = ({ navigation }) => {
   const { user } = useTranslation();
   const showPasswordIcon = () => setSecureTextEntry(!secureTextEntry);
 
-  const renderIcon = props => (
+  const renderIcon = (props) => (
     <TouchableWithoutFeedback onPress={showPasswordIcon}>
-      <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
+      <Icon {...props} name={secureTextEntry ? "eye-off" : "eye"} />
     </TouchableWithoutFeedback>
   );
 
   const loadingSpinner = () => (
-    <Spinner size="small" style={{ borderColor: 'white' }} />
+    <Spinner size="small" style={{ borderColor: "white" }} />
   );
 
   const handleSignIn = async () => {
@@ -48,18 +48,18 @@ const SignIn = ({ navigation }) => {
       if (message) {
         ShowSnackBar({
           message: `${emojis.sadFace} ${message}`,
-          backgroundColor: 'rgba(96, 102, 175, 0.90)',
+          backgroundColor: "rgba(96, 102, 175, 0.90)",
         });
       }
       setLoading(false);
     } catch (e) {
-      console.error('There was an error trying to sign in: ', e.message);
+      console.error("There was an error trying to sign in: ", e.message);
     }
   };
 
   const handleNavigationToSignUp = () => {
     dismissSnackBar();
-    navigation.navigate('SignUp');
+    navigation.navigate("SignUp");
   };
 
   return (
@@ -107,7 +107,8 @@ const SignIn = ({ navigation }) => {
       <Text
         onPress={handleNavigationToSignUp}
         status="info"
-        style={styles.noUser}>
+        style={styles.noUser}
+      >
         {user.authentication.link.withoutAccount}
       </Text>
       <FooterImages />
@@ -126,24 +127,24 @@ const themedStyles = StyleService.create({
   button: {
     marginHorizontal: 50,
     marginBottom: 5,
-    backgroundColor: 'color-button-100',
+    backgroundColor: "color-button-100",
     borderRadius: 10,
     marginTop: 10,
   },
   crendencials: {
     marginBottom: 5,
-    color: 'white',
+    color: "white",
     marginHorizontal: 50,
   },
   forgetPassword: {
     marginHorizontal: 50,
     marginTop: 10,
     marginBottom: 5,
-    textAlign: 'right',
+    textAlign: "right",
   },
   noUser: {
     marginHorizontal: 50,
-    textAlign: 'left',
+    textAlign: "left",
     marginTop: 10,
     marginBottom: 5,
   },

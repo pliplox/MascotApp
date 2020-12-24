@@ -14,7 +14,7 @@ describe('App', () => {
       expect(wrapper).toBeTruthy();
     });
 
-    it('renders the splash screen text', () => {
+    it('renders the splash screen', () => {
       const { getByTestId } = wrapper;
       expect(getByTestId('splash-logo-png')).toBeTruthy();
     });

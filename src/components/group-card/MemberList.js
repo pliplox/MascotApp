@@ -1,38 +1,37 @@
-import React from 'react';
-import { Icon, List, ListItem } from '@ui-kitten/components';
+import React from 'react'
+import { Icon, List, ListItem } from '@ui-kitten/components'
+// TODO: uncomment this when edit and or remove features are ready
 // import ButtonAccesory from './ButtonAccessory';
-import { StyleSheet } from 'react-native';
-import faker from 'faker';
-import { randomInt } from '../../utils/random';
+import { StyleSheet } from 'react-native'
+import { arrayOf, oneOfType, shape, string, number } from 'prop-types'
 
-const MemberList = () => {
-  // fake data in each render, because backend request does not bring the members
-  // data from the groups requests YET
-  let members = [];
-  const randomNumber = randomInt(1, 5);
-  for (let i = 0; i < randomNumber; i++) {
-    members.push({ name: faker.name.findName() });
-  }
+const memberObjectShape = shape({
+  _id: oneOfType([string, number]),
+  name: string,
+})
 
+const MemberList = ({ members }) => {
   const renderItemIcon = props => (
     <Icon {...props} name="person" style={styles.memberIcon} />
-  );
+  )
 
-  const renderItem = ({ item }) => (
+  const RenderItem = ({ item }) => (
     <ListItem
       title={item.name}
       accessoryLeft={renderItemIcon}
       // TODO: uncomment this when edit and or remove features are ready
       // accessoryRight={ButtonAccesory}
     />
-  );
+  )
+  RenderItem.propTypes = { item: memberObjectShape }
+  RenderItem.defaultProps = { item: { name: '' } }
 
   return (
-    <List style={styles.container} data={members} renderItem={renderItem} />
-  );
-};
+    <List style={styles.container} data={members} renderItem={RenderItem} />
+  )
+}
 
-export default MemberList;
+export default MemberList
 
 const styles = StyleSheet.create({
   container: { maxHeight: 192 },
@@ -42,4 +41,7 @@ const styles = StyleSheet.create({
     tintColor: '#000',
     marginHorizontal: 0,
   },
-});
+})
+
+MemberList.propTypes = { members: arrayOf(memberObjectShape) }
+MemberList.defaultProps = { members: [] }

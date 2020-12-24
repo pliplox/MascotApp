@@ -1,74 +1,72 @@
-import React, { useState } from 'react';
-import { Text, View, SafeAreaView } from 'react-native';
-import { fetchGroups } from './request';
-import useSWR from 'swr';
+import React, { useState } from 'react'
+import { Text, View, SafeAreaView, Dimensions } from 'react-native'
+import { fetchGroups } from './request'
+import useSWR from 'swr'
 import {
   Spinner,
   Button,
   ViewPager,
-  Divider,
   useStyleSheet,
   StyleService,
   Icon,
-} from '@ui-kitten/components';
-import { useTranslation } from '../../context/LanguageContext';
-import { GroupCard } from '../../components/group-card';
-import ViewPagerDots from '../../components/ViewPagerDots';
+} from '@ui-kitten/components'
+import { useTranslation } from '../../context/LanguageContext'
+import { useAuth } from '../../context/AuthContext'
+import { GroupCard } from '../../components/group-card'
+import ViewPagerDots from '../../components/ViewPagerDots'
+import { shape } from 'prop-types'
+import { queryKeys } from '../../utils/constants'
+
+const HEIGHT = Dimensions.get('window').height
 
 const GroupList = ({ navigation }) => {
-  const styles = useStyleSheet(themedStyles);
+  const styles = useStyleSheet(themedStyles)
 
-  // TODO: discuss or modify backend endpoint to return groups, its members and pets
-  const { data: groupsData, error: groupError } = useSWR('family/groups', () =>
+  const { data, error: groupError } = useSWR(queryKeys.groupList, () =>
     fetchGroups(),
-  );
+  )
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const { signOut, loadingUser } = useAuth()
 
-  const { groupList, placeholders } = useTranslation();
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
-  if (!groupsData) {
+  const { groupList, placeholders } = useTranslation()
+
+  if (!data) {
     return (
       <View style={styles.loadingContainer}>
         <Spinner size="large" />
         <Text>{placeholders.loadingDots}</Text>
       </View>
-    );
+    )
   }
 
   if (groupError) {
     return (
       <>
-        <Text>There was an error trying to get the groups.</Text>
+        <Text>{groupList.error}</Text>
         <Text>{groupError}</Text>
       </>
-    );
+    )
   }
 
-  const groupDataLength = groupsData?.length;
+  const handleSignOut = async () => {
+    try {
+      await signOut()
+    } catch (e) {
+      console.error('Error trying to sign out: ', e.message)
+    }
+  }
+
+  const handleRedirectToAddPet = ({ groupId }) =>
+    navigation.navigate('Add Pet', { groupId })
+
+  const groupDataLength = data?.groups?.length
   return (
-    <View>
+    <SafeAreaView>
       {groupDataLength === 0 ? (
-        <Text>
-          There is no groups, you might want to create one pressing the button
-          below
-        </Text>
-      ) : (
-        <SafeAreaView>
-          <ViewPager
-            selectedIndex={selectedIndex}
-            onSelect={index => setSelectedIndex(index)}>
-            {groupsData.map(groupData => (
-              <GroupCard key={groupData.id} name={groupData.name} />
-            ))}
-          </ViewPager>
-          <View style={styles.dots}>
-            <ViewPagerDots
-              size={groupDataLength}
-              selectedIndex={selectedIndex}
-            />
-          </View>
-          <Divider />
+        <View style={themedStyles.createGroupWrapper}>
+          <Text style={themedStyles.noGroupsText}>{groupList.empty}</Text>
           <Button
             onPress={() => navigation.navigate('CreateGroup')}
             accessoryRight={createGroupIconProps => (
@@ -77,13 +75,47 @@ const GroupList = ({ navigation }) => {
             style={themedStyles.createGroupButton}>
             {groupList.create}
           </Button>
-        </SafeAreaView>
+        </View>
+      ) : (
+        <>
+          <ViewPager
+            selectedIndex={selectedIndex}
+            onSelect={index => setSelectedIndex(index)}>
+            {data?.groups?.map(groupData => (
+              <GroupCard
+                key={groupData.id}
+                group={groupData}
+                redirectToAddPet={handleRedirectToAddPet}
+              />
+            ))}
+          </ViewPager>
+          <View style={styles.dots}>
+            <ViewPagerDots
+              size={groupDataLength}
+              selectedIndex={selectedIndex}
+            />
+          </View>
+        </>
       )}
-    </View>
-  );
-};
+      {/* TODO: Remove button below. This should be removed with bottom navigation implementation */}
+      {/* Temporary button to sign out,  */}
+      <Button
+        onPress={handleSignOut}
+        style={styles.buttons}
+        accessoryRight={
+          loadingUser
+            ? () => <Spinner size="small" status="basic" />
+            : signOutIconProps => (
+                <Icon {...signOutIconProps} name="log-out-outline" />
+              )
+        }>
+        Sign Out
+      </Button>
+    </SafeAreaView>
+  )
+}
 
-export default GroupList;
+export default GroupList
 
 const themedStyles = StyleService.create({
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
@@ -93,4 +125,13 @@ const themedStyles = StyleService.create({
     paddingBottom: 3,
   },
   createGroupButton: { marginHorizontal: 25 },
-});
+  noGroupsText: { marginTop: '50%', textAlign: 'center', marginHorizontal: 25 },
+  createGroupWrapper: {
+    height: HEIGHT * 0.8,
+    justifyContent: 'space-between',
+  },
+  buttons: { flex: 0.1, margin: 15 },
+})
+
+GroupList.propTypes = { navigation: shape({}) }
+GroupList.defaultProps = { navigation: {} }

@@ -10,6 +10,7 @@
     "start:dev:win": "SET MOBILE_NODE_ENV=staging& react-native run-android",
     "start:local": "sh env_setter.sh local && react-native start",
     "test": "jest",
+    "test:silent": "jest --silent",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -57,21 +58,5 @@
     "metro-react-native-babel-preset": "^0.58.0",
     "prettier": "^2.0.5",
     "react-test-renderer": "16.11.0"
-  },
-  "jest": {
-    "preset": "react-native",
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
-    ],
-    "transform": {
-      "^.+\\.(js|jsx|mjs|tsx)$": "babel-jest"
-    },
-    "testEnvironment": "jsdom",
-    "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-navigation|@ui-kitten/components|@react-native-community/async-storage/(?!(lib))|@react-navigation/.*)"
-    ],
-    "setupFiles": [
-      "./node_modules/react-native-gesture-handler/jestSetup.js"
-    ]
   }
 }

@@ -1,4 +1,6 @@
 //I recommend the "Emoji Code" extension
+// for vscode: https://marketplace.visualstudio.com/items?itemName=idleberg.emoji-code
+
 const emojis = {
   sadFace: '\u{1F625}',
   smileFace: '\u{1F60A}',

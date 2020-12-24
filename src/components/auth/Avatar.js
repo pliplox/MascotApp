@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 Avatar.propTypes = {
   style: PropTypes.object,
-  img: PropTypes.number || PropTypes.string,
+  img: PropTypes.object.isRequired,
 };
 
 export default Avatar;

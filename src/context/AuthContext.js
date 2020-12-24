@@ -76,6 +76,36 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Authenticate with google
+   * @param {string} tokenId The token id from the google sign in response
+   *
+   */
+  const signInGoogle = async tokenId => {
+    try {
+      const response = await mascotappi.post('signingoogle', { token: tokenId })
+      const responseToken = response?.data?.token?.jwtoken
+
+      if (response.status >= 400) {
+        return response.data.message
+      }
+
+      if (responseToken) {
+        setErrorMessage('')
+        setUserToken(responseToken)
+
+        setUser(response?.data?.user)
+
+        await AsyncStorage.setItem('tokenId', responseToken)
+      }
+
+      return response
+    } catch (error) {
+      console.error('error', error)
+      return setErrorMessage(error?.message)
+    }
+  };
+
   // TODO: connect this function
   // const resetPassword = () => {};
 
@@ -89,8 +119,9 @@ export const AuthProvider = ({ children }) => {
       userToken,
       errorMessage,
       setErrorMessage,
-    };
-  }, [user, loadingUser, userToken, errorMessage, setErrorMessage]);
+      signInGoogle,
+    }
+  }, [user, loadingUser, userToken, errorMessage, setErrorMessage])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

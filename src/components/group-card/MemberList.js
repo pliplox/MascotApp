@@ -1,5 +1,6 @@
 import React from 'react'
 import { Icon, List, ListItem } from '@ui-kitten/components'
+// TODO: uncomment this when edit and or remove features are ready
 // import ButtonAccesory from './ButtonAccessory';
 import { StyleSheet } from 'react-native'
 import { arrayOf, oneOfType, shape, string, number } from 'prop-types'

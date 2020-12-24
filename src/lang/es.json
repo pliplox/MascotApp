@@ -16,8 +16,8 @@
   },
   "groupList": {
     "create": "Crear Grupo",
-    "empty": "Todavía no hay grupos, puedes crear uno persionando el botón de abajo",
-    "error": "Algo salió mal, intenta mas tarde o contáctate con nosotros",
+    "empty": "Todavía no hay grupos, puedes crear uno presionando el botón de abajo",
+    "error": "Algo salió mal, intenta mas tarde o contáctanos",
     "subTitles": {
       "members": "Miembros",
       "pets": "Mascotas"

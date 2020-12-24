@@ -97,7 +97,8 @@ const GroupList = ({ navigation }) => {
           </View>
         </>
       )}
-      {/* Temporary button to sign out, this should be removed with bottom navigation implementation */}
+      {/* TODO: Remove button below. This should be removed with bottom navigation implementation */}
+      {/* Temporary button to sign out,  */}
       <Button
         onPress={handleSignOut}
         style={styles.buttons}

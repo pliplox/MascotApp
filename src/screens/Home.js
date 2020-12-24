@@ -19,10 +19,11 @@ const fetchFirstPet = async id => {
 }
 
 const Home = ({ navigation }) => {
-  const { signOut, loadingUser } = useAuth()
-  const [error, setError] = useState()
-  const [amLoading, setAmLoading] = useState(false)
-  const [pmLoading, setPmLoading] = useState(false)
+  const { signOut } = useAuth();
+  const [error, setError] = useState();
+  const [amLoading, setAmLoading] = useState(false);
+  const [pmLoading, setPmLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { placeholders } = useTranslation()
 
@@ -99,7 +100,9 @@ const Home = ({ navigation }) => {
 
   const handleSignOut = async () => {
     try {
-      await signOut()
+      setLoading(!loading);
+      await signOut();
+      setLoading(!loading);
     } catch (e) {
       console.error('Error trying to sign out: ', e.message)
       setError(e)
@@ -198,7 +201,7 @@ const Home = ({ navigation }) => {
           onPress={handleSignOut}
           style={styles.buttons}
           accessoryRight={
-            loadingUser && (() => <Spinner size="small" status="basic" />)
+            loading && (() => <Spinner size="small" status="basic" />)
           }>
           Sign Out
         </Button>

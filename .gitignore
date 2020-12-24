@@ -66,3 +66,5 @@ debug.log
 
 # Test coverage
 coverage/
+
+.prettierrc

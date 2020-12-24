@@ -1,4 +1,4 @@
-import 'react-native';
+import 'react-native'
 import React from 'react';
 import { renderWithProviders } from '../../../utils/testing';
 import SignIn from '../SignIn';
@@ -14,11 +14,12 @@ describe('SignIn', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = renderWithProviders(<SignIn />);
-  });
+    wrapper = renderWithProviders(<SignIn />)
+  })
 
   afterEach(() => {    
     mascotappiMock.post.mockClear();
+    cleanup()
   });
 
   it('renders correctly', () => {
@@ -36,11 +37,11 @@ describe('SignIn', () => {
     expect(getByPlaceholderText(placeholders.password)).toBeTruthy();
     expect(getByText(label.account)).toBeTruthy();
     expect(getByText(link.forgetPassword)).toBeTruthy();
-    expect(getByText(label.loginWith)).toBeTruthy();
     expect(getByText(link.withoutAccount)).toBeTruthy();
     expect(getByText(signIn)).toBeTruthy();
-    expect(getByText('Facebook')).toBeTruthy();
-    expect(getByText('Google')).toBeTruthy();
+
+    //  TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready
+    // expect(getByText('Facebook')).toBeTruthy();
     expect(getByTestId('logo-png')).toBeTruthy();
     expect(getByTestId('house-png')).toBeTruthy();
     expect(getByTestId('paws-png')).toBeTruthy();

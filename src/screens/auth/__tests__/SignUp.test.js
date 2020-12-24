@@ -38,11 +38,10 @@ describe('SignUp', () => {
     expect(getByPlaceholderText(placeholders.email)).toBeTruthy();
     expect(getByPlaceholderText(placeholders.password)).toBeTruthy();
     expect(getByText(label.createAccount)).toBeTruthy();
-    expect(getByText(label.loginWith)).toBeTruthy();
     expect(getByText(link.withAccount)).toBeTruthy();
     expect(getByText(signUp)).toBeTruthy();
-    expect(getByText('Facebook')).toBeTruthy();
-    expect(getByText('Google')).toBeTruthy();
+    //  TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready
+    // expect(getByText('Facebook')).toBeTruthy();
     expect(getByTestId('logo-png')).toBeTruthy();
     expect(getByTestId('house-png')).toBeTruthy();
     expect(getByTestId('paws-png')).toBeTruthy();

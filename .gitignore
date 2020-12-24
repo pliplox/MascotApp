@@ -63,3 +63,5 @@ buck-out/
 
 # Debug
 debug.log
+
+.prettierrc

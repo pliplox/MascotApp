@@ -1,15 +1,15 @@
-import React from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import PropTypes from 'prop-types';
+import React from 'react'
+import LinearGradient from 'react-native-linear-gradient'
+import PropTypes from 'prop-types'
 
 const COLOR = {
   veryDarkViolet: '#390350',
   darkViolet: '#3a0252',
   violet: '#52007c',
-};
+}
 
 const Gradient = ({ children, styleContainer, colors }) => {
-  const { veryDarkViolet, darkViolet, violet } = COLOR;
+  const { veryDarkViolet, darkViolet, violet } = COLOR
   return (
     <LinearGradient
       start={{ x: 1, y: 1 }}
@@ -26,13 +26,13 @@ const Gradient = ({ children, styleContainer, colors }) => {
       style={styleContainer || ''}>
       {children}
     </LinearGradient>
-  );
-};
+  )
+}
 
 Gradient.propTypes = {
-  children: PropTypes.object && PropTypes.node.isRequired,
+  children: PropTypes.node,
   styleContainer: PropTypes.object,
   colors: PropTypes.array,
-};
+}
 
-export default Gradient;
+export default Gradient

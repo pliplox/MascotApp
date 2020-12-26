@@ -1,12 +1,10 @@
-import React from 'react';
-import { Image, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
+import React from 'react'
+import { Image, StyleSheet } from 'react-native'
+import PropTypes from 'prop-types'
 
 const Avatar = ({ style, img }) => {
-  return (
-    <Image testID="logo-png" source={img} style={style || styles.avatar} />
-  );
-};
+  return <Image testID="logo-png" source={img} style={style || styles.avatar} />
+}
 
 const styles = StyleSheet.create({
   avatar: {
@@ -16,11 +14,11 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 40,
   },
-});
+})
 
 Avatar.propTypes = {
   style: PropTypes.object,
   img: PropTypes.object.isRequired,
-};
+}
 
-export default Avatar;
+export default Avatar

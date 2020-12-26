@@ -8,34 +8,34 @@ import {
   Spinner,
   useStyleSheet,
   StyleService,
-} from "@ui-kitten/components";
-import { lightBlueMascotLogo } from "../../images";
+} from '@ui-kitten/components'
+import { lightBlueMascotLogo } from '../../images'
 import {
   AuthLayout,
   Avatar,
   FooterImages,
+  GoogleButton,
   //  TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready
   // OtherAccess,
-} from '../../components/auth';
-import { ShowSnackBar, dismissSnackBar } from '../../components/SnackBar';
-import emojis from '../../../emojis';
-import { useAuth } from '../../context/AuthContext';
-import { useTranslation } from '../../context/LanguageContext';
+} from '../../components/auth'
+import { ShowSnackBar, dismissSnackBar } from '../../components/SnackBar'
+import emojis from '../../../emojis'
+import { useAuth } from '../../context/AuthContext'
+import { useTranslation } from '../../context/LanguageContext'
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-community/google-signin'
-import GoogleButton from './google/GoogleSignIn'
 
 const SignIn = ({ navigation }) => {
-  const { signIn, signInGoogle } = useAuth();
-  const styles = useStyleSheet(themedStyles);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const { user } = useTranslation();
-  const showPasswordIcon = () => setSecureTextEntry(!secureTextEntry);
+  const { signIn, signInGoogle } = useAuth()
+  const styles = useStyleSheet(themedStyles)
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [secureTextEntry, setSecureTextEntry] = useState(true)
+  const [loading, setLoading] = useState(false)
+  const { user } = useTranslation()
+  const showPasswordIcon = () => setSecureTextEntry(!secureTextEntry)
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -69,34 +69,34 @@ const SignIn = ({ navigation }) => {
 
   const renderIcon = props => (
     <TouchableWithoutFeedback onPress={showPasswordIcon}>
-      <Icon {...props} name={secureTextEntry ? "eye-off" : "eye"} />
+      <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
     </TouchableWithoutFeedback>
-  );
+  )
 
   const loadingSpinner = () => (
-    <Spinner size="small" style={{ borderColor: "white" }} />
-  );
+    <Spinner size="small" style={{ borderColor: 'white' }} />
+  )
 
   const handleSignIn = async () => {
     try {
-      setLoading(true);
-      const message = await signIn(email, password);
+      setLoading(true)
+      const message = await signIn(email, password)
       if (message) {
         ShowSnackBar({
           message: `${emojis.sadFace} ${message}`,
-          backgroundColor: "rgba(96, 102, 175, 0.90)",
-        });
+          backgroundColor: 'rgba(96, 102, 175, 0.90)',
+        })
       }
-      setLoading(false);
+      setLoading(false)
     } catch (e) {
-      console.error("There was an error trying to sign in: ", e.message);
+      console.error('There was an error trying to sign in: ', e.message)
     }
-  };
+  }
 
   const handleNavigationToSignUp = () => {
-    dismissSnackBar();
-    navigation.navigate("SignUp");
-  };
+    dismissSnackBar()
+    navigation.navigate('SignUp')
+  }
 
   return (
     <AuthLayout>
@@ -138,27 +138,24 @@ const SignIn = ({ navigation }) => {
         <Button onPress={handleSignIn} style={styles.button}>
           {loading ? loadingSpinner : user.authentication.signIn}
         </Button>
-        <GoogleButton
-          signIn={handleGoogleSignIn}
-          moreStyles={styles.googleButton}
-          disabled={loading}
-        />
+        <View style={styles.googleButton}>
+          <GoogleButton signIn={handleGoogleSignIn} disabled={loading} />
+        </View>
       </View>
       {/* TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready */}
       {/* <OtherAccess /> */}
       <Text
         onPress={handleNavigationToSignUp}
         status="info"
-        style={styles.noUser}
-      >
+        style={styles.noUser}>
         {user.authentication.link.withoutAccount}
       </Text>
       <FooterImages />
     </AuthLayout>
-  );
-};
+  )
+}
 
-export default SignIn;
+export default SignIn
 
 const themedStyles = StyleService.create({
   input: {
@@ -169,29 +166,30 @@ const themedStyles = StyleService.create({
   button: {
     marginHorizontal: 50,
     marginBottom: 5,
-    backgroundColor: "color-button-100",
-    borderRadius: 10,
+    backgroundColor: 'color-button-100',
+    borderRadius: 5,
     marginTop: 10,
   },
   googleButton: {
-    marginTop: 15,
-    marginLeft: 50,
+    marginHorizontal: 50,
+    marginBottom: 5,
+    marginTop: 10,
   },
   crendencials: {
     marginBottom: 5,
-    color: "white",
+    color: 'white',
     marginHorizontal: 50,
   },
   forgetPassword: {
     marginHorizontal: 50,
     marginTop: 10,
     marginBottom: 5,
-    textAlign: "right",
+    textAlign: 'right',
   },
   noUser: {
     marginHorizontal: 50,
-    textAlign: "left",
+    textAlign: 'left',
     marginTop: 10,
     marginBottom: 5,
   },
-});
+})

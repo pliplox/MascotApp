@@ -57,8 +57,7 @@ const SignUp = ({ navigation }) => {
     } catch (error) {
       setLoading(false)
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-        clg
+        // user cancelled the login flow       
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (e.g. sign in) is in progress already
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {

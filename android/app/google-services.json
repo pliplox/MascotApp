@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "473036889467",
-    "project_id": "mascotapp-a89b8",
-    "storage_bucket": "mascotapp-a89b8.appspot.com"
+    "project_number": "795702888469",
+    "project_id": "mascotapp-8ba76",
+    "storage_bucket": "mascotapp-8ba76.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:473036889467:android:efcc506f20ed3e765bb1de",
+        "mobilesdk_app_id": "1:795702888469:android:7f1215b761beece755661c",
         "android_client_info": {
           "package_name": "com.mascotapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "473036889467-k40m2pc0ud789g3hakek4allsk4gbj44.apps.googleusercontent.com",
-          "client_type": 1,
+          "client_id": "795702888469-v3t4tvuhl4bck2q11c38e3qu7lkgf88j.apps.googleusercontent.com",
+          "client_type": 3,
           "android_info": {
             "package_name": "com.mascotapp",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
@@ -28,14 +28,14 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBPR6a7d1iVcuJb1pg3WZ1CpW9GN5maPes"
+          "current_key": "AIzaSyBLkddmzEN-RrSWEuv1JxBgT4Ff0c-E0Xk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "473036889467-niatcbo3v3bucf442gsfg2qle2dfhca5.apps.googleusercontent.com",
+              "client_id": "795702888469-v3t4tvuhl4bck2q11c38e3qu7lkgf88j.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
+import { oneOfType, number, string, object } from 'prop-types'
 
 const Avatar = ({ style, img }) => {
   return <Image testID="logo-png" source={img} style={style || styles.avatar} />
@@ -17,8 +17,10 @@ const styles = StyleSheet.create({
 })
 
 Avatar.propTypes = {
-  style: PropTypes.object,
-  img: PropTypes.object.isRequired,
+  style: object,
+  img: oneOfType([number, string]).isRequired,
 }
+
+Avatar.defaultProps = { style: null }
 
 export default Avatar

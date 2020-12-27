@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useMemo } from 'react';
 import mascotappi from '../api/mascotappi';
 import AsyncStorage from '@react-native-community/async-storage';
 import { node } from 'prop-types';
+import { GoogleSignin } from '@react-native-community/google-signin'
 
 const AuthContext = createContext(null);
 
@@ -47,9 +48,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Sign out from google
+   */
+  const googleSignOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess()
+      await GoogleSignin.signOut()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const signOut = async () => {
     try {
       await AsyncStorage.removeItem('tokenId');
+      await googleSignOut()
       setUserToken(null);
       setUser(null);
     } catch (error) {

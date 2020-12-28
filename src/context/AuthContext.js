@@ -53,8 +53,11 @@ export const AuthProvider = ({ children }) => {
    */
   const googleSignOut = async () => {
     try {
-      await GoogleSignin.revokeAccess()
-      await GoogleSignin.signOut()
+      const isGoogleSignedIn = await GoogleSignin.isSignedIn()
+      if (isGoogleSignedIn) {
+        await GoogleSignin.revokeAccess()
+        await GoogleSignin.signOut()
+      }
     } catch (error) {
       console.error(error)
     }

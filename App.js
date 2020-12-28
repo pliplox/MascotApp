@@ -4,31 +4,31 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { AuthProvider, useAuth } from './src/context/AuthContext'
-import { ResetPassword, SignIn, SignOut, SignUp } from './src/screens/auth'
-import Home from './src/screens/Home'
+import { ResetPassword, SignIn, SignUp } from './src/screens/auth'
+// TODO: this must change to fed when feature has been implemented...
+// and evaluate if should stay here
+// import Home from './src/screens/Home'
 import Splash from './src/screens/Splash'
 import { CreateFamilyGroup, GroupList } from './src/screens/groups'
+import { Profile } from './src/screens/user'
 import * as eva from '@eva-design/eva'
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 import { default as theme } from './custom-theme.json'
 import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { LanguageProvider } from './src/context/LanguageContext'
 import { MaterialIconsPack, FeatherIconsPack } from './icons'
-import { CreatePet } from './src/screens/pets'
+import { CreatePet, Pets } from './src/screens/pets'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 const AuthStack = createStackNavigator()
-const AuthScreen = ({ userToken }) => (
+const AuthScreen = () => (
   <AuthStack.Navigator>
     <AuthStack.Screen
       component={SignIn}
       name="SignIn"
-      options={{
-        animationTypeForReplace: userToken ? 'push' : 'pop',
-        headerShown: false,
-      }}
+      options={{ headerShown: false }}
     />
     <AuthStack.Screen
       name="SignUp"
@@ -50,7 +50,7 @@ const GroupStackScreen = () => (
 const PetStack = createStackNavigator()
 const PetsStackScreen = () => (
   <PetStack.Navigator>
-    <PetStack.Screen name="Pets" component={Home} />
+    <PetStack.Screen name="Pets" component={Pets} />
     <PetStack.Screen
       name="CreatePet"
       component={CreatePet}
@@ -62,7 +62,7 @@ const PetsStackScreen = () => (
 const ProfileStack = createStackNavigator()
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={SignOut} />
+    <ProfileStack.Screen name="Profile" component={Profile} />
   </ProfileStack.Navigator>
 )
 
@@ -100,7 +100,7 @@ const Tabs = () => (
       }}
     />
     <Tab.Screen
-      name="SignOut"
+      name="Profile"
       component={ProfileStackScreen}
       options={{
         tabBarTestID: 'profile-tab-button',
@@ -119,10 +119,9 @@ const App = () => {
     return <Splash />
   }
 
-  console.log('USER TOKEN', userToken)
   return (
     <NavigationContainer>
-      {userToken ? <Tabs /> : <AuthScreen userToken={userToken} />}
+      {userToken ? <Tabs /> : <AuthScreen />}
     </NavigationContainer>
   )
 }

@@ -49,6 +49,7 @@
     "authentication": {
       "signIn": "Sign In",
       "signUp": "Sign Up",
+      "signOut": "Sign Out",
       "label": {
         "account": "Account",
         "createAccount": "Create account"

@@ -11,7 +11,6 @@ import {
   Icon,
 } from '@ui-kitten/components'
 import { useTranslation } from '../../context/LanguageContext'
-import { useAuth } from '../../context/AuthContext'
 import { GroupCard } from '../../components/group-card'
 import ViewPagerDots from '../../components/ViewPagerDots'
 import { shape } from 'prop-types'
@@ -25,8 +24,6 @@ const GroupList = ({ navigation }) => {
   const { data, error: groupError } = useSWR(queryKeys.groupList, () =>
     fetchGroups(),
   )
-
-  const { signOut, loadingUser } = useAuth()
 
   const [selectedIndex, setSelectedIndex] = useState(0)
 
@@ -50,16 +47,8 @@ const GroupList = ({ navigation }) => {
     )
   }
 
-  const handleSignOut = async () => {
-    try {
-      await signOut()
-    } catch (e) {
-      console.error('Error trying to sign out: ', e.message)
-    }
-  }
-
   const handleRedirectToAddPet = ({ groupId }) =>
-    navigation.navigate('Add Pet', { groupId })
+    navigation.navigate('Pets', { screen: 'CreatePet', params: { groupId } })
 
   const groupDataLength = data?.groups?.length
   return (
@@ -97,20 +86,6 @@ const GroupList = ({ navigation }) => {
           </View>
         </>
       )}
-      {/* TODO: Remove button below. This should be removed with bottom navigation implementation */}
-      {/* Temporary button to sign out,  */}
-      <Button
-        onPress={handleSignOut}
-        style={styles.buttons}
-        accessoryRight={
-          loadingUser
-            ? () => <Spinner size="small" status="basic" />
-            : signOutIconProps => (
-                <Icon {...signOutIconProps} name="log-out-outline" />
-              )
-        }>
-        Sign Out
-      </Button>
     </SafeAreaView>
   )
 }
@@ -130,7 +105,6 @@ const themedStyles = StyleService.create({
     height: HEIGHT * 0.8,
     justifyContent: 'space-between',
   },
-  buttons: { flex: 0.1, margin: 15 },
 })
 
 GroupList.propTypes = { navigation: shape({}) }

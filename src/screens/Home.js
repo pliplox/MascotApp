@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
-import { useAuth } from '../context/AuthContext'
 import mascotappi from '../api/mascotappi'
-import { Text, Card, Toggle, Button, Spinner } from '@ui-kitten/components'
+import { Text, Card, Toggle, Spinner } from '@ui-kitten/components'
 import CardHeader from '../components/home/CardHeader'
 import moment from 'moment'
 import useSWR from 'swr'
@@ -19,11 +18,9 @@ const fetchFirstPet = async id => {
 }
 
 const Home = ({ navigation }) => {
-  const { signOut } = useAuth();
   const [error, setError] = useState();
   const [amLoading, setAmLoading] = useState(false);
   const [pmLoading, setPmLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const { placeholders } = useTranslation()
 
@@ -97,17 +94,6 @@ const Home = ({ navigation }) => {
     const fedHours = new Date(fed.currentDateTime).getHours()
     return fedHours >= 12 && fedHours <= 23
   })[0]
-
-  const handleSignOut = async () => {
-    try {
-      setLoading(!loading);
-      await signOut();
-      setLoading(!loading);
-    } catch (e) {
-      console.error('Error trying to sign out: ', e.message)
-      setError(e)
-    }
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -188,24 +174,6 @@ const Home = ({ navigation }) => {
           </View>
         </Card>
       )}
-
-      {/* this buttons should change when implement button bar navigation, but they
-      are here in order to let the user be able to navigate to something */}
-      <View style={styles.bottom}>
-        <Button
-          onPress={() => navigation.navigate('Groups')}
-          style={styles.buttons}>
-          Go to groups
-        </Button>
-        <Button
-          onPress={handleSignOut}
-          style={styles.buttons}
-          accessoryRight={
-            loading && (() => <Spinner size="small" status="basic" />)
-          }>
-          Sign Out
-        </Button>
-      </View>
     </SafeAreaView>
   )
 }

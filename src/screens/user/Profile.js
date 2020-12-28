@@ -7,7 +7,7 @@ import { useTranslation } from '../../context/LanguageContext'
 const Profile = () => {
   const styles = useStyleSheet(themedStyles)
   const [loading, setLoading] = useState(false)
-  const { signOut, userToken } = useAuth()
+  const { signOut } = useAuth()
   const {
     user: { authentication },
   } = useTranslation()

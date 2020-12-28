@@ -59,7 +59,7 @@ const GroupList = ({ navigation }) => {
   }
 
   const handleRedirectToAddPet = ({ groupId }) =>
-    navigation.navigate('Add Pet', { groupId })
+    navigation.navigate('Pets', { screen: 'CreatePet', params: { groupId } })
 
   const groupDataLength = data?.groups?.length
   return (

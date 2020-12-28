@@ -1,18 +1,26 @@
-import 'react-native';
-import React from 'react';
-import { renderWithProviders } from '../../../utils/testing';
-import GroupList from '../GroupList';
-import { cleanup, waitFor } from '@testing-library/react-native';
-import en from '../../../lang/en.json';
+import 'react-native'
+import React from 'react'
+import { renderWithProviders } from '../../../utils/testing'
+import GroupList from '../GroupList'
+import { cleanup, waitFor } from '@testing-library/react-native'
+import en from '../../../lang/en.json'
 
-// if there is more warnings in other tests about animation, this should be moved to a single file
-// and called it from jest setUpFiles configuration
-jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
-
-const mockGroupsData = [
-  { id: 1, name: 'First group' },
-  { id: 2, name: 'Second group' },
-];
+const mockGroupsData = {
+  groups: [
+    {
+      id: 1,
+      name: 'First group',
+      users: [{ id: 1, name: 'user1' }],
+      pets: [{ id: 1, name: 'pet1' }],
+    },
+    {
+      id: 2,
+      name: 'Second group',
+      users: [{ id: 2, name: 'user2' }],
+      pets: [{ id: 2, name: 'pet2' }],
+    },
+  ],
+}
 
 // The request is mocked to return mockGroupsData and to not make an http request
 jest.mock('../request', () => {
@@ -20,49 +28,60 @@ jest.mock('../request', () => {
     fetchGroups: jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockGroupsData)),
-  };
-});
+  }
+})
 
 describe('GroupList', () => {
   const {
     placeholders: { loadingDots },
     groupList: { subTitles },
-  } = en;
+  } = en
 
-  let wrapper;
+  let wrapper
 
   beforeEach(() => {
-    wrapper = renderWithProviders(<GroupList />);
-  });
+    wrapper = renderWithProviders(<GroupList />)
+  })
 
-  afterEach(cleanup);
+  afterEach(cleanup)
 
-  it('renders a loading text', async () => {
-    expect(wrapper.getByText(loadingDots)).toBeTruthy();
-  });
+  it('renders a loading text', () => {
+    expect(wrapper.getByText(loadingDots)).toBeTruthy()
+  })
 
-  describe('when a list of group is fetched', () => {
+  describe('when fetching groups', () => {
     it('renders a card with group name title', async () => {
-      await waitFor(() => {
-        expect(wrapper.getByText(mockGroupsData[0].name)).toBeDefined();
-        expect(wrapper.getByText(mockGroupsData[0].name)).toBeTruthy();
-      });
-    });
+      const { groups } = mockGroupsData
+      expect(await wrapper.findByText(groups[0].name)).toBeDefined()
+      expect(await wrapper.findByText(groups[0].name)).toBeTruthy()
+    })
 
     it('renders pets and members title', async () => {
-      const groupListSize = mockGroupsData.length;
+      const groupListSize = mockGroupsData.groups.length
       await waitFor(() => {
         expect(wrapper.getAllByText(subTitles.members)).toHaveLength(
           groupListSize,
-        );
-        expect(wrapper.getAllByText(subTitles.pets)).toHaveLength(
-          groupListSize,
-        );
-      });
-    });
+        )
+        expect(wrapper.getAllByText(subTitles.pets)).toHaveLength(groupListSize)
+      })
+    })
 
-    // TODO: implement following tests when backend feature is ready
-    it.todo('shows members');
-    it.todo('shows pets');
-  });
-});
+    it('shows members', async () => {
+      const { groups } = mockGroupsData
+      const [firstGroup, secondGroup] = groups
+      const { users } = firstGroup
+      const { users: usersSecondGroup } = secondGroup
+      expect(await wrapper.findByText(users[0].name)).toBeTruthy()
+      expect(await wrapper.findByText(usersSecondGroup[0].name)).toBeTruthy()
+    })
+
+    it('shows pets', async () => {
+      const { groups } = mockGroupsData
+      const [firstGroup, secondGroup] = groups
+      const { pets } = firstGroup
+      const { pets: petsSecondGroup } = secondGroup
+      expect(await wrapper.findByText(pets[0].name)).toBeTruthy()
+      expect(await wrapper.findByText(petsSecondGroup[0].name)).toBeTruthy()
+    })
+  })
+})

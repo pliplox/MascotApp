@@ -60,3 +60,11 @@ buck-out/
 
 # Environment variables
 .env
+
+# Debug
+debug.log
+
+# Test coverage
+coverage/
+
+.prettierrc

@@ -1,7 +1,7 @@
-import 'react-native';
+import 'react-native'
 import React from 'react';
 import { renderWithProviders } from '../../../utils/testing';
-import SignUp from '../SignUp';
+import SignIn from '../SignIn';
 import { fireEvent, cleanup } from '@testing-library/react-native';
 import mascotappiMock from '../../../api/mascotappi';
 import en from '../../../lang/en.json';
@@ -10,36 +10,36 @@ jest.mock('../../../api/mascotappi', () => ({
   post: jest.fn(),
 }));
 
-describe('SignUp', () => {
+describe('SignIn', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = renderWithProviders(<SignUp />);
-  });
+    wrapper = renderWithProviders(<SignIn />)
+  })
 
   afterEach(() => {    
     mascotappiMock.post.mockClear();
+    cleanup()
   });
 
-  it('renders correctly', async () => {
+  it('renders correctly', () => {
     expect(wrapper).toBeTruthy();
-
     const { getByText, getByPlaceholderText, getByTestId } = wrapper;
 
     const {
       user: {
-        name,
         placeholders,
-        authentication: { label, signUp, link },
+        authentication: { label, signIn, link },
       },
     } = en;
 
-    expect(getByPlaceholderText(name)).toBeTruthy();
     expect(getByPlaceholderText(placeholders.email)).toBeTruthy();
     expect(getByPlaceholderText(placeholders.password)).toBeTruthy();
-    expect(getByText(label.createAccount)).toBeTruthy();
-    expect(getByText(link.withAccount)).toBeTruthy();
-    expect(getByText(signUp)).toBeTruthy();
+    expect(getByText(label.account)).toBeTruthy();
+    expect(getByText(link.forgetPassword)).toBeTruthy();
+    expect(getByText(link.withoutAccount)).toBeTruthy();
+    expect(getByText(signIn)).toBeTruthy();
+
     //  TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready
     // expect(getByText('Facebook')).toBeTruthy();
     expect(getByTestId('logo-png')).toBeTruthy();
@@ -47,38 +47,39 @@ describe('SignUp', () => {
     expect(getByTestId('paws-png')).toBeTruthy();
   });
 
-  describe('When user sign up', () => {
+  describe('When user sign in', () => {
     describe('using correct data', () => {
       it('calls mascotappi with post request', async () => {
         //setup
         mascotappiMock.post.mockImplementation(() =>
           Promise.resolve({
             data: {
-              message: `Usuario creado con éxito`,
-              userId: 'userid',
+              ok: true,
+              userId: 'userExist.id',
+              name: 'userExist.name',
+              email: 'userExist.email',
+              tokenId: 'token',
+              expiresIn: 14400,
             },
-            status: 201,
+            status: 200,
           }),
         );
-
         //work
-        const { getByPlaceholderText, getByText } = wrapper;
+        const { getByText, getByPlaceholderText } = wrapper;
         const {
           user: {
-            name,
             placeholders,
-            authentication: { signUp },
+            authentication: { signIn },
           },
         } = en;
-        const nameInput = getByPlaceholderText(name);
+
         const emailInput = getByPlaceholderText(placeholders.email);
         const passwordInput = getByPlaceholderText(placeholders.password);
-        const button = getByText(signUp);
-        fireEvent.changeText(nameInput, 'pliplox');
+        const signInButton = getByText(signIn);
+
         fireEvent.changeText(emailInput, 'pliplox@pliplox.cl');
         fireEvent.changeText(passwordInput, '123123');
-        fireEvent.press(button);
-
+        fireEvent.press(signInButton);
         //assertions / expects
         expect(mascotappiMock.post).toHaveBeenCalledTimes(1);
       });
@@ -91,31 +92,27 @@ describe('SignUp', () => {
         mascotappiMock.post.mockImplementation(() =>
           Promise.resolve({
             data: {
-              message: '"name" length must be at least 6 characters long',
+              ok: false,
+              message: `Correo electronico o contraseña incorrecta`,
             },
-            status: 400,
+            status: 401,
           }),
         );
         //work
-        const { getByPlaceholderText, getByText } = wrapper;
-
+        const { getByText, getByPlaceholderText } = wrapper;
         const {
           user: {
-            name,
             placeholders,
-            authentication: { signUp },
+            authentication: { signIn },
           },
         } = en;
 
-        const nameInput = getByPlaceholderText(name);
         const emailInput = getByPlaceholderText(placeholders.email);
         const passwordInput = getByPlaceholderText(placeholders.password);
-        const button = getByText(signUp);
-        fireEvent.changeText(nameInput, 'pli');
-        fireEvent.changeText(emailInput, 'pliplox@pliplox.cl');
+        const signInButton = getByText(signIn);
+        fireEvent.changeText(emailInput, 'pliplo');
         fireEvent.changeText(passwordInput, '123123');
-        fireEvent.press(button);
-
+        fireEvent.press(signInButton);
         //assertions / expects
         // TODO: fix Warning: Cant perform a React state update on an unmounted component.
         // This is a no-op, but it indicates a memory leak in your application. To fix, cancel

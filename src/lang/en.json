@@ -1,15 +1,39 @@
 {
-  "actions": { "create": "Create" },
+  "actions": {
+    "add": "Add",
+    "create": "Create"
+  },
   "messages": {
-    "errors": { "standard": "Something went wrong, please try again later or contact with us"}
+    "errors": {
+      "standard": "Something went wrong, please try again later or contact us"
+    }
   },
   "createGroup": {
     "groupName": "Group name",
-    "placeholders": { "typeGroupName": "Type the group's name" }
+    "placeholders": {
+      "typeGroupName": "Type the group's name"
+    }
   },
   "groupList": {
     "create": "Create Group",
-    "subTitles": { "members": "Members", "pets": "Pets" }
+    "empty": "There is no groups yet, you can create one pressing the button below",
+    "error": "There was an error trying to get the groups, try again later or contact us",
+    "subTitles": {
+      "members": "Members",
+      "pets": "Pets"
+    }
+  },
+  "pet": {
+    "createPet": {
+      "error": "There was an error adding the pet, try again later or contact us",
+      "success": "Pet added successfully"
+    },
+    "placeholders": { "enterName": "Enter the pet's name" },
+    "petList": { "empty": "There is no pets yet, you can create one pressing the 'Add +' button above" },
+    "questions": {
+      "name": "What is the name of your pet?",
+      "birthdate": "What is your pet's birthdate"
+    }
   },
   "placeholders": {
     "loadingDots": "Loading..."
@@ -18,7 +42,22 @@
     "email": "Email",
     "name": "Name",
     "password": "Password",
-    "placeholders": { "email": "example@mail.com", "password": "Enter your password here" },
-    "authentication": { "signIn": "Sign In", "signUp": "Sign Up" }
+    "placeholders": {
+      "email": "example@mail.com",
+      "password": "Enter your password here"
+    },
+    "authentication": {
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "label": {
+        "account": "Account",
+        "createAccount": "Create account"
+      },
+      "link": {
+        "forgetPassword": "Did you forget your password?",
+        "withoutAccount": "Don't have an account?",
+        "withAccount": "Do you have an account? enter here"
+      }
+    }
   }
 }

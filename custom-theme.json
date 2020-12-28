@@ -4,7 +4,7 @@
   "color-primary-300": "#B852CF",
   "color-primary-400": "#81279F",
   "color-primary-500": "#41005F",
-  "color-primary-600": "#320051",
+  "color-primary-600": "#390350",
   "color-primary-700": "#250044",
   "color-primary-800": "#1A0037",
   "color-primary-900": "#13002D",
@@ -74,5 +74,6 @@
   "color-danger-transparent-400": "rgba(173, 32, 32, 0.32)",
   "color-danger-transparent-500": "rgba(173, 32, 32, 0.4)",
   "color-danger-transparent-600": "rgba(173, 32, 32, 0.48)",
-  "color-neutral-light": "#d1d1d1"
+  "color-neutral-light": "#d1d1d1",
+  "color-button-100": "#6066af"
 }

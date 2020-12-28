@@ -10,7 +10,7 @@ module.exports = {
   },
   testEnvironment: 'jsdom',
   transformIgnorePatterns: [
-    'node_modules/(?!|react-native|@react-native-community/google-signin|@ui-kitten/components|@react-native-community/async-storage/(?!(lib))|@react-navigation/.*)',
+    'node_modules/(?!react-native|@react-native-community/google-signin|@ui-kitten/components|@react-native-community/async-storage/(?!(lib))|@react-navigation/.*)',
   ],
   setupFiles: [
     '<rootDir>/jest.setup.js',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TouchableWithoutFeedback, View } from 'react-native'
 import {
   Text,
@@ -14,7 +14,6 @@ import {
   AuthLayout,
   Avatar,
   FooterImages,
-  GoogleButton,
   //  TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready
   // OtherAccess,
 } from '../../components/auth'
@@ -22,13 +21,10 @@ import { ShowSnackBar, dismissSnackBar } from '../../components/SnackBar'
 import emojis from '../../../emojis'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from '../../context/LanguageContext'
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-community/google-signin'
+import GoogleSignIn from './GoogleSignIn'
 
 const SignIn = ({ navigation }) => {
-  const { signIn, signInGoogle } = useAuth()
+  const { signIn } = useAuth()
   const styles = useStyleSheet(themedStyles)
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
@@ -36,36 +32,6 @@ const SignIn = ({ navigation }) => {
   const [loading, setLoading] = useState(false)
   const { user } = useTranslation()
   const showPasswordIcon = () => setSecureTextEntry(!secureTextEntry)
-
-  useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        '473036889467-niatcbo3v3bucf442gsfg2qle2dfhca5.apps.googleusercontent.com',
-      offlineAccess: true,
-      forceCodeForRefreshToken: true,
-    })
-  }, [])
-
-  const handleGoogleSignIn = async () => {
-    try {
-      setLoading(true)
-      await GoogleSignin.hasPlayServices()
-      const userInfo = await GoogleSignin.signIn()
-      await signInGoogle(userInfo.idToken)
-      setLoading(false)
-    } catch (error) {
-      setLoading(false)
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        console.error(error)
-      }
-    }
-  }
 
   const renderIcon = props => (
     <TouchableWithoutFeedback onPress={showPasswordIcon}>
@@ -138,9 +104,7 @@ const SignIn = ({ navigation }) => {
         <Button onPress={handleSignIn} style={styles.button}>
           {loading ? loadingSpinner : user.authentication.signIn}
         </Button>
-        <View style={styles.googleButton}>
-          <GoogleButton signIn={handleGoogleSignIn} disabled={loading} />
-        </View>
+        <GoogleSignIn />
       </View>
       {/* TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready */}
       {/* <OtherAccess /> */}
@@ -168,11 +132,6 @@ const themedStyles = StyleService.create({
     marginBottom: 5,
     backgroundColor: 'color-button-100',
     borderRadius: 5,
-    marginTop: 10,
-  },
-  googleButton: {
-    marginHorizontal: 50,
-    marginBottom: 5,
     marginTop: 10,
   },
   crendencials: {

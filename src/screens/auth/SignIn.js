@@ -102,7 +102,11 @@ const SignIn = ({ navigation }) => {
           {user.authentication.link.forgetPassword}
         </Text>
         <Button onPress={handleSignIn} style={styles.button}>
-          {loading ? loadingSpinner : user.authentication.signIn}
+          {loading ? (
+            loadingSpinner
+          ) : (
+            <Text style={styles.textButton}>{user.authentication.signIn}</Text>
+          )}
         </Button>
         <GoogleSignIn />
       </View>
@@ -133,6 +137,9 @@ const themedStyles = StyleService.create({
     backgroundColor: 'color-button-100',
     borderRadius: 5,
     marginTop: 10,
+  },
+  textButton: {
+    color: 'white',
   },
   crendencials: {
     marginBottom: 5,

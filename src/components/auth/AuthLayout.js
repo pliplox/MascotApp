@@ -1,22 +1,22 @@
-import React from 'react';
-import Gradient from '../Gradient';
-import { useStyleSheet, StyleService } from '@ui-kitten/components';
-import { ScrollView } from 'react-native';
+import React from 'react'
+import Gradient from '../Gradient'
+import { ScrollView, StyleSheet } from 'react-native'
 
 const AuthLayout = ({ children }) => {
-  const styles = useStyleSheet(themedStyles);
   return (
-    <ScrollView style={styles.container}>
-      <Gradient>{children}</Gradient>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Gradient styleContainer={styles.gradient}>{children}</Gradient>
     </ScrollView>
-  );
-};
+  )
+}
 
-export default AuthLayout;
+export default AuthLayout
 
-const themedStyles = StyleService.create({
+const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'color-primary-600',
+    flexGrow: 1,
   },
-});
+  gradient: {
+    flex: 1,
+  },
+})

@@ -30,7 +30,7 @@ const GroupCard = ({ group, redirectToAddPet }) => {
           appearance="outline"
           accessoryRight={PlusIcon}
           onPress={handleRedirectToAddPet}>
-          {actions.add}
+          <Text>{actions.add}</Text>
         </Button>
       </View>
       <PetList pets={pets} />

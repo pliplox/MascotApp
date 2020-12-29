@@ -14,6 +14,7 @@ import { Profile } from './src/screens/user'
 import * as eva from '@eva-design/eva'
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 import { default as theme } from './custom-theme.json'
+import { default as mapping } from './mapping.json'
 import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { LanguageProvider } from './src/context/LanguageContext'
 import { MaterialIconsPack, FeatherIconsPack } from './icons'
@@ -132,7 +133,10 @@ export default () => (
       <IconRegistry
         icons={[EvaIconsPack, FeatherIconsPack, MaterialIconsPack]}
       />
-      <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+      <ApplicationProvider
+        {...eva}
+        theme={{ ...eva.light, ...theme }}
+        customMapping={mapping}>
         <App />
       </ApplicationProvider>
     </AuthProvider>

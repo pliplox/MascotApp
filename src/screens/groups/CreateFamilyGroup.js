@@ -1,36 +1,36 @@
-import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, Input, Spinner, Text } from '@ui-kitten/components';
-import mascotapi from '../../api/mascotappi';
-import { useTranslation } from '../../context/LanguageContext';
-import { mutate } from 'swr';
+import React, { useState } from 'react'
+import { View, StyleSheet } from 'react-native'
+import { Button, Input, Spinner, Text } from '@ui-kitten/components'
+import mascotapi from '../../api/mascotappi'
+import { useTranslation } from '../../context/LanguageContext'
+import { mutate } from 'swr'
 import { queryKeys } from '../../utils/constants'
 
 const CreateFamilyGroup = ({ navigation }) => {
-  const [groupName, setGroupName] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const { actions, createGroup, messages } = useTranslation();
+  const [groupName, setGroupName] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const { actions, createGroup, messages } = useTranslation()
 
   const handleCreateGroup = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await mascotapi.post('family/group', {
         name: groupName,
-      });
+      })
 
       if (response.status === 201) {
         await mutate(queryKeys.groupList) // update group list
-        navigation.navigate('Groups');
+        navigation.navigate('Groups')
       } else {
-        setError(messages.errors.standard);
+        setError(messages.errors.standard)
       }
-      setLoading(false);
+      setLoading(false)
     } catch (e) {
-      setLoading(false);
-      setError(e.message);
+      setLoading(false)
+      setError(e.message)
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -54,10 +54,10 @@ const CreateFamilyGroup = ({ navigation }) => {
         {actions.create}
       </Button>
     </View>
-  );
-};
+  )
+}
 
-export default CreateFamilyGroup;
+export default CreateFamilyGroup
 
 const styles = StyleSheet.create({
   container: {
@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
   },
   nameInput: { paddingVertical: 15 },
   button: { position: 'absolute', bottom: '5%', width: '100%' },
-});
+})

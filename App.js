@@ -14,6 +14,7 @@ import { Profile } from './src/screens/user'
 import * as eva from '@eva-design/eva'
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 import { default as theme } from './custom-theme.json'
+import { default as mapping } from './mapping.json'
 import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { LanguageProvider } from './src/context/LanguageContext'
 import { MaterialIconsPack, FeatherIconsPack } from './icons'
@@ -21,6 +22,8 @@ import { CreatePet, Pets } from './src/screens/pets'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+const SIZE = mapping.strict['text-font-size-nav']
+const FONT_FAMILY = mapping.strict['text-font-family']
 
 const AuthStack = createStackNavigator()
 const AuthScreen = () => (
@@ -42,7 +45,13 @@ const AuthScreen = () => (
 const GroupStack = createStackNavigator()
 const GroupStackScreen = () => (
   <GroupStack.Navigator>
-    <GroupStack.Screen name="Groups" component={GroupList} />
+    <GroupStack.Screen
+      name="Groups"
+      component={GroupList}
+      options={{
+        headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
+      }}
+    />
     <GroupStack.Screen name="CreateGroup" component={CreateFamilyGroup} />
   </GroupStack.Navigator>
 )
@@ -50,11 +59,20 @@ const GroupStackScreen = () => (
 const PetStack = createStackNavigator()
 const PetsStackScreen = () => (
   <PetStack.Navigator>
-    <PetStack.Screen name="Pets" component={Pets} />
+    <PetStack.Screen
+      name="Pets"
+      component={Pets}
+      options={{
+        headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
+      }}
+    />
     <PetStack.Screen
       name="CreatePet"
       component={CreatePet}
-      options={{ title: 'Add Pet' }}
+      options={{
+        title: 'Add Pet',
+        headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
+      }}
     />
   </PetStack.Navigator>
 )
@@ -62,7 +80,13 @@ const PetsStackScreen = () => (
 const ProfileStack = createStackNavigator()
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={Profile} />
+    <ProfileStack.Screen
+      name="Profile"
+      component={Profile}
+      options={{
+        headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
+      }}
+    />
   </ProfileStack.Navigator>
 )
 
@@ -132,7 +156,10 @@ export default () => (
       <IconRegistry
         icons={[EvaIconsPack, FeatherIconsPack, MaterialIconsPack]}
       />
-      <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+      <ApplicationProvider
+        {...eva}
+        theme={{ ...eva.light, ...theme }}
+        customMapping={mapping}>
         <App />
       </ApplicationProvider>
     </AuthProvider>

@@ -111,7 +111,11 @@ const SignUp = ({ navigation }) => {
           onSubmitEditing={handleSignUp}
         />
         <Button style={styles.button} onPress={handleSignUp}>
-          {loading ? loadingSpinner : user.authentication.signUp}
+          {loading ? (
+            loadingSpinner
+          ) : (
+            <Text style={styles.textButton}>{user.authentication.signUp}</Text>
+          )}
         </Button>
         {/* TODO: Implement when "Sign-in in progress" problem has been fixed */}
         {/* <GoogleSignIn /> */}
@@ -143,6 +147,9 @@ const themedStyles = StyleService.create({
     backgroundColor: 'color-button-100',
     borderRadius: 5,
     marginTop: 10,
+  },
+  textButton: {
+    color: 'white',
   },
   crendencials: {
     marginBottom: 5,

@@ -107,7 +107,7 @@ const CreatePet = ({ route, navigation }) => {
         accessoryRight={
           loading ? () => <Spinner size="small" status="basic" /> : PlusIcon
         }>
-        {actions.add}
+        <Text style={styles.textButton}>{actions.add}</Text>
       </Button>
     </View>
   )
@@ -124,6 +124,9 @@ const styles = StyleSheet.create({
   },
   margin: { margin: 30 },
   divider: { flex: 0.3 },
+  textButton: {
+    color: 'white',
+  },
 })
 
 CreatePet.propTypes = {

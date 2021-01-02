@@ -51,7 +51,7 @@ const CreateFamilyGroup = ({ navigation }) => {
         accessoryRight={
           loading && (() => <Spinner size="small" status="basic" />)
         }>
-        {actions.create}
+        <Text style={styles.textButton}>{actions.create}</Text>
       </Button>
     </View>
   )
@@ -68,4 +68,7 @@ const styles = StyleSheet.create({
   },
   nameInput: { paddingVertical: 15 },
   button: { position: 'absolute', bottom: '5%', width: '100%' },
+  textButton: {
+    color: 'white',
+  },
 })

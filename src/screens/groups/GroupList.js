@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, SafeAreaView, Dimensions } from 'react-native'
+import { View, SafeAreaView, Dimensions } from 'react-native'
 import { fetchGroups } from './request'
 import useSWR from 'swr'
 import {
@@ -9,6 +9,7 @@ import {
   useStyleSheet,
   StyleService,
   Icon,
+  Text,
 } from '@ui-kitten/components'
 import { useTranslation } from '../../context/LanguageContext'
 import { GroupCard } from '../../components/group-card'
@@ -62,7 +63,7 @@ const GroupList = ({ navigation }) => {
               <Icon {...createGroupIconProps} name="plus-circle-outline" />
             )}
             style={themedStyles.createGroupButton}>
-            {groupList.create}
+            <Text style={styles.textButton}>{groupList.create}</Text>
           </Button>
         </View>
       ) : (
@@ -104,6 +105,9 @@ const themedStyles = StyleService.create({
   createGroupWrapper: {
     height: HEIGHT * 0.8,
     justifyContent: 'space-between',
+  },
+  textButton: {
+    color: 'white',
   },
 })
 

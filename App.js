@@ -52,7 +52,13 @@ const GroupStackScreen = () => (
         headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
       }}
     />
-    <GroupStack.Screen name="CreateGroup" component={CreateFamilyGroup} />
+    <GroupStack.Screen
+      name="CreateGroup"
+      component={CreateFamilyGroup}
+      options={{
+        headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
+      }}
+    />
   </GroupStack.Navigator>
 )
 

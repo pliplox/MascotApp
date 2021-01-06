@@ -25,7 +25,7 @@
     "appcenter": "3.0.2",
     "appcenter-analytics": "3.0.2",
     "appcenter-crashes": "3.0.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "faker": "^5.0.0",
     "moment": "^2.26.0",
     "react": "16.13.1",

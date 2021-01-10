@@ -3,6 +3,7 @@ import mascotappi from '../api/mascotappi';
 import AsyncStorage from '@react-native-community/async-storage';
 import { node } from 'prop-types';
 import { GoogleSignin } from '@react-native-community/google-signin'
+import { cache } from 'swr'
 
 const AuthContext = createContext(null);
 
@@ -67,6 +68,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await AsyncStorage.removeItem('tokenId');
       await googleSignOut()
+      cache.clear()
       setUserToken(null);
       setUser(null);
     } catch (error) {

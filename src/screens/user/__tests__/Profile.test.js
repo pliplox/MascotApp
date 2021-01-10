@@ -27,7 +27,6 @@ describe('Profile', () => {
 
       const tokenIdKey = 'tokenId'
       await AsyncStorage.setItem(tokenIdKey, 'fakeTokenId')
-      console.log('cache \n\n\n', cache)
       await waitFor(() => {})
       const signOutButton = wrapper.getByText(signOut)
 

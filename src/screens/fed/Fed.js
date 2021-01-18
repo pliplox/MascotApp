@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
-import mascotappi from '../api/mascotappi'
+import mascotappi from '../../api/mascotappi'
 import { Text, Card, Toggle, Spinner } from '@ui-kitten/components'
-import CardHeader from '../components/home/CardHeader'
+import CardHeader from '../../components/fed/CardHeader'
 import moment from 'moment'
 import useSWR from 'swr'
-import { useTranslation } from '../context/LanguageContext'
+import { useTranslation } from '../../context/LanguageContext'
+import { object } from 'prop-types'
 
 const fetchGroups = async () => {
   const response = await mascotappi.get('family/groups')
@@ -18,9 +19,9 @@ const fetchFirstPet = async id => {
 }
 
 const Home = ({ navigation }) => {
-  const [error, setError] = useState();
-  const [amLoading, setAmLoading] = useState(false);
-  const [pmLoading, setPmLoading] = useState(false);
+  const [error, setError] = useState()
+  const [amLoading, setAmLoading] = useState(false)
+  const [pmLoading, setPmLoading] = useState(false)
 
   const { placeholders } = useTranslation()
 
@@ -178,7 +179,7 @@ const Home = ({ navigation }) => {
   )
 }
 
-export default Home
+Home.propTypes = { navigation: object.isRequired }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
@@ -199,3 +200,5 @@ const styles = StyleSheet.create({
   username: { flex: 0.5, margin: 15, textAlign: 'center' },
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 })
+
+export default Home

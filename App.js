@@ -7,7 +7,7 @@ import { AuthProvider, useAuth } from './src/context/AuthContext'
 import { ResetPassword, SignIn, SignUp } from './src/screens/auth'
 // TODO: this must change to fed when feature has been implemented...
 // and evaluate if should stay here
-// import Home from './src/screens/Home'
+// import { Fed } from './src/screens/fed'
 import Splash from './src/screens/Splash'
 import { CreateFamilyGroup, GroupList } from './src/screens/groups'
 import { Profile } from './src/screens/user'

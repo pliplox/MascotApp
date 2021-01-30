@@ -22,6 +22,7 @@ import emojis from '../../../emojis'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from '../../context/LanguageContext'
 import GoogleSignIn from './GoogleSignIn'
+import FacebookSignin from './FacebookSignin'
 
 const SignIn = ({ navigation }) => {
   const { signIn } = useAuth()
@@ -109,6 +110,7 @@ const SignIn = ({ navigation }) => {
           )}
         </Button>
         <GoogleSignIn />
+        <FacebookSignin />
       </View>
       {/* TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready */}
       {/* <OtherAccess /> */}

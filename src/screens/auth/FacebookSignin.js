@@ -1,30 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
-import { LoginButton, AccessToken } from 'react-native-fbsdk'
+import { AccessToken, LoginManager } from 'react-native-fbsdk'
+import { FacebookSignIn } from '../../components/auth'
+import { useAuth } from '../../context/AuthContext'
 
 const FacebookSignin = () => {
+  const { signInFacebook } = useAuth()
+  const [loading, setLoading] = useState(false)
+
+  const handleFacebookSignIn = async (error, result) => {
+    setLoading(true)
+    LoginManager.logInWithPermissions(['public_profile']).then(
+      async function (result) {
+        if (result.isCancelled) {
+          setLoading(false)
+        } else {
+          const data = await AccessToken.getCurrentAccessToken()
+          await signInFacebook(data.accessToken)
+        }
+      },
+      function (error) {
+        setLoading(false)
+        console.error('Login fail with error: ' + error)
+      },
+    )
+  }
+
   return (
-    <View>
-      <LoginButton
-        onLoginFinished={(error, result) => {
-          console.log(error)
-          if (error) {
-            console.log('login has error: ' + result.error)
-          } else if (result.isCancelled) {
-            console.log('login is cancelled.')
-          } else {
-            const token = AccessToken.getCurrentAccessToken().then(data => {
-              console.log(data.accessToken.toString())
-            })
-            console.log(token)
-          }
-        }}
-        onLogoutFinished={() => console.log('logout.')}
-      />
+    <View style={styles.facebookButton}>
+      <FacebookSignIn signIn={handleFacebookSignIn} disabled={loading} />
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  facebookButton: {
+    marginHorizontal: 50,
+  },
+})
 
 export default FacebookSignin

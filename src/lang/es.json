@@ -58,7 +58,8 @@
         "forgetPassword": "¿Olvidaste tu contraseña?",
         "withoutAccount": "¿No tienes una cuenta?",
         "withAccount": "¿Tienes cuenta?, ingresa acà"
-      }
+      },
+      "signInFacebook": "Ingresar con Facebook"
     }
   }
 }

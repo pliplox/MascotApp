@@ -8,22 +8,20 @@ const FacebookSignin = () => {
   const { signInFacebook } = useAuth()
   const [loading, setLoading] = useState(false)
 
-  const handleFacebookSignIn = async (error, result) => {
+  const handleFacebookSignIn = async () => {
     setLoading(true)
-    LoginManager.logInWithPermissions(['public_profile']).then(
-      async function (result) {
-        if (result.isCancelled) {
-          setLoading(false)
-        } else {
-          const data = await AccessToken.getCurrentAccessToken()
-          await signInFacebook(data.accessToken)
-        }
-      },
-      function (error) {
+    try {
+      const result = await LoginManager.logInWithPermissions(['public_profile'])
+      if (result.isCancelled) {
         setLoading(false)
-        console.error('Login fail with error: ' + error)
-      },
-    )
+      } else {
+        const data = await AccessToken.getCurrentAccessToken()
+        await signInFacebook(data.accessToken)
+      }
+    } catch (error) {
+      setLoading(false)
+      console.error('Login fail with error: ' + error)
+    }
   }
 
   return (

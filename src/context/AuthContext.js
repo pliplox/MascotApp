@@ -127,7 +127,7 @@ export const AuthProvider = ({ children }) => {
 
   /**
    * Athenticate with facebook
-   * @param {string} eccessToken
+   * @param {string} accessToken
    */
   const signInFacebook = async accessToken => {
     try {

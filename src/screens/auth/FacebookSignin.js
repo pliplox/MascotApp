@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default React.memo(FacebookSignin)
+export default FacebookSignin

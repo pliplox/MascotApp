@@ -1,7 +1,7 @@
-import React from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { lightBlueMascotLogo } from '../images/';
-import Gradient from '../components/Gradient';
+import React from 'react'
+import { Image, StyleSheet } from 'react-native'
+import { lightBlueMascotLogo } from '../images/'
+import Gradient from '../components/Gradient'
 
 const Splash = () => {
   return (
@@ -12,10 +12,10 @@ const Splash = () => {
         source={lightBlueMascotLogo}
       />
     </Gradient>
-  );
-};
+  )
+}
 
-export default Splash;
+export default Splash
 
 const styles = StyleSheet.create({
   container: {
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: { width: 115, height: 100, margin: 100 },
-});
+})

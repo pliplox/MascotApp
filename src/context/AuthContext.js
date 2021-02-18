@@ -144,9 +144,9 @@ export const AuthProvider = ({ children }) => {
         setErrorMessage('')
         setUserToken(responseToken)
         setUser(response?.data?.user)
-
         await AsyncStorage.setItem('tokenId', responseToken)
       }
+
       return response
     } catch (error) {
       console.error('error', error)

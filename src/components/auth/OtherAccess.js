@@ -18,7 +18,7 @@ const OtherAccess = () => {
 const themedStyles = StyleService.create({
   container: {
     marginTop: 20,
-    marginBottom: 5
+    marginBottom: 5,
   },
 })
 

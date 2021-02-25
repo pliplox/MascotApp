@@ -102,28 +102,30 @@ export const AuthProvider = ({ children }) => {
    */
   const signInGoogle = async tokenId => {
     try {
+      setLoadingUser(true)
       const response = await mascotappi.post('signingoogle', { token: tokenId })
       const responseToken = response?.data?.token?.jwtoken
 
       if (response.status >= 400) {
+        setLoadingUser(false)
         return response.data.message
       }
 
       if (responseToken) {
         setErrorMessage('')
         setUserToken(responseToken)
-
         setUser(response?.data?.user)
-
+        setLoadingUser(false)
         await AsyncStorage.setItem('tokenId', responseToken)
       }
 
       return response
     } catch (error) {
+      setLoadingUser(false)
       console.error('error', error)
       return setErrorMessage(error?.message)
     }
-  };
+  }
 
   // TODO: connect this function
   // const resetPassword = () => {};

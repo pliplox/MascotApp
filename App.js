@@ -145,6 +145,8 @@ const Tabs = () => (
 const App = () => {
   const { loadingUser, userToken } = useAuth()
 
+  console.log('loadingUser', loadingUser)
+  console.log('userToken', userToken)
   if (loadingUser) {
     return <Splash />
   }

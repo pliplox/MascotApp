@@ -3,6 +3,7 @@ import mascotappi from '../api/mascotappi';
 import AsyncStorage from '@react-native-community/async-storage';
 import { node } from 'prop-types';
 import { GoogleSignin } from '@react-native-community/google-signin'
+import { cache } from 'swr'
 
 const AuthContext = createContext(null);
 
@@ -25,8 +26,8 @@ export const AuthProvider = ({ children }) => {
       // After restoring token, we may need to validate it in production apps
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      setUserToken(tokenFromAsyncStorage);
-      setLoadingUser(false);
+      setLoadingUser(false)
+      setUserToken(tokenFromAsyncStorage)
     };
 
     bootstrapAsync();
@@ -53,8 +54,11 @@ export const AuthProvider = ({ children }) => {
    */
   const googleSignOut = async () => {
     try {
-      await GoogleSignin.revokeAccess()
-      await GoogleSignin.signOut()
+      const isGoogleSignedIn = await GoogleSignin.isSignedIn()
+      if (isGoogleSignedIn) {
+        await GoogleSignin.revokeAccess()
+        await GoogleSignin.signOut()
+      }
     } catch (error) {
       console.error(error)
     }
@@ -64,6 +68,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await AsyncStorage.removeItem('tokenId');
       await googleSignOut()
+      cache.clear()
       setUserToken(null);
       setUser(null);
     } catch (error) {

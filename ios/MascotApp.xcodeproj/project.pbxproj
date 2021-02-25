@@ -20,6 +20,9 @@
 		C9239006E9D1A962518F06F5 /* libPods-MascotApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 100890B2B298445CFFAA283C /* libPods-MascotApp-tvOSTests.a */; };
 		DFCC8442513512F133A66C6F /* libPods-MascotApp-MascotAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8527F4F187A599C185A608F /* libPods-MascotApp-MascotAppTests.a */; };
 		E93442EC68E481AA2612EF3C /* libPods-MascotApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACD34728FA1C4AD262B0F66 /* libPods-MascotApp-tvOS.a */; };
+		8B99BE33FEB5427780A12510 /* PetitaBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2E6CCB284154C7094441F71 /* PetitaBold.ttf */; };
+		ADA3D46B31F04BA3A4551BEF /* PetitaLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF1D0E9AC40F4B9FBD6C4A0C /* PetitaLight.ttf */; };
+		2E706A9B32CF413BB7E16B2B /* PetitaMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4EDDB41D1DA40478BD09AAE /* PetitaMedium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +86,13 @@
 		DE0D011688BF0E8091DB761C /* libPods-MascotApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MascotApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		B2E6CCB284154C7094441F71 /* PetitaBold.ttf */ = {isa = PBXFileReference; name = "PetitaBold.ttf"; path = "../assets/fonts/PetitaBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BF1D0E9AC40F4B9FBD6C4A0C /* PetitaLight.ttf */ = {isa = PBXFileReference; name = "PetitaLight.ttf"; path = "../assets/fonts/PetitaLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E4EDDB41D1DA40478BD09AAE /* PetitaMedium.ttf */ = {isa = PBXFileReference; name = "PetitaMedium.ttf"; path = "../assets/fonts/PetitaMedium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D768A3C0641C4602959D4450 /* PetitFormalScript-Regular.ttf */ = {isa = PBXFileReference; name = "PetitFormalScript-Regular.ttf"; path = "../assets/PetitFormalScript-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		42AD0FC662494BACBDE1F4F0 /* PetitaMedium.ttf */ = {isa = PBXFileReference; name = "PetitaMedium.ttf"; path = "../assets/PetitaMedium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F4EB5F0FF2CE4C9CB49B1D16 /* PetitaBold.ttf */ = {isa = PBXFileReference; name = "PetitaBold.ttf"; path = "../assets/PetitaBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6223D52D3B3D4604AF62ADCD /* PetitaLight.ttf */ = {isa = PBXFileReference; name = "PetitaLight.ttf"; path = "../assets/PetitaLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +192,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D122209BCEAFD9DFBCE08A6A /* Pods */,
+				F82994C65B5046F59914395A /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -236,6 +247,21 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		F82994C65B5046F59914395A /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				B2E6CCB284154C7094441F71 /* PetitaBold.ttf */,
+				BF1D0E9AC40F4B9FBD6C4A0C /* PetitaLight.ttf */,
+				E4EDDB41D1DA40478BD09AAE /* PetitaMedium.ttf */,
+				D768A3C0641C4602959D4450 /* PetitFormalScript-Regular.ttf */,
+				42AD0FC662494BACBDE1F4F0 /* PetitaMedium.ttf */,
+				F4EB5F0FF2CE4C9CB49B1D16 /* PetitaBold.ttf */,
+				6223D52D3B3D4604AF62ADCD /* PetitaLight.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -381,6 +407,13 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				8B99BE33FEB5427780A12510 /* PetitaBold.ttf in Resources */,
+				ADA3D46B31F04BA3A4551BEF /* PetitaLight.ttf in Resources */,
+				2E706A9B32CF413BB7E16B2B /* PetitaMedium.ttf in Resources */,
+				F0E720CA40404759906578AA /* PetitFormalScript-Regular.ttf in Resources */,
+				F371632E064A46039185CD61 /* PetitaMedium.ttf in Resources */,
+				974FA15B7280488EBBDEBC06 /* PetitaBold.ttf in Resources */,
+				C04E15E92D2348418D7682C0 /* PetitaLight.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

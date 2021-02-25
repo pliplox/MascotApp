@@ -1,6 +1,6 @@
 {
   "name": "MascotApp",
-  "version": "0.0.1-alpha.4",
+  "version": "1.0.0-alpha-beta",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

@@ -15,14 +15,12 @@ import {
   Avatar,
   FooterImages,
   LoadingModal,
-  //  TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready
-  // OtherAccess,
+  OtherAccess,
 } from '../../components/auth'
 import { ShowSnackBar, dismissSnackBar } from '../../components/SnackBar'
 import emojis from '../../../emojis'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from '../../context/LanguageContext'
-import GoogleSignIn from './GoogleSignIn'
 
 const SignIn = ({ navigation }) => {
   const { signIn, loadingUser } = useAuth()
@@ -112,10 +110,8 @@ const SignIn = ({ navigation }) => {
             <Text style={styles.textButton}>{user.authentication.signIn}</Text>
           )}
         </Button>
-        <GoogleSignIn />
       </View>
-      {/* TODO: temorary commented, as it is not implemented yet, remove comment when facebook access is ready */}
-      {/* <OtherAccess /> */}
+      <OtherAccess />
       <Text
         onPress={handleNavigationToSignUp}
         status="info"

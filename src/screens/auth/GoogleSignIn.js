@@ -55,8 +55,6 @@ const GoogleSignIn = () => {
 const styles = StyleSheet.create({
   googleButton: {
     marginHorizontal: 50,
-    marginBottom: 5,
-    marginTop: 10,
   },
 })
 

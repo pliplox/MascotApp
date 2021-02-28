@@ -1,36 +1,24 @@
 import React from 'react'
-import {
-  StyleService,
-  useStyleSheet,
-  Icon,
-  Button,
-} from '@ui-kitten/components'
+import { StyleService, useStyleSheet } from '@ui-kitten/components'
+import { View } from 'react-native'
+import GoogleSignIn from '../../screens/auth/GoogleSignIn'
+import FacebookSignin from '../../screens/auth/FacebookSignin'
 
-const OtherAccess = ({ ...props }) => {
+const OtherAccess = () => {
   const styles = useStyleSheet(themedStyles)
 
-  const FacebookIcon = facebookIconProps => (
-    <Icon {...facebookIconProps} name="facebook" />
-  )
-
   return (
-    <Button
-      accessoryLeft={FacebookIcon}
-      style={styles.btnOtherAcces}
-      {...props}>
-      Facebook
-    </Button>
+    <View style={styles.container}>
+      <GoogleSignIn />
+      <FacebookSignin />
+    </View>
   )
 }
 
 const themedStyles = StyleService.create({
-  btnOtherAcces: {
-    backgroundColor: 'color-button-100',
-    borderRadius: 10,
-    alignItems: 'center',
-    width: 290,
-    marginLeft: 50,
-    marginTop: 3,
+  container: {
+    marginTop: 20,
+    marginBottom: 5,
   },
 })
 

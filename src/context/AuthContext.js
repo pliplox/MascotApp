@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
       let tokenFromAsyncStorage
       try {
         tokenFromAsyncStorage = await AsyncStorage.getItem('tokenId')
+        console.log('tokenFromAsyncStorage', tokenFromAsyncStorage, '\n\n\n\n')
       } catch (e) {
         console.error(e.message)
         // Restoring token failed

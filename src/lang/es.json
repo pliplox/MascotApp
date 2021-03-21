@@ -12,9 +12,11 @@
     "groupName": "Nombre del grupo",
     "placeholders": {
       "typeGroupName": "Escribe el nombre del grupo"
-    }
+    },
+    "title": "Crear Grupo"
   },
   "groupList": {
+    "title": "Lista de Grupos",
     "create": "Crear Grupo",
     "empty": "Todavía no hay grupos, puedes crear uno presionando el botón de abajo",
     "error": "Algo salió mal, intenta mas tarde o contáctanos",
@@ -26,9 +28,10 @@
   "pet": {
     "createPet": {
       "error": "Hubo un error al agregar la mascota, intenta mas tarde o contáctanos",
-      "success": "Mascota agregada con éxito"
+      "success": "Mascota agregada con éxito",
+      "title": "Agregar Mascota"
     },
-    "petList": { "empty": "Todavía no hay grupos, puedes crear una presionando el botón de 'Agregar +' de arriba" },
+    "petList": { "empty": "Todavía no hay grupos, puedes crear una presionando el botón de 'Agregar +' de arriba", "title": "Lista de Mascotas" },
     "placeholders": { "enterName": "Ingresa nombre de la mascota" },
     "questions": {
       "name": "¿Como se llama tu mascota?",
@@ -38,6 +41,7 @@
   "placeholders": {
     "loadingDots": "Cargando..."
   },
+  "profile": { "title": "Perfil" },
   "user": {
     "email": "Correo Electrónico",
     "password": "Contraseña",

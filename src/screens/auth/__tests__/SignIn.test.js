@@ -22,23 +22,26 @@ describe('SignIn', () => {
     cleanup()
   })
 
-  it('renders correctly', () => {
+  // Dictionary words
+  const {
+    user: {
+      placeholders,
+      authentication: { label, signIn, link },
+    },
+  } = en
+
+  const signInButton = async () => wrapper.findByText(signIn)
+
+  it('renders correctly', async () => {
     expect(wrapper).toBeTruthy()
     const { getByText, getByPlaceholderText, getByTestId } = wrapper
-
-    const {
-      user: {
-        placeholders,
-        authentication: { label, signIn, link },
-      },
-    } = en
 
     expect(getByPlaceholderText(placeholders.email)).toBeTruthy()
     expect(getByPlaceholderText(placeholders.password)).toBeTruthy()
     expect(getByText(label.account)).toBeTruthy()
     expect(getByText(link.forgetPassword)).toBeTruthy()
     expect(getByText(link.withoutAccount)).toBeTruthy()
-    expect(getByText(signIn)).toBeTruthy()
+    expect(await signInButton()).toBeTruthy()
     expect(getByTestId('google-signin-button')).toBeTruthy()
     expect(getByText('Login with Facebook')).toBeTruthy()
     expect(getByTestId('logo-png')).toBeTruthy()
@@ -64,21 +67,14 @@ describe('SignIn', () => {
           }),
         )
         //work
-        const { getByText, getByPlaceholderText } = wrapper
-        const {
-          user: {
-            placeholders,
-            authentication: { signIn },
-          },
-        } = en
+        const { getByPlaceholderText } = wrapper
 
         const emailInput = getByPlaceholderText(placeholders.email)
         const passwordInput = getByPlaceholderText(placeholders.password)
-        const signInButton = getByText(signIn)
 
         fireEvent.changeText(emailInput, 'pliplox@pliplox.cl')
         fireEvent.changeText(passwordInput, '123123')
-        fireEvent.press(signInButton)
+        fireEvent.press(await signInButton())
         //assertions / expects
         expect(mascotappiMock.post).toHaveBeenCalledTimes(1)
       })
@@ -92,26 +88,19 @@ describe('SignIn', () => {
           Promise.resolve({
             data: {
               ok: false,
-              message: `Correo electronico o contraseña incorrecta`,
+              message: 'Correo electronico o contraseña incorrecta',
             },
             status: 401,
           }),
         )
         //work
-        const { getByText, getByPlaceholderText } = wrapper
-        const {
-          user: {
-            placeholders,
-            authentication: { signIn },
-          },
-        } = en
+        const { getByPlaceholderText } = wrapper
 
         const emailInput = getByPlaceholderText(placeholders.email)
         const passwordInput = getByPlaceholderText(placeholders.password)
-        const signInButton = getByText(signIn)
         fireEvent.changeText(emailInput, 'pliplo')
         fireEvent.changeText(passwordInput, '123123')
-        fireEvent.press(signInButton)
+        fireEvent.press(await signInButton())
         //assertions / expects
         // TODO: fix Warning: Cant perform a React state update on an unmounted component.
         // This is a no-op, but it indicates a memory leak in your application. To fix, cancel

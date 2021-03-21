@@ -4,7 +4,7 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-community/google-signin'
-import { GoogleButton } from '../../components/auth'
+import { GoogleButton, LoadingModal } from '../../components/auth'
 import { useAuth } from '../../context/AuthContext'
 
 const GoogleSignIn = () => {
@@ -18,6 +18,7 @@ const GoogleSignIn = () => {
   }, [])
 
   const { signInGoogle } = useAuth()
+
   const [loading, setLoading] = useState(false)
 
   const handleGoogleSignIn = async () => {
@@ -38,6 +39,10 @@ const GoogleSignIn = () => {
         console.error(error)
       }
     }
+  }
+
+  if (loading) {
+    return <LoadingModal />
   }
 
   return (

@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     bootstrapAsync()
-  }, [userToken])
+  }, [])
 
   const signIn = async (email, password) => {
     try {
@@ -112,14 +112,13 @@ export const AuthProvider = ({ children }) => {
       if (responseToken) {
         setErrorMessage('')
         setUserToken(responseToken)
-
         setUser(response?.data?.user)
-
         await AsyncStorage.setItem('tokenId', responseToken)
       }
 
       return response
     } catch (error) {
+      setLoadingUser(false)
       console.error('error', error)
       return setErrorMessage(error?.message)
     }

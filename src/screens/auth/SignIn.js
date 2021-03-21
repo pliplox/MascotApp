@@ -14,6 +14,7 @@ import {
   AuthLayout,
   Avatar,
   FooterImages,
+  LoadingModal,
   OtherAccess,
 } from '../../components/auth'
 import { ShowSnackBar, dismissSnackBar } from '../../components/SnackBar'
@@ -22,7 +23,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from '../../context/LanguageContext'
 
 const SignIn = ({ navigation }) => {
-  const { signIn } = useAuth()
+  const { signIn, loadingUser } = useAuth()
   const styles = useStyleSheet(themedStyles)
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
@@ -99,8 +100,11 @@ const SignIn = ({ navigation }) => {
         <Text status="info" style={styles.forgetPassword}>
           {user.authentication.link.forgetPassword}
         </Text>
-        <Button onPress={handleSignIn} style={styles.button}>
-          {loading ? (
+        <Button
+          onPress={handleSignIn}
+          style={styles.button}
+          disabled={loading || loadingUser}>
+          {loading || loadingUser ? (
             loadingSpinner
           ) : (
             <Text style={styles.textButton}>{user.authentication.signIn}</Text>

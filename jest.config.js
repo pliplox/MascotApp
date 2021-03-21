@@ -17,5 +17,4 @@ module.exports = {
     './node_modules/react-native-gesture-handler/jestSetup.js',
   ],
   testRegex: '((\\.|/)(test|spec))\\.[jt]sx?$',
-  collectCoverage: true,
 }

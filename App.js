@@ -4,6 +4,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { AuthProvider, useAuth } from './src/context/AuthContext'
+import { useTranslation } from './src/context/LanguageContext'
 import { ResetPassword, SignIn, SignUp } from './src/screens/auth'
 // TODO: this must change to fed when feature has been implemented...
 // and evaluate if should stay here
@@ -43,12 +44,13 @@ const AuthScreen = () => (
 )
 
 const GroupStack = createStackNavigator()
-const GroupStackScreen = () => (
+const GroupStackScreen = ({ titles }) => (
   <GroupStack.Navigator>
     <GroupStack.Screen
       name="Groups"
       component={GroupList}
       options={{
+        title: titles.groupListTitle,
         headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
       }}
     />
@@ -56,6 +58,7 @@ const GroupStackScreen = () => (
       name="CreateGroup"
       component={CreateFamilyGroup}
       options={{
+        title: titles.createGroupTitle,
         headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
       }}
     />
@@ -63,12 +66,13 @@ const GroupStackScreen = () => (
 )
 
 const PetStack = createStackNavigator()
-const PetsStackScreen = () => (
+const PetsStackScreen = ({ titles }) => (
   <PetStack.Navigator>
     <PetStack.Screen
       name="Pets"
       component={Pets}
       options={{
+        title: titles.petListTitle,
         headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
       }}
     />
@@ -76,7 +80,7 @@ const PetsStackScreen = () => (
       name="CreatePet"
       component={CreatePet}
       options={{
-        title: 'Add Pet',
+        title: titles.addPetTitle,
         headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
       }}
     />
@@ -84,12 +88,13 @@ const PetsStackScreen = () => (
 )
 
 const ProfileStack = createStackNavigator()
-const ProfileStackScreen = () => (
+const ProfileStackScreen = ({ titles }) => (
   <ProfileStack.Navigator>
     <ProfileStack.Screen
       name="Profile"
       component={Profile}
       options={{
+        title: titles.title,
         headerTitleStyle: { fontFamily: FONT_FAMILY, fontSize: SIZE },
       }}
     />
@@ -97,7 +102,7 @@ const ProfileStackScreen = () => (
 )
 
 const Tab = createBottomTabNavigator()
-const Tabs = () => (
+const Tabs = ({ groupTitles, petTitles, profileTitles }) => (
   <Tab.Navigator
     tabBarOptions={{
       labelStyle: { fontSize: 18 },
@@ -107,7 +112,7 @@ const Tabs = () => (
     }}>
     <Tab.Screen
       name="Groups"
-      component={GroupStackScreen}
+      children={() => <GroupStackScreen titles={groupTitles} />}
       options={{
         tabBarTestID: 'group-tab-button',
         tabBarIcon: ({ color, size }) => (
@@ -121,7 +126,7 @@ const Tabs = () => (
     />
     <Tab.Screen
       name="Pets"
-      component={PetsStackScreen}
+      children={() => <PetsStackScreen titles={petTitles} />}
       options={{
         tabBarTestID: 'pet-tab-button',
         tabBarIcon: ({ color, size }) => (
@@ -131,7 +136,7 @@ const Tabs = () => (
     />
     <Tab.Screen
       name="Profile"
-      component={ProfileStackScreen}
+      children={() => <ProfileStackScreen titles={profileTitles} />}
       options={{
         tabBarTestID: 'profile-tab-button',
         tabBarIcon: ({ color, size }) => (
@@ -144,6 +149,17 @@ const Tabs = () => (
 
 const App = () => {
   const { loadingUser, userToken } = useAuth()
+  const { groupList, createGroup, pet, profile } = useTranslation()
+
+  const groupTitles = {
+    groupListTitle: groupList.title,
+    createGroupTitle: createGroup.title,
+  }
+
+  const petTitles = {
+    addPetTitle: pet.createPet.title,
+    petListTitle: pet.petList.title,
+  }
 
   if (loadingUser) {
     return <Splash />
@@ -151,7 +167,15 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {userToken ? <Tabs /> : <AuthScreen />}
+      {userToken ? (
+        <Tabs
+          groupTitles={groupTitles}
+          petTitles={petTitles}
+          profileTitles={profile}
+        />
+      ) : (
+        <AuthScreen />
+      )}
     </NavigationContainer>
   )
 }

@@ -12,9 +12,11 @@
     "groupName": "Group name",
     "placeholders": {
       "typeGroupName": "Type the group's name"
-    }
+    },
+    "title": "Create Group"
   },
   "groupList": {
+    "title": "Group List",
     "create": "Create Group",
     "empty": "There is no groups yet, you can create one pressing the button below",
     "error": "There was an error trying to get the groups, try again later or contact us",
@@ -26,10 +28,11 @@
   "pet": {
     "createPet": {
       "error": "There was an error adding the pet, try again later or contact us",
-      "success": "Pet added successfully"
+      "success": "Pet added successfully",
+      "title": "Add Pet"
     },
     "placeholders": { "enterName": "Enter the pet's name" },
-    "petList": { "empty": "There is no pets yet, you can create one pressing the 'Add +' button above" },
+    "petList": { "empty": "There is no pets yet, you can create one pressing the 'Add +' button above" , "title": "Pet List" },
     "questions": {
       "name": "What is the name of your pet?",
       "birthdate": "What is your pet's birthdate"
@@ -38,6 +41,7 @@
   "placeholders": {
     "loadingDots": "Loading..."
   },
+  "profile": { "title": "Profile" },
   "user": {
     "email": "Email",
     "name": "Name",

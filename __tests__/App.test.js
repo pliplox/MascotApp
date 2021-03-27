@@ -1,8 +1,9 @@
 import 'react-native'
 import React from 'react'
 import App from '../App'
-import { render } from '@testing-library/react-native'
+import { render, fireEvent } from '@testing-library/react-native'
 import AsyncStorage from '@react-native-community/async-storage'
+import en from '../src/lang/en.json'
 
 describe('App', () => {
   describe('when token is not setted', () => {
@@ -28,11 +29,35 @@ describe('App', () => {
       wrapper = render(<App />)
     })
 
-    it('renders the bottom tab buttons', async () => {
-      const { getByTestId } = wrapper
-      expect(getByTestId('group-tab-button')).toBeTruthy()
-      expect(getByTestId('pet-tab-button')).toBeTruthy()
-      expect(getByTestId('profile-tab-button')).toBeTruthy()
+    const groupTabButton = () => wrapper.getByTestId('group-tab-button')
+    const petTabButton = () => wrapper.getByTestId('pet-tab-button')
+    const profileTabButton = () => wrapper.getByTestId('profile-tab-button')
+
+    it('renders the bottom tab buttons', () => {
+      expect(groupTabButton()).toBeTruthy()
+      expect(petTabButton()).toBeTruthy()
+      expect(profileTabButton()).toBeTruthy()
+    })
+
+    describe('when groups tab is clicked', () => {
+      it('shows group list screen', () => {
+        fireEvent.press(groupTabButton())
+        expect(wrapper.getByText(en.groupList.title)).toBeDefined()
+      })
+    })
+
+    describe('when pet tab is clicked', () => {
+      it('shows pet list screen', () => {
+        fireEvent.press(petTabButton())
+        expect(wrapper.getByText(en.pet.petList.title)).toBeDefined()
+      })
+    })
+
+    describe('when profile tab is clicked', () => {
+      it('shows profile screen', () => {
+        fireEvent.press(profileTabButton())
+        expect(wrapper.getByText(en.profile.title)).toBeDefined()
+      })
     })
   })
 })
